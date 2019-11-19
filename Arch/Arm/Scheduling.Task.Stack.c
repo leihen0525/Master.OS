@@ -81,9 +81,11 @@ int Scheduling_Task_Stack_Init(
 	Scheduling_Task_Stack_VFP_Type *P_Task_Stack_VFP;
 	P_Task_Stack_VFP=(Scheduling_Task_Stack_VFP_Type *)*SP;
 
+	P_Task_Stack_VFP->VFP_FPEXC.DATA=0;
+
 	if((Option&Scheduling_Task_Option_FPU_VFP)!=0)
 	{
-		P_Task_Stack_VFP->VFP_FPEXC=0x40000000;
+		P_Task_Stack_VFP->VFP_FPEXC.EN=1;
 		for(int i=0; i<32;i++)
 		{
 			P_Task_Stack_VFP->VFP_S[i]=0;
@@ -92,7 +94,7 @@ int Scheduling_Task_Stack_Init(
 	}
 	else
 	{
-		P_Task_Stack_VFP->VFP_FPEXC=0;
+		P_Task_Stack_VFP->VFP_FPEXC.EN=0;
 	}
 
 #endif
@@ -116,14 +118,26 @@ int Scheduling_Task_Stack_Init(
 	P_Task_Stack_CPU->CPU_LR=(uint32_t)Task_Exit;
 	P_Task_Stack_CPU->CPU_PC=(uint32_t)Task_Enter;
 
+	P_Task_Stack_CPU->CPU_CPSR.DATA=0;
+
 	if((Option&Scheduling_Task_Option_System)!=0)
 	{
-		P_Task_Stack_CPU->CPU_CPSR=0x1F;
+		P_Task_Stack_CPU->CPU_CPSR.M=0x1F;
 	}
 	else
 	{
-		P_Task_Stack_CPU->CPU_CPSR=0x10;
+		P_Task_Stack_CPU->CPU_CPSR.M=0x10;
 	}
+
+	if(((uint32_t)Task_Enter&0x01)!=0)
+	{
+		P_Task_Stack_CPU->CPU_CPSR.T=1;
+	}
+	else
+	{
+		P_Task_Stack_CPU->CPU_CPSR.T=0;
+	}
+
 
 	return Error_OK;
 

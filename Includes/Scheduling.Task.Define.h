@@ -15,6 +15,7 @@
 #define Scheduling_Task_Option_FPU_VFP						(1<<1)
 #endif
 
+
 typedef void (__task *Task_Enter_Function)(void *);
 
 typedef void (*Task_Exit_Function)(void);

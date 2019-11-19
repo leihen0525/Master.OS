@@ -18,4 +18,6 @@ int Machine_Wdog_Clear(Machine_Desc_Wdog_Type *P_Wdog);
 
 int Machine_Init_CPU(Machine_Desc_CPU_Type *P_CPU);
 
+
+
 #endif /* INIT_MACHINE_H_ */

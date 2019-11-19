@@ -31,7 +31,9 @@ define symbol __ICFEDIT_size_irqstack__ = 0x80;
 define symbol __ICFEDIT_size_fiqstack__ = 0x80;
 define symbol __ICFEDIT_size_undstack__ = 0x80;
 define symbol __ICFEDIT_size_abtstack__ = 0x80;
+define symbol __ICFEDIT_size_sys_heap__ = 0x19000;
 define symbol __ICFEDIT_size_heap__     = 0x19000;
+
 /**** End of ICF editor section. ###ICF###*/
 define symbol WORK_FLASH_start    = 0x0E000000;
 define symbol WORK_FLASH_end      = 0x0E01BFFF;
@@ -73,6 +75,7 @@ define block IRQ_STACK with alignment = 8, size = __ICFEDIT_size_irqstack__ { };
 define block FIQ_STACK with alignment = 8, size = __ICFEDIT_size_fiqstack__ { };
 define block UND_STACK with alignment = 8, size = __ICFEDIT_size_undstack__ { };
 define block ABT_STACK with alignment = 8, size = __ICFEDIT_size_abtstack__ { };
+define block __Sys_HEAP with alignment = 8, size = __ICFEDIT_size_sys_heap__ { };
 define block HEAP      with alignment = 8, size = __ICFEDIT_size_heap__     { };
 
 initialize by copy { readwrite ,section .intvec};
@@ -94,8 +97,8 @@ place at address mem:__FLASH_MARKERS_start+__WDR_offset { section .WDR };
 
 place in IROM_region  { readonly };
 place in EROM_region  { readonly section application_specific_ro };
-place in IRAM1_region { block CSTACK, block SVC_STACK, block IRQ_STACK, block FIQ_STACK,block UND_STACK, block ABT_STACK, block HEAP, section .Master.OS.DATA};
-place in IRAM2_region { readwrite};
+place in IRAM1_region { block SVC_STACK, block IRQ_STACK, block FIQ_STACK,block UND_STACK, block ABT_STACK, block __Sys_HEAP, section .Master.OS.DATA};
+place in IRAM2_region { readwrite,block CSTACK,block HEAP};
 
 place in ERAM_region  { readwrite section application_specific_rw };
 
@@ -107,4 +110,4 @@ define exported symbol WORK_FLASH_BASE = WORK_FLASH_start;
 define exported symbol BU_RAM_BASE = BU_RAM_start;
 define exported symbol VRAM_BASE = VRAM_start;
 
-keep { block HEAP };
+keep { block __Sys_HEAP,block HEAP };

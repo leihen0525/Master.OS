@@ -11,7 +11,7 @@
 #include "__Sys.API.h"
 #include "Arch/Arm/Scheduling.Task.Stack.h"
 #include "Scheduling.Task.h"
-
+#include "Memory/Memory.h"
 
 
 int Scheduling_Task_Create(
@@ -73,7 +73,7 @@ int Scheduling_Task_Create(
 #endif
 	if(Stack==Null)
 	{
-		Temp_Task_TCB->Stack.SP_Head=__Sys_Memory_Malloc(Stack_Size_4Byte*4+VFP_Nb);
+		Temp_Task_TCB->Stack.SP_Head=__Usr_Memory_Malloc(Stack_Size_4Byte*4+VFP_Nb);
 		if(Temp_Task_TCB->Stack.SP_Head==Null)
 		{
 			Err=Error_Allocation_Memory_Failed;

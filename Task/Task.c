@@ -13,7 +13,7 @@
 #include "Init/Init.Module.h"
 
 
-uint32_t Stack_Task[Stack_Task_Task_4Byte];
+//uint32_t Stack_Task[Stack_Task_Task_4Byte];
 
 
 __task void Task_Idle(void *Args)
@@ -50,5 +50,5 @@ __task void Task_Task(void *Args)
 }
 
 
-__Sys_Module_Init_Task("Task.Task",Task_Task,Null,Priority_Task_Task,Stack_Task,Stack_Task_Task_4Byte,Scheduling_Task_Option_User);
+__Sys_Module_Init_Task("Task.Task",Task_Task,Null,Priority_Task_Task,Null,Stack_Task_Task_4Byte,Scheduling_Task_Option_User);
 

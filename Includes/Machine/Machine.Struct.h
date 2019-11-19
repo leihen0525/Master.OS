@@ -68,6 +68,43 @@ typedef struct
 
 }Machine_Desc_CPU_Type;
 //-------------------------------------------------------------------------
+#ifdef __MPU__
+
+typedef struct
+{
+	unsigned int Base_Address;
+	unsigned int Region_Index				:4;
+	unsigned int Enabled					:1;
+	unsigned int Sub_Region_Disable		:8;
+	unsigned int Region_Size				:5;
+	unsigned int Execute_Never				:1;
+	unsigned int Access_Permission			:3;
+	unsigned int Attributes				:6;
+}Machine_Desc_MPU_Cfg_Type;
+
+typedef struct
+{
+	const Machine_Desc_MPU_Cfg_Type *P_MPU_Cfg;
+
+	int MPU_Cfg_Index;
+
+	int (*Init)(void);
+
+	int (*Enable)(void);
+	int (*Disable)(void);
+
+	int (*GET_Region_Number)(void);
+
+	int (*SET_Region)(Machine_Desc_MPU_Cfg_Type *);
+	int (*GET_Region)(unsigned int,Machine_Desc_MPU_Cfg_Type *);
+
+	int (*SET_Region_Enable)(unsigned int);
+	int (*SET_Region_Disable)(unsigned int);
+
+}Machine_Desc_MPU_Type;
+
+#endif
+//-------------------------------------------------------------------------
 typedef struct
 {
 	const char *Name;
@@ -85,6 +122,10 @@ typedef struct
 	Machine_Desc_UART_Type UART;
 
 	Machine_Desc_CPU_Type CPU;
+
+#ifdef __MPU__
+	Machine_Desc_MPU_Type MPU;
+#endif
 
 }Machine_Desc_Type;
 //-------------------------------------------------------------------------

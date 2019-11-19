@@ -10,9 +10,9 @@
 
 	SECTION .text:CODE(2)
 
-	EXTERN __Sys_Memory_Size
-	EXTERN __Sys_Memory_Malloc
-	EXTERN __Sys_Memory_Free
+	EXTERN __Usr_Memory_Size
+	EXTERN __Usr_Memory_Malloc
+	EXTERN __Usr_Memory_Free
 
 
 	EXTERN __Sys_Device_Open
@@ -114,9 +114,9 @@
 __SysCall_Table
 	DCD 0
 
-	DCD __Sys_Memory_Size
-	DCD __Sys_Memory_Malloc
-	DCD __Sys_Memory_Free
+	DCD __Usr_Memory_Size
+	DCD __Usr_Memory_Malloc
+	DCD __Usr_Memory_Free
 
 	DCD __Sys_Device_Open
 	DCD __Sys_Device_Close

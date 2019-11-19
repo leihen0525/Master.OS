@@ -31,6 +31,6 @@ typedef struct
 
 	uint32_t Size_Byte;
 
-}Memory_Type;
+}Memory_DATA_Type;
 
 #endif /* MEMORY_STRUCT_H_ */

@@ -15,7 +15,7 @@
 #include "Queue/Queue.h"
 #include "Scheduling/Scheduling.h"
 #include "Shell/Shell.h"
-
+#include "MPU/MPU.h"
 
 #include "Init.Machine.h"
 #include "Init.Main.h"
@@ -40,6 +40,14 @@ void Start_Kernel(void)
 		while(1);
 	}
 
+	//MPU
+#ifdef __MPU__
+	if(MPU_Init(&Machine_Desc->MPU)!=Error_OK)
+	{
+		while(1);
+	}
+#endif
+
 	//关闭看门狗
 	if(Machine_Wdog_Disable(&Machine_Desc->Wdog)!=Error_OK)
 	{
@@ -53,7 +61,10 @@ void Start_Kernel(void)
 	}
 
 	//动态内存初始化
-	Memory_Init();
+	if(__Sys_Memory_Init()!=Error_OK)
+	{
+		while(1);
+	}
 
 	//初始化驱动设备控制
 	if(Device_Init()!=Error_OK)

@@ -9,10 +9,22 @@
 
 	SECTION .text:CODE:REORDER:NOROOT(2)
 
-//#if ((__ARM_ARCH == 6) || (__ARM_ARCH == 7)) && (__ARM_ARCH_PROFILE == 'M')
-
+#if ((__ARM_ARCH == 6) || (__ARM_ARCH == 7)) && (__ARM_ARCH_PROFILE == 'M')
 
 	THUMB
+
+#elif (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'R')
+
+	ARM
+
+#elif (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'A')
+
+
+#else
+
+#error "123"
+
+#endif
 
 	PUBLIC SysCall
 
@@ -35,16 +47,6 @@ SysCall
 	//bcs	1f
 	bx lr
 
-//#elif (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'R')
 
-
-//#elif (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'A')
-
-
-//#else
-
-//#error "123"
-
-//#endif
 
 	END

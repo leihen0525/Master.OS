@@ -659,16 +659,18 @@ Loop_End:
 //定时器执行部分 里面API必须是 API_User
 void __Timer_Task(void)
 {
+	Timer_Function_Type Timer_Function;
+
 	FIFO_Queue_Open(Timer_DATA.FIFO_Queue);
-	Timer_DATA.Timer_Function.Timer_Function=Null;
+	Timer_Function.Timer_Function=Null;
 	while(1)
 	{
-		if(FIFO_Queue_Wait(Timer_DATA.FIFO_Queue,&Timer_DATA.Timer_Function,sizeof(Timer_Function_Type),Null,-1)==Error_OK)
+		if(FIFO_Queue_Wait(Timer_DATA.FIFO_Queue,&Timer_Function,sizeof(Timer_Function_Type),Null,-1)==Error_OK)
 		{
-			if(Timer_DATA.Timer_Function.Timer_Function!=Null)
+			if(Timer_Function.Timer_Function!=Null)
 			{
-				Timer_DATA.Timer_Function.Timer_Function(Timer_DATA.Timer_Function.Args);
-				Timer_DATA.Timer_Function.Timer_Function=Null;
+				Timer_Function.Timer_Function(Timer_Function.Args);
+				Timer_Function.Timer_Function=Null;
 			}
 		}
 		else

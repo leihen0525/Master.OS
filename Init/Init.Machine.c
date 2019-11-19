@@ -100,3 +100,6 @@ int Machine_Init_CPU(Machine_Desc_CPU_Type *P_CPU)
 	}
 	return P_CPU->Init();
 }
+
+//-----------------------------------------------------------------------
+

@@ -51,17 +51,23 @@ typedef struct Task_Event_LIST
 
 }Task_Event_List_Type;
 
+typedef struct
+{
+	uint32_t *SP;
+	uint32_t *SP_Head;
+	uint32_t *SP_End;
+}Scheduling_Task_TCB_Stack_Type;
 
 typedef struct Scheduling_Task_TCB
 {
+#ifdef __MPU__
 
-	struct
-	{
-		uint32_t *SP;
-		uint32_t *SP_Head;
-		uint32_t *SP_End;
-	}Stack;
+	Scheduling_Task_TCB_Stack_Type Stack_User;
+	Scheduling_Task_TCB_Stack_Type Stack_System;
 
+#else
+	Scheduling_Task_TCB_Stack_Type Stack;
+#endif
 
 	struct
 	{
@@ -75,6 +81,7 @@ typedef struct Scheduling_Task_TCB
 		int32_t TimeOut;
 		int32_t Time_Slice;
 
+		int Option;
 	}Info;
 
 	struct

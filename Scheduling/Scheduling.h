@@ -44,4 +44,9 @@ int __Sys_Scheduling_Context_Switch(Task_State_Type CS_Task_State,int32_t TimeOu
 
 int __Sys_Scheduling_GET_Current_TCB(__Sys_Scheduling_Task_TCB_Type **Current_TCB);
 
+#ifdef __MPU__
+uint32_t **__Sys_Scheduling_GET_System_SP_End(void);
+uint32_t **__Sys_Scheduling_GET_User_SP(void);
+#endif
+
 #endif /* SCHEDULING_H_ */

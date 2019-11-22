@@ -118,6 +118,11 @@ __Interrupt_Entry
 	EXTERN __SysCall_Table
 	EXTERN __IRQ_Entry
 
+#ifdef __MPU__
+	EXTERN __Sys_Scheduling_GET_System_SP_End
+	EXTERN __Sys_Scheduling_GET_User_SP
+#endif
+
 	ARM
 
 	PUBLIC __SVC_Entry
@@ -127,11 +132,36 @@ __SVC_Entry
 
 	stmdb sp!,{r0-r12,lr}//压栈
 
+#ifdef __MPU__
+
+	mov r9,r0
+	mov r10,r1
+	mov r11,r2
+	mov r12,r3
+
+	ldr r0,=__Sys_Scheduling_GET_User_SP
+	blx r0
+	str sp,[r0]
+
+	ldr r0,=__Sys_Scheduling_GET_System_SP_End
+	blx r0
+
+	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//切换到SVC模式
+
+	ldr sp,[r0]
+
+	mov r0,r9
+	mov r1,r10
+	mov r2,r11
+	mov r3,r12
+
+#else
 	mov r12,sp
 
 	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//切换到SVC模式
 
 	mov sp,r12
+#endif
 
 	STMDB sp!, {lr}
 //
@@ -151,21 +181,44 @@ __SVC_Entry
 
 
 //
+
+
+#ifdef __MPU__
+
+	mov r12,r0
+
+	ldr r0,=__Sys_Scheduling_GET_User_SP
+	blx r0
+
 	LDMIA sp!, {lr}
+
+	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//切换到sys模式
+
+	ldr sp,[r0]
+
+	mov r0,r12
+
+#else
+
+	LDMIA sp!, {lr}
+
 	mov r12,sp
 	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//切换到sys模式
 
 	mov sp,r12
+#endif
 
 	str r0,[sp]//修正返回值
 
 	ldmia sp!,{r0-r12,lr}
 
 	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//切换到SVC模式
+
 	mov sp,#0//清除内核堆栈指针
+
 	MOVS PC,LR
 
-	b __SVC_Entry
+	//b __SVC_Entry
 
 //---------------------------------
 	PUBLIC __Interrupt_Entry
@@ -177,11 +230,28 @@ __Interrupt_Entry
 
 	stmdb sp!,{r0-r12,lr}//压栈
 
+#ifdef __MPU__
+
+	ldr r0,=__Sys_Scheduling_GET_User_SP
+	blx r0
+	str sp,[r0]
+
+	ldr r0,=__Sys_Scheduling_GET_System_SP_End
+	blx r0
+
+	msr cpsr_c, #(IRQ_MODE|I_Bit|F_Bit)//切换到IRQ模式
+
+	ldr sp,[r0]
+
+#else
+
 	mov r12,sp
 
 	msr cpsr_c, #(IRQ_MODE|I_Bit|F_Bit)//切换到IRQ模式
 
 	mov sp,r12
+
+#endif
 
 	STMDB sp!, {lr}
 //
@@ -191,11 +261,28 @@ __Interrupt_Entry
 	blx r1
 
 //
+
+#ifdef __MPU__
+
+	ldr r0,=__Sys_Scheduling_GET_User_SP
+	blx r0
+
 	LDMIA sp!, {lr}
+
+	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//切换到sys模式
+
+	ldr sp,[r0]
+
+#else
+
+	LDMIA sp!, {lr}
+
 	mov r12,sp
 	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//切换到sys模式
 
 	mov sp,r12
+
+#endif
 
 	ldmia sp!,{r0-r12,lr}
 
@@ -203,7 +290,7 @@ __Interrupt_Entry
 	mov sp,#0//清除内核堆栈指针
 	MOVS PC,LR
 
-	b __Interrupt_Entry
+	//b __Interrupt_Entry
 
 #elif (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'A')
 

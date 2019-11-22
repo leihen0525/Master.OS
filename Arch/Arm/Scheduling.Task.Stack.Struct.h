@@ -73,7 +73,7 @@ typedef union
 typedef struct
 {
 
-	Scheduling_Task_Stack_CPU_CPSR_Type CPU_CPSR;
+	//Scheduling_Task_Stack_CPU_CPSR_Type CPU_CPSR;
 
 	uint32_t CPU_PC;
 

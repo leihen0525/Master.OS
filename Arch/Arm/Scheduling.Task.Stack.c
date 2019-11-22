@@ -15,14 +15,25 @@ int Scheduling_Task_Stack_Init(
 		Task_Enter_Function Task_Enter,
 		void *Args,
 		Task_Exit_Function Task_Exit,
+#ifdef __MPU__
+		uint32_t **Sys_SP,
+		uint32_t **Usr_SP,
+#else
 		uint32_t **SP,
+#endif
 		int Option)
 {
 	Scheduling_Task_Stack_CPU_Type *P_Task_Stack_CPU;
 
 	if(Task_Enter==Null
 	|| Task_Exit==Null
-	|| SP==Null)
+#ifdef __MPU__
+	|| Sys_SP==Null
+	|| Usr_SP==Null
+#else
+	|| SP==Null
+#endif
+	)
 	{
 		return Error_Invalid_Parameter;
 	}
@@ -74,12 +85,28 @@ int Scheduling_Task_Stack_Init(
 	}
 #endif
 
-	*SP=(uint32_t*)((uint32_t)(*SP)-sizeof(Scheduling_Task_Stack_CPU_Type)-VFP_Nb+4);
+#ifdef __MPU__
+
+#else
+
+#endif
+
+#ifdef __MPU__
+	*Sys_SP=(uint32_t*)((uint32_t)(*Sys_SP)-sizeof(Scheduling_Task_Stack_CPU_Type)-sizeof(Scheduling_Task_Stack_CPU_CPSR_Type)-VFP_Nb+4);
+	*Usr_SP=(uint32_t*)((uint32_t)(*Usr_SP)-sizeof(Scheduling_Task_Stack_CPU_Type)+4);
+#else
+	*SP=(uint32_t*)((uint32_t)(*SP)-sizeof(Scheduling_Task_Stack_CPU_Type)-sizeof(Scheduling_Task_Stack_CPU_CPSR_Type)-VFP_Nb+4);
+#endif
 
 #ifdef __ARMVFP__
 
 	Scheduling_Task_Stack_VFP_Type *P_Task_Stack_VFP;
+
+#ifdef __MPU__
+	P_Task_Stack_VFP=(Scheduling_Task_Stack_VFP_Type *)*Sys_SP;
+#else
 	P_Task_Stack_VFP=(Scheduling_Task_Stack_VFP_Type *)*SP;
+#endif
 
 	P_Task_Stack_VFP->VFP_FPEXC.DATA=0;
 
@@ -99,7 +126,38 @@ int Scheduling_Task_Stack_Init(
 
 #endif
 
-	P_Task_Stack_CPU=(Scheduling_Task_Stack_CPU_Type *)((uint32_t)(*SP)+VFP_Nb);
+	Scheduling_Task_Stack_CPU_CPSR_Type *P_CPU_CPSR;
+
+#ifdef __MPU__
+	P_CPU_CPSR=(Scheduling_Task_Stack_CPU_CPSR_Type *)((uint32_t)(*Sys_SP)+VFP_Nb);
+#else
+	P_CPU_CPSR=(Scheduling_Task_Stack_CPU_CPSR_Type *)((uint32_t)(*SP)+VFP_Nb);
+#endif
+
+	P_CPU_CPSR->DATA=0;
+
+	if((Option&Scheduling_Task_Option_System)!=0)
+	{
+		P_CPU_CPSR->M=0x1F;
+	}
+	else
+	{
+		P_CPU_CPSR->M=0x10;
+	}
+
+	if(((uint32_t)Task_Enter&0x01)!=0)
+	{
+		P_CPU_CPSR->T=1;
+	}
+	else
+	{
+		P_CPU_CPSR->T=0;
+	}
+#ifdef __MPU__
+	P_Task_Stack_CPU=(Scheduling_Task_Stack_CPU_Type *)((uint32_t)(*Usr_SP));
+#else
+	P_Task_Stack_CPU=(Scheduling_Task_Stack_CPU_Type *)((uint32_t)(*SP)+VFP_Nb+sizeof(Scheduling_Task_Stack_CPU_CPSR_Type));
+#endif
 
 	P_Task_Stack_CPU->CPU_R[0]=(uint32_t)Args;
 	P_Task_Stack_CPU->CPU_R[1]=0x01;
@@ -117,26 +175,6 @@ int Scheduling_Task_Stack_Init(
 
 	P_Task_Stack_CPU->CPU_LR=(uint32_t)Task_Exit;
 	P_Task_Stack_CPU->CPU_PC=(uint32_t)Task_Enter;
-
-	P_Task_Stack_CPU->CPU_CPSR.DATA=0;
-
-	if((Option&Scheduling_Task_Option_System)!=0)
-	{
-		P_Task_Stack_CPU->CPU_CPSR.M=0x1F;
-	}
-	else
-	{
-		P_Task_Stack_CPU->CPU_CPSR.M=0x10;
-	}
-
-	if(((uint32_t)Task_Enter&0x01)!=0)
-	{
-		P_Task_Stack_CPU->CPU_CPSR.T=1;
-	}
-	else
-	{
-		P_Task_Stack_CPU->CPU_CPSR.T=0;
-	}
 
 
 	return Error_OK;

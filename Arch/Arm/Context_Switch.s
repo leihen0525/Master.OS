@@ -87,6 +87,15 @@ __Sys_Switch_To_Step2
 
 __Sys_Switch_To_Idle
 
+/*
+	EXTERN __Sys_Scheduling_GET_System_SP
+
+	ldr r0,=__Sys_Scheduling_GET_System_SP
+	blx r0
+
+	b __Sys_Switch_To_Idle
+*/
+
 	MOV R3,R0
 	//LDR r0,=0x02020000 ;* End of start stack area *
 	//LDR r1,=0x02000000 ;* End of start stack area *
@@ -112,10 +121,22 @@ Clear_Idle_Stack_Loop:
 	PUBLIC __Sys_Switch_To
 __Sys_Switch_To
 
+	//检查当前任务 如果存在则保存当前任务的栈到TCB中
 	CMP R0,#0x0
 	BEQ __Sys_Switch_To_Step2
 
+#ifdef __MPU__
+
+	CMP R2,#0x0
+	BEQ __Sys_Switch_To_Step2
+
+	stmdb sp!,{r4-r12,lr}
+
+#else
+
 	stmdb sp!,{r2-r12,lr}
+
+#endif
 
 	
 	MRS r4, cpsr
@@ -142,7 +163,7 @@ __no_vfp_frame1:
 
 __Sys_Switch_To_Step2
 
-
+	//将下一个任务的栈进行装载进来
 	LDR r12, [R1]						// 把next task 的sp指针送到R12中.
 
 
@@ -160,39 +181,52 @@ __Sys_Switch_To_Step2
 __no_vfp_frame2:
 #endif
 
-	LDMIA   r12!, {r2}
+	LDMIA   r12!, {r4}
 
-	mov r3,r2
+	mov r5,r4
 
-	and r2 ,r2, #MODE_MSK
+	//检查下一个任务的运行模式 如果为user或者system则认为是第一次装载这个任务
+	and r4 ,r4, #MODE_MSK
 
-	cmp r2,#USR_MODE
-
-	BEQ __Sys_Switch_To_New
-
-	cmp r2,#SYS_MODE
+	cmp r4,#USR_MODE
 
 	BEQ __Sys_Switch_To_New
 
-	MSR     cpsr_cxsf, r3
+	cmp r4,#SYS_MODE
 
-	LDMIA   r12!, {r3}
+	BEQ __Sys_Switch_To_New
 
-	MSR     spsr_cxsf, r3
+	//不是第一次装载这个任务
+	MSR     cpsr_cxsf, r5
+
+	LDMIA   r12!, {r5}
+
+	MSR     spsr_cxsf, r5
 
 	mov sp,r12
 
+#ifdef __MPU__
+	ldmia sp!,{r4-r12,pc}
+#else
 	ldmia sp!,{r2-r12,pc}
+#endif
+
 
 
 __Sys_Switch_To_New
+	//这是新的任务被装载
 
-	msr cpsr_c, #(IRQ_MODE|I_Bit|F_Bit)//切换到SVC模式
+	mov sp,#0//清除内核堆栈指针
 
+	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//切换到SVC模式
 
-	MSR     spsr_cxsf, r3
+	MSR spsr_cxsf, r5
 
-	LDMIA   R12!, {lr}
+#ifdef __MPU__
+	ldr r12,[r3]
+#endif
+
+	LDMIA R12!, {lr}
 
 	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//切换到sys模式
 
@@ -200,14 +234,13 @@ __Sys_Switch_To_New
 
 	ldmia sp!,{r0-r12,lr}
 
-	msr cpsr_c, #(IRQ_MODE|I_Bit|F_Bit)//切换到SVC模式
 
-	mov sp,#0//清除内核堆栈指针
+	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//切换到SVC模式
+
+
 	MOVS PC,LR
 
-	b __Sys_Switch_To
-
-
+	//b __Sys_Switch_To
 
 
 #elif (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'A')

@@ -24,7 +24,10 @@
 #define Priority_Task_Task							(10)
 
 //Stack
+#define Stack_System_Default_Size_4Byte				(100)
 #define Stack_Task_Task_4Byte						(100)
+
+
 
 #define Event_Flag_Group_Max_Len					(12)
 #define Timer_FIFO_Queue_Max_Length					(16)

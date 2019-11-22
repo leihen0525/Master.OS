@@ -42,6 +42,7 @@ int Scheduling_Task_Create(
 		goto Task_Create_Exit_1;
 
 	}
+	Temp_Task_TCB->Info.Option=Option;
 
 	if(Name==Null)
 	{
@@ -71,6 +72,75 @@ int Scheduling_Task_Create(
 	}
 
 #endif
+
+#ifdef __MPU__
+
+	//初始化内核栈
+	uint32_t Stack_Size_Sys_4Byte;
+
+	Stack_Size_Sys_4Byte=(Stack_Size_4Byte>>16)&0xFFFF;
+
+	if(Stack_Size_Sys_4Byte==0)
+	{
+		Stack_Size_Sys_4Byte=Stack_System_Default_Size_4Byte;
+	}
+	else
+	{
+		Stack_Size_Sys_4Byte=Stack_Size_Sys_4Byte;
+	}
+
+	Temp_Task_TCB->Stack_System.SP_Head=__Sys_Memory_Malloc(Stack_Size_Sys_4Byte*4+VFP_Nb);
+
+	if(Temp_Task_TCB->Stack_System.SP_Head==Null)
+	{
+		Err=Error_Allocation_Memory_Failed;
+		goto Task_Create_Exit_3;
+	}
+
+	Temp_Task_TCB->Stack_System.SP_End=&Temp_Task_TCB->Stack_System.SP_Head[(Stack_Size_Sys_4Byte+VFP_Nb/4)-1];
+
+	memset(Temp_Task_TCB->Stack_System.SP_Head,0xEF,Stack_Size_Sys_4Byte*4+VFP_Nb);
+
+	Temp_Task_TCB->Stack_System.SP=Temp_Task_TCB->Stack_System.SP_End;
+
+
+	//初始化用户栈
+	Stack_Size_4Byte=Stack_Size_4Byte&0xFFFF;
+	if(Stack==Null)
+	{
+		if((Temp_Task_TCB->Info.Option&Scheduling_Task_Option_System)!=0)
+		{
+			Temp_Task_TCB->Stack_User.SP_Head=__Sys_Memory_Malloc(Stack_Size_4Byte*4);
+		}
+		else
+		{
+			Temp_Task_TCB->Stack_User.SP_Head=__Usr_Memory_Malloc(Stack_Size_4Byte*4);
+		}
+
+		if(Temp_Task_TCB->Stack_User.SP_Head==Null)
+		{
+			Err=Error_Allocation_Memory_Failed;
+			goto Task_Create_Exit_4;
+		}
+
+	}
+	else
+	{
+		Temp_Task_TCB->Stack_User.SP_Head=Stack;
+	}
+
+	Temp_Task_TCB->Stack_User.SP_End=&Temp_Task_TCB->Stack_User.SP_Head[(Stack_Size_4Byte)-1];
+
+	memset(Temp_Task_TCB->Stack_User.SP_Head,0xEF,Stack_Size_4Byte*4);
+
+	Temp_Task_TCB->Stack_User.SP=Temp_Task_TCB->Stack_User.SP_End;
+
+	if((Err=Scheduling_Task_Stack_Init(Task_Enter,Args,Task_Exit,&Temp_Task_TCB->Stack_System.SP,&Temp_Task_TCB->Stack_User.SP,Option))!=Error_OK)
+	{
+		goto Task_Create_Exit_5;
+	}
+
+#else
 	if(Stack==Null)
 	{
 		Temp_Task_TCB->Stack.SP_Head=__Usr_Memory_Malloc(Stack_Size_4Byte*4+VFP_Nb);
@@ -96,6 +166,9 @@ int Scheduling_Task_Create(
 	{
 		goto Task_Create_Exit_4;
 	}
+
+#endif
+
 	Temp_Task_TCB->Priority.Default=Priority;
 	Temp_Task_TCB->Priority.Current=Priority;
 	Temp_Task_TCB->Info.TimeOut=-1;
@@ -105,11 +178,32 @@ int Scheduling_Task_Create(
 
 	return Error_OK;
 
+
+#ifdef __MPU__
+
+
+Task_Create_Exit_5:
+
+	if((Temp_Task_TCB->Info.Option&Scheduling_Task_Option_System)!=0)
+	{
+		__Sys_Memory_Free(Temp_Task_TCB->Stack_User.SP_Head);
+	}
+	else
+	{
+		__Usr_Memory_Free(Temp_Task_TCB->Stack_User.SP_Head);
+	}
+
+Task_Create_Exit_4:
+	__Sys_Memory_Free(Temp_Task_TCB->Stack_System.SP_Head);
+
+#else
 Task_Create_Exit_4:
 	if(Stack==Null)
 	{
 		__Sys_Memory_Free(Temp_Task_TCB->Stack.SP_Head);
 	}
+
+#endif
 
 Task_Create_Exit_3:
 	if(Temp_Task_TCB->Info.Name!=Null)
@@ -127,7 +221,22 @@ int Scheduling_Task_Release(__Sys_Scheduling_Task_TCB_Type *P_Task_TCB)
 	{
 		return Error_Invalid_Parameter;
 	}
+#ifdef __MPU__
+
+	__Sys_Memory_Free(P_Task_TCB->Stack_System.SP_Head);
+
+	if((P_Task_TCB->Info.Option&Scheduling_Task_Option_System)!=0)
+	{
+		__Sys_Memory_Free(P_Task_TCB->Stack_User.SP_Head);
+	}
+	else
+	{
+		__Usr_Memory_Free(P_Task_TCB->Stack_User.SP_Head);
+	}
+#else
 	__Sys_Memory_Free(P_Task_TCB->Stack.SP_Head);
+#endif
+
 	if(P_Task_TCB->Info.Name!=Null)
 	{
 		__Sys_Memory_Free(P_Task_TCB->Info.Name);

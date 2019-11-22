@@ -53,7 +53,14 @@ uint32_t __Sys_Power_GET_External_Frequency(void);
 
 //Context_Switch
 void __Sys_Switch_To_Idle(uint32_t *SP_End,uint32_t *SP_Begin,Task_Enter_Function Task_Enter);
+
+#ifdef __MPU__
+void __Sys_Switch_To(uint32_t **Cur_TCB_Sys_SP,uint32_t **NEXT_TCB_Sys_SP,uint32_t **Cur_TCB_Usr_SP,uint32_t **NEXT_TCB_Usr_SP);
+#else
 void __Sys_Switch_To(uint32_t **Cur_TCB_SP,uint32_t **NEXT_TCB_SP);
+#endif
+
+
 
 //Scheduling
 int __Sys_Scheduling_Create_Task(

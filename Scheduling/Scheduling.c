@@ -4,6 +4,8 @@
  *  Created on: 2019年4月23日
  *      Author: Master.HE
  */
+#include <string.h>
+
 #include "Error.h"
 #include "Define.h"
 #include "Scheduling.Task.h"
@@ -148,8 +150,11 @@ int __Sys_Scheduling_Release_Task(int Handle)
 
 		Scheduling_Task_Release(P_Task_TCB);
 
+#ifdef __MPU__
+		__Sys_Switch_To(Null,&Scheduling_DATA.Current_TCB->Stack_System.SP,Null,&Scheduling_DATA.Current_TCB->Stack_User.SP);
+#else
 		__Sys_Switch_To(Null,&Scheduling_DATA.Current_TCB->Stack.SP);
-
+#endif
 
 		return Error_OK;
 	}
@@ -224,14 +229,38 @@ int Scheduling_Create_Task_Idle(
 	P_Task_TCB->Info.Time_Slice=Task_Time_Slice_MS;
 	P_Task_TCB->Info.TimeOut=-1;
 
+#ifdef __MPU__
+
+	P_Task_TCB->Stack_System.SP_Head=__Sys_Memory_Malloc(Stack_System_Default_Size_4Byte*4);
+
+	if(P_Task_TCB->Stack_System.SP_Head==Null)
+	{
+		Err=Error_Allocation_Memory_Failed;
+		goto Exit1;
+	}
+
+	P_Task_TCB->Stack_System.SP_End=&P_Task_TCB->Stack_System.SP_Head[(Stack_System_Default_Size_4Byte)-1];
+
+	memset(P_Task_TCB->Stack_System.SP_Head,0xEF,Stack_System_Default_Size_4Byte*4);
+
+	P_Task_TCB->Stack_System.SP=P_Task_TCB->Stack_System.SP_End;
+
+#pragma section="CSTACK"
+	P_Task_TCB->Stack_User.SP_Head=__section_begin("CSTACK");
+	P_Task_TCB->Stack_User.SP_End=__section_end("CSTACK");
+
+#else
+
 #pragma section="CSTACK"
 	P_Task_TCB->Stack.SP_Head=__section_begin("CSTACK");
 	P_Task_TCB->Stack.SP_End=__section_end("CSTACK");
 
+#endif
+
+
 	P_Task_TCB->Info.Handle=Valid_Handle;//0保留给 空闲进程
 
 	return P_Task_TCB->Info.Handle;
-
 
 Exit1:
 	Scheduling_Task_Release_Idle(P_Task_TCB);
@@ -344,8 +373,11 @@ void Scheduling_SysTick(void)
 	Scheduling_DATA.Current_TCB=Temp_TCB;
 
 	//任务进行上下文切换
+#ifdef __MPU__
+	__Sys_Switch_To(&Temp_TCB1->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Temp_TCB1->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
+#else
 	__Sys_Switch_To(&Temp_TCB1->Stack.SP,&Scheduling_DATA.Current_TCB->Stack.SP);
-
+#endif
 }
 
 
@@ -387,9 +419,11 @@ void __Sys_Scheduling_Try_Context_Switch(void)
 	Temp_TCB1=Scheduling_DATA.Current_TCB;
 	Scheduling_DATA.Current_TCB=Temp_TCB;
 
-
+#ifdef __MPU__
+	__Sys_Switch_To(&Temp_TCB1->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Temp_TCB1->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
+#else
 	__Sys_Switch_To(&Temp_TCB1->Stack.SP,&Scheduling_DATA.Current_TCB->Stack.SP);
-
+#endif
 }
 
 int __Sys_Scheduling_Context_Switch(Task_State_Type CS_Task_State,int32_t TimeOut,int32_t *RTimeOut)
@@ -419,8 +453,11 @@ int __Sys_Scheduling_Context_Switch(Task_State_Type CS_Task_State,int32_t TimeOu
 	Temp_TCB1=Scheduling_DATA.Current_TCB;
 	Scheduling_DATA.Current_TCB=Temp_TCB;
 
+#ifdef __MPU__
+	__Sys_Switch_To(&Temp_TCB1->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Temp_TCB1->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
+#else
 	__Sys_Switch_To(&Temp_TCB1->Stack.SP,&Scheduling_DATA.Current_TCB->Stack.SP);
-
+#endif
 
 	if(RTimeOut!=Null)
 	{
@@ -442,3 +479,13 @@ int __Sys_Scheduling_GET_Current_TCB(__Sys_Scheduling_Task_TCB_Type **Current_TC
 
 	return Error_OK;
 }
+#ifdef __MPU__
+uint32_t **__Sys_Scheduling_GET_System_SP_End(void)
+{
+	return &Scheduling_DATA.Current_TCB->Stack_System.SP_End;
+}
+uint32_t **__Sys_Scheduling_GET_User_SP(void)
+{
+	return &Scheduling_DATA.Current_TCB->Stack_User.SP;
+}
+#endif

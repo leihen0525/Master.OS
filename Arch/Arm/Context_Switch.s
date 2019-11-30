@@ -19,7 +19,7 @@
 
 __Sys_Switch_To_Idle
 
-	MOV R3,R0
+	MOV R4,R0
 	//LDR r0,=0x02020000 ;* End of start stack area *
 	//LDR r1,=0x02000000 ;* End of start stack area *
 	LDR r12,=0xEFEFEFEF ;* Clear value *
@@ -30,7 +30,7 @@ Clear_Idle_Stack_Loop:
 	BNE Clear_Idle_Stack_Loop
 
 
-	MSR PSP, R3
+	MSR PSP, R4
 
 	mov r0,#0
 	MSR MSP, R0
@@ -83,6 +83,10 @@ __Sys_Switch_To_Step2
 
 	ARM
 
+#ifdef __MPU__
+	EXTERN __Sys_Scheduling_MPU_SET_Current_Task
+#endif
+
 	PUBLIC __Sys_Switch_To_Idle
 
 __Sys_Switch_To_Idle
@@ -96,15 +100,33 @@ __Sys_Switch_To_Idle
 	b __Sys_Switch_To_Idle
 */
 
-	MOV R3,R0
+
+
+
+	MOV R4,R0
 	//LDR r0,=0x02020000 ;* End of start stack area *
 	//LDR r1,=0x02000000 ;* End of start stack area *
-	LDR r12,=0xEFEFEFEF ;* Clear value *
+	LDR r12,=0xEFEFEFEF
 Clear_Idle_Stack_Loop:
-	SUB r0, r0, #4 ;* calculate next address in start stack *
-	STR r12, [r0] ;* write 32-bit value to force ECC bits calculation *
-	CMP r0, r1 ;* check if TCMRAM start is reached *
+	SUB r0, r0, #4
+	STR r12, [r0]
+	CMP r0, r1
 	BNE Clear_Idle_Stack_Loop
+
+#ifdef __MPU__
+
+	PUSH {r2,r4}
+
+	//mov r0,r3
+	//mov r1,r1
+	ldr r4,=__Sys_Scheduling_MPU_SET_Current_Task
+	blx r4
+
+	POP {r2,r4}
+
+	//add r1,r1,#32
+
+#endif
 
 
 	MRS r0, cpsr                ; Original PSR value
@@ -114,7 +136,10 @@ Clear_Idle_Stack_Loop:
 	MSR cpsr_c, r0              ; Change the mode
 	//cps #USR_MODE
 
-	mov sp,R3
+	mov sp,R4
+
+
+
 	mov pc,r2
 
 
@@ -196,6 +221,15 @@ __no_vfp_frame2:
 
 	BEQ __Sys_Switch_To_New
 
+
+#ifdef __MPU__
+	PUSH {r5,r12}
+	ldr r4,=__Sys_Scheduling_MPU_SET_Current_Task
+	blx r4
+	POP {r5,r12}
+#endif
+
+
 	//不是第一次装载这个任务
 	MSR     cpsr_cxsf, r5
 
@@ -204,6 +238,8 @@ __no_vfp_frame2:
 	MSR     spsr_cxsf, r5
 
 	mov sp,r12
+
+
 
 #ifdef __MPU__
 	ldmia sp!,{r4-r12,pc}
@@ -215,6 +251,13 @@ __no_vfp_frame2:
 
 __Sys_Switch_To_New
 	//这是新的任务被装载
+
+#ifdef __MPU__
+	PUSH {r3,r5}
+	ldr r4,=__Sys_Scheduling_MPU_SET_Current_Task
+	blx r4
+	POP {r3,r5}
+#endif
 
 	mov sp,#0//清除内核堆栈指针
 
@@ -232,6 +275,8 @@ __Sys_Switch_To_New
 
 	mov sp,r12
 
+
+
 	ldmia sp!,{r0-r12,lr}
 
 
@@ -242,6 +287,38 @@ __Sys_Switch_To_New
 
 	//b __Sys_Switch_To
 
+//-----------------------------------------------------------------
+	PUBLIC __Sys_SET_CPU_SP
+
+__Sys_SET_CPU_SP
+
+	and r0 ,r0, #MODE_MSK
+
+	cmp r0,#USR_MODE
+
+	BEQ __Sys_SET_CPU_SP_Usr
+
+__Sys_SET_CPU_SP_1
+
+
+	MRS r2, cpsr                ; Original PSR value
+
+	mov r3,r2
+
+	BIC r2 ,r2, #MODE_MSK       ; Clear the mode bits
+	ORR r2 ,r2, r0       		; Set  mode bits
+	MSR cpsr_c, r2              ; Change the mode
+
+	mov sp,r1
+
+	MSR cpsr_c,r3
+
+	blx lr
+
+__Sys_SET_CPU_SP_Usr
+
+	mov r0,#SYS_MODE
+	b __Sys_SET_CPU_SP_1
 
 #elif (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'A')
 

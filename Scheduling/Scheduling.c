@@ -20,6 +20,12 @@
 
 #include "IRQ/IRQ.h"
 
+#include "Task/Task.h"
+
+#include "MPU/MPU.h"
+
+#include "Memory/Memory.h"
+
 Scheduling_DATA_Type Scheduling_DATA;
 
 uint32_t Temp_Stack[0x14];
@@ -27,6 +33,7 @@ uint32_t *P_Temp_Stack;
 
 int Scheduling_Init(void)
 {
+	Scheduling_DATA.Last_TCB=Null;
 	Scheduling_DATA.Current_TCB=Null;
 
 	for(int i=0;i<20;i++)
@@ -138,6 +145,7 @@ int __Sys_Scheduling_Release_Task(int Handle)
 		{
 			while(1);
 		}
+		Scheduling_DATA.Last_TCB=Null;
 		Scheduling_DATA.Current_TCB=Null;
 		if(Queue_Delete_Ready_Queue_First_TCB(&Scheduling_DATA.Current_TCB)!=Error_OK)
 		{
@@ -231,7 +239,16 @@ int Scheduling_Create_Task_Idle(
 
 #ifdef __MPU__
 
-	P_Task_TCB->Stack_System.SP_Head=__Sys_Memory_Malloc(Stack_System_Default_Size_4Byte*4);
+	uint32_t Stack_System_Size_4Byte=Stack_System_Default_Size_4Byte+8;
+
+	P_Task_TCB->Stack_System.Protection_Size=Stack_Default_Protection_Size;
+
+	uint32_t Sys_Stack_Alignment_Byte=Stack_Default_Protection_Size_Byte(Stack_Default_Protection_Size);
+
+	Stack_System_Size_4Byte=Stack_System_Size_4Byte+Sys_Stack_Alignment_Byte/4;
+
+
+	P_Task_TCB->Stack_System.SP_Head=__Sys_Memory_Malloc_Align(Stack_System_Size_4Byte*4,Sys_Stack_Alignment_Byte);
 
 	if(P_Task_TCB->Stack_System.SP_Head==Null)
 	{
@@ -239,15 +256,26 @@ int Scheduling_Create_Task_Idle(
 		goto Exit1;
 	}
 
-	P_Task_TCB->Stack_System.SP_End=&P_Task_TCB->Stack_System.SP_Head[(Stack_System_Default_Size_4Byte)-1];
+	if(((uint32_t)P_Task_TCB->Stack_System.SP_Head&(Sys_Stack_Alignment_Byte-1))!=0)
+	{
+		Err=Error_Allocation_Memory_Failed;
+		goto Exit2;
+	}
 
-	memset(P_Task_TCB->Stack_System.SP_Head,0xEF,Stack_System_Default_Size_4Byte*4);
+	P_Task_TCB->Stack_System.SP_End=&P_Task_TCB->Stack_System.SP_Head[(Stack_System_Size_4Byte)-1];
+
+	memset(P_Task_TCB->Stack_System.SP_Head,0xEF,Stack_System_Size_4Byte*4);
 
 	P_Task_TCB->Stack_System.SP=P_Task_TCB->Stack_System.SP_End;
+
+	P_Task_TCB->Stack_System.Count=0;
 
 #pragma section="CSTACK"
 	P_Task_TCB->Stack_User.SP_Head=__section_begin("CSTACK");
 	P_Task_TCB->Stack_User.SP_End=__section_end("CSTACK");
+
+	P_Task_TCB->Stack_User.Protection_Size=Stack_Default_Protection_Size;
+	P_Task_TCB->Stack_User.Count=0;
 
 #else
 
@@ -262,14 +290,22 @@ int Scheduling_Create_Task_Idle(
 
 	return P_Task_TCB->Info.Handle;
 
+Exit2:
+	__Sys_Memory_Free(P_Task_TCB->Stack_System.SP_Head);
+
 Exit1:
 	Scheduling_Task_Release_Idle(P_Task_TCB);
 	return Err;
 }
 
+void Scheduling_Switch_To_Idle(void)
+{
+	__Sys_Switch_To_Idle(Scheduling_DATA.Current_TCB->Stack_User.SP_End,Scheduling_DATA.Current_TCB->Stack_User.SP_Head,Task_Idle);
+}
+
 void Scheduling_SysTick(void)
 {
-	__Sys_Scheduling_Task_TCB_Type *Temp_TCB=Null,*Temp_TCB1=Null;
+	__Sys_Scheduling_Task_TCB_Type *Temp_TCB=Null;
 
 	//当前任务时间片减一
 	if(Scheduling_DATA.Current_TCB!=Null)
@@ -369,14 +405,14 @@ void Scheduling_SysTick(void)
 	Temp_TCB->Info.Task_State=Task_State_Runing;
 	Temp_TCB->Info.Time_Slice=Task_Time_Slice_MS;
 
-	Temp_TCB1=Scheduling_DATA.Current_TCB;
+	Scheduling_DATA.Last_TCB=Scheduling_DATA.Current_TCB;
 	Scheduling_DATA.Current_TCB=Temp_TCB;
 
 	//任务进行上下文切换
 #ifdef __MPU__
-	__Sys_Switch_To(&Temp_TCB1->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Temp_TCB1->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
+	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Scheduling_DATA.Last_TCB->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
 #else
-	__Sys_Switch_To(&Temp_TCB1->Stack.SP,&Scheduling_DATA.Current_TCB->Stack.SP);
+	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack.SP,&Scheduling_DATA.Current_TCB->Stack.SP);
 #endif
 }
 
@@ -384,7 +420,7 @@ void Scheduling_SysTick(void)
 
 void __Sys_Scheduling_Try_Context_Switch(void)
 {
-	__Sys_Scheduling_Task_TCB_Type *Temp_TCB=Null,*Temp_TCB1=Null;
+	__Sys_Scheduling_Task_TCB_Type *Temp_TCB=Null;
 
 	//找出准备运行队列中 优先级最高的任务
 	if(Queue_Read_Ready_Queue_First_TCB(&Temp_TCB)!=Error_OK)
@@ -416,13 +452,13 @@ void __Sys_Scheduling_Try_Context_Switch(void)
 	Temp_TCB->Info.Task_State=Task_State_Runing;
 	Temp_TCB->Info.Time_Slice=Task_Time_Slice_MS;
 
-	Temp_TCB1=Scheduling_DATA.Current_TCB;
+	Scheduling_DATA.Last_TCB=Scheduling_DATA.Current_TCB;
 	Scheduling_DATA.Current_TCB=Temp_TCB;
 
 #ifdef __MPU__
-	__Sys_Switch_To(&Temp_TCB1->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Temp_TCB1->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
+	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Scheduling_DATA.Last_TCB->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
 #else
-	__Sys_Switch_To(&Temp_TCB1->Stack.SP,&Scheduling_DATA.Current_TCB->Stack.SP);
+	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack.SP,&Scheduling_DATA.Current_TCB->Stack.SP);
 #endif
 }
 
@@ -433,7 +469,7 @@ int __Sys_Scheduling_Context_Switch(Task_State_Type CS_Task_State,int32_t TimeOu
 		return Error_Invalid_Parameter;
 	}
 
-	__Sys_Scheduling_Task_TCB_Type *Temp_TCB=Null,*Temp_TCB1=Null;
+	__Sys_Scheduling_Task_TCB_Type *Temp_TCB=Null;
 	int Err;
 	if((Err=Queue_Delete_Ready_Queue_First_TCB(&Temp_TCB))!=Error_OK)
 	{
@@ -450,13 +486,13 @@ int __Sys_Scheduling_Context_Switch(Task_State_Type CS_Task_State,int32_t TimeOu
 	Temp_TCB->Info.Task_State=Task_State_Runing;
 	Temp_TCB->Info.Time_Slice=Task_Time_Slice_MS;
 
-	Temp_TCB1=Scheduling_DATA.Current_TCB;
+	Scheduling_DATA.Last_TCB=Scheduling_DATA.Current_TCB;
 	Scheduling_DATA.Current_TCB=Temp_TCB;
 
 #ifdef __MPU__
-	__Sys_Switch_To(&Temp_TCB1->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Temp_TCB1->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
+	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Scheduling_DATA.Last_TCB->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
 #else
-	__Sys_Switch_To(&Temp_TCB1->Stack.SP,&Scheduling_DATA.Current_TCB->Stack.SP);
+	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack.SP,&Scheduling_DATA.Current_TCB->Stack.SP);
 #endif
 
 	if(RTimeOut!=Null)
@@ -480,6 +516,7 @@ int __Sys_Scheduling_GET_Current_TCB(__Sys_Scheduling_Task_TCB_Type **Current_TC
 	return Error_OK;
 }
 #ifdef __MPU__
+
 uint32_t **__Sys_Scheduling_GET_System_SP_End(void)
 {
 	return &Scheduling_DATA.Current_TCB->Stack_System.SP_End;
@@ -488,4 +525,291 @@ uint32_t **__Sys_Scheduling_GET_User_SP(void)
 {
 	return &Scheduling_DATA.Current_TCB->Stack_User.SP;
 }
+void __Sys_Scheduling_MPU_SET_Current_Task(void)
+{
+	if(MPU_SET(
+			(uint32_t)Scheduling_DATA.Current_TCB->Stack_System.SP_Head,
+			Scheduling_DATA.Current_TCB->Stack_System.Protection_Size,
+			(uint32_t)Scheduling_DATA.Current_TCB->Stack_User.SP_Head,
+			Scheduling_DATA.Current_TCB->Stack_User.Protection_Size)!=Error_OK)
+	{
+		while(1);
+	}
+}
+void __Sys_Scheduling_MPU_SET_LAST_Task(void)
+{
+	if(MPU_SET(
+			(uint32_t)Scheduling_DATA.Last_TCB->Stack_System.SP_Head,
+			Scheduling_DATA.Last_TCB->Stack_System.Protection_Size,
+			(uint32_t)Scheduling_DATA.Last_TCB->Stack_User.SP_Head,
+			Scheduling_DATA.Last_TCB->Stack_User.Protection_Size)!=Error_OK)
+	{
+		while(1);
+	}
+}
+int __Sys_Scheduling_MPU_Add_Stack(uint32_t Mode,uint32_t *Fault_SP,uint32_t Fault_Address)
+{
+	if(Fault_SP==Null)
+	{
+		return Error_Invalid_Parameter;
+	}
+
+	//
+
+
+	//这个地方检查两个任务的栈，因为可能发生在任务上下文切换阶段或者任意阶段，所有都不能有遗漏
+	if(Scheduling_DATA.Current_TCB!=Null)
+	{
+		//先检查当前任务的栈
+		//出错地址在当前任务的用户栈中
+		if((uint32_t)Scheduling_DATA.Current_TCB->Stack_User.SP_Head<=Fault_Address
+		&& Fault_Address<=(uint32_t)Scheduling_DATA.Current_TCB->Stack_User.SP_End)
+		{
+			//在检查一次当前SP指针是否在当前任务栈中
+			if((uint32_t)Scheduling_DATA.Current_TCB->Stack_User.SP_Head<=(uint32_t)Fault_SP
+			&& (uint32_t)Fault_SP<=(uint32_t)Scheduling_DATA.Current_TCB->Stack_User.SP_End)
+			{
+				//初步确认出错位置
+
+				//在检查一次是否出错位置在保护区域
+				if((Fault_Address-(uint32_t)Scheduling_DATA.Current_TCB->Stack_User.SP_Head)<=Stack_Default_Protection_Size_Byte(Scheduling_DATA.Current_TCB->Stack_User.Protection_Size))
+				{
+					int Err;
+					bool Sys_Memory;
+					if((Scheduling_DATA.Current_TCB->Info.Option&Scheduling_Task_Option_System)!=0)
+					{
+						Sys_Memory=true;
+					}
+					else
+					{
+						Sys_Memory=false;
+					}
+					if((Err=__Sys_Scheduling_MPU_Add_Stack_Malloc(Sys_Memory,&Scheduling_DATA.Current_TCB->Stack_User,Mode,Fault_SP,Fault_Address))!=Error_OK)
+					{
+						return Err;
+					}
+					__Sys_Scheduling_MPU_SET_Current_Task();
+					return Error_OK;
+
+				}
+
+			}
+
+		}
+		//出错任务在当前任务的内核栈中
+		if((uint32_t)Scheduling_DATA.Current_TCB->Stack_System.SP_Head<=Fault_Address
+		&& Fault_Address<=(uint32_t)Scheduling_DATA.Current_TCB->Stack_System.SP_End)
+		{
+			//在检查一次当前SP指针是否在当前任务栈中
+			if((uint32_t)Scheduling_DATA.Current_TCB->Stack_System.SP_Head<=(uint32_t)Fault_SP
+			&& (uint32_t)Fault_SP<=(uint32_t)Scheduling_DATA.Current_TCB->Stack_System.SP_End)
+			{
+				//初步确认出错位置
+
+				//在检查一次是否出错位置在保护区域
+				if((Fault_Address-(uint32_t)Scheduling_DATA.Current_TCB->Stack_System.SP_Head)<=Stack_Default_Protection_Size_Byte(Scheduling_DATA.Current_TCB->Stack_System.Protection_Size))
+				{
+					//
+					int Err;
+
+					if((Err=__Sys_Scheduling_MPU_Add_Stack_Malloc(true,&Scheduling_DATA.Current_TCB->Stack_System,Mode,Fault_SP,Fault_Address))!=Error_OK)
+					{
+						return Err;
+					}
+					__Sys_Scheduling_MPU_SET_Current_Task();
+					return Error_OK;
+				}
+
+			}
+
+		}
+	}
+	//出错任务在上一个任务的用户栈中
+	if(Scheduling_DATA.Last_TCB!=Null)
+	{
+		//出错地址在上一个任务的用户栈中
+		if((uint32_t)Scheduling_DATA.Last_TCB->Stack_User.SP_Head<=Fault_Address
+		&& Fault_Address<=(uint32_t)Scheduling_DATA.Last_TCB->Stack_User.SP_End)
+		{
+			//在检查一次当前SP指针是否在上一个任务栈中
+			if((uint32_t)Scheduling_DATA.Last_TCB->Stack_User.SP_Head<=(uint32_t)Fault_SP
+			&& (uint32_t)Fault_SP<=(uint32_t)Scheduling_DATA.Last_TCB->Stack_User.SP_End)
+			{
+				//初步确认出错位置
+
+				//在检查一次是否出错位置在保护区域
+				if((Fault_Address-(uint32_t)Scheduling_DATA.Last_TCB->Stack_User.SP_Head)<=Stack_Default_Protection_Size_Byte(Scheduling_DATA.Last_TCB->Stack_User.Protection_Size))
+				{
+					//
+					int Err;
+					bool Sys_Memory;
+					if((Scheduling_DATA.Last_TCB->Info.Option&Scheduling_Task_Option_System)!=0)
+					{
+						Sys_Memory=true;
+					}
+					else
+					{
+						Sys_Memory=false;
+					}
+					if((Err=__Sys_Scheduling_MPU_Add_Stack_Malloc(Sys_Memory,&Scheduling_DATA.Last_TCB->Stack_User,Mode,Fault_SP,Fault_Address))!=Error_OK)
+					{
+						return Err;
+					}
+					__Sys_Scheduling_MPU_SET_LAST_Task();
+					return Error_OK;
+				}
+
+			}
+
+		}
+		//出错任务在上一个任务的内核栈中
+		if((uint32_t)Scheduling_DATA.Last_TCB->Stack_System.SP_Head<=Fault_Address
+		&& Fault_Address<=(uint32_t)Scheduling_DATA.Last_TCB->Stack_System.SP_End)
+		{
+			//在检查一次当前SP指针是否在上一个任务栈中
+			if((uint32_t)Scheduling_DATA.Last_TCB->Stack_System.SP_Head<=(uint32_t)Fault_SP
+			&& (uint32_t)Fault_SP<=(uint32_t)Scheduling_DATA.Last_TCB->Stack_System.SP_End)
+			{
+				//初步确认出错位置
+
+				//在检查一次是否出错位置在保护区域
+				if((Fault_Address-(uint32_t)Scheduling_DATA.Last_TCB->Stack_System.SP_Head)<=Stack_Default_Protection_Size_Byte(Scheduling_DATA.Last_TCB->Stack_System.Protection_Size))
+				{
+					//
+					int Err;
+					if((Err=__Sys_Scheduling_MPU_Add_Stack_Malloc(true,&Scheduling_DATA.Last_TCB->Stack_System,Mode,Fault_SP,Fault_Address))!=Error_OK)
+					{
+						return Err;
+					}
+					__Sys_Scheduling_MPU_SET_LAST_Task();
+					return Error_OK;
+				}
+
+			}
+
+		}
+	}
+
+
+
+	return Error_Unknown;
+}
+
+int __Sys_Scheduling_MPU_Add_Stack_Malloc(bool Sys_Memory,Scheduling_Task_TCB_Stack_Type *P_TCB_Stack,uint32_t Mode,uint32_t *Fault_SP,uint32_t Fault_Address)
+{
+	if(P_TCB_Stack==Null || Fault_SP==Null || Sys_Memory>=bool_End)
+	{
+		return Error_Invalid_Parameter;
+	}
+
+	uint32_t New_Stack_Size_4Byte=((uint32_t)P_TCB_Stack->SP_End-(uint32_t)P_TCB_Stack->SP_Head)/4;
+
+	//这个地方还要特别注意一个关键问题，就是溢出的长度需要计算出来，然后新的区域还必须要超过这个区域
+
+
+
+	uint32_t Protection_Size_Byte=Stack_Default_Protection_Size_Byte(P_TCB_Stack->Protection_Size);
+
+	uint32_t Unused=0;
+	if((uint32_t)Fault_SP<Fault_Address)
+	{
+		Unused=(uint32_t)Fault_SP-(uint32_t)P_TCB_Stack->SP_Head;
+	}
+	else
+	{
+		Unused=Fault_Address-(uint32_t)P_TCB_Stack->SP_Head;
+	}
+
+	uint32_t Used=Protection_Size_Byte-Unused;
+
+	New_Stack_Size_4Byte=New_Stack_Size_4Byte+Stack_Add_Size_4Byte+Used/4;
+
+
+	uint32_t *New_Stack=Null;
+
+	//申请一个新的栈空间
+	if(Sys_Memory==true)
+	{
+		New_Stack=__Sys_Memory_Malloc_Align(New_Stack_Size_4Byte*4,Protection_Size_Byte);
+
+		if(New_Stack==Null)
+		{
+			return Error_Allocation_Memory_Failed;
+		}
+		if(((uint32_t)New_Stack&(Protection_Size_Byte-1))!=0)
+		{
+			__Sys_Memory_Free(New_Stack);
+			return Error_Allocation_Memory_Failed;
+		}
+	}
+	else
+	{
+		New_Stack=__Usr_Memory_Malloc_Align(New_Stack_Size_4Byte*4,Protection_Size_Byte);
+
+		if(New_Stack==Null)
+		{
+			return Error_Allocation_Memory_Failed;
+		}
+		if(((uint32_t)New_Stack&(Protection_Size_Byte-1))!=0)
+		{
+			__Usr_Memory_Free(New_Stack);
+			return Error_Allocation_Memory_Failed;
+		}
+
+	}
+
+	memset(New_Stack,0xEF,New_Stack_Size_4Byte*4);
+
+	uint32_t *New_Stack_End=&New_Stack[New_Stack_Size_4Byte-1];
+
+	uint32_t *New_Stack_SP=New_Stack_End;
+
+	uint32_t *Old_Stack_SP=P_TCB_Stack->SP_End;
+
+	//先关闭保护区域，等复制完成后，重新设置新的保护地址
+	if(MPU_SET_Region_Disable()!=Error_OK)
+	{
+		while(1);
+	}
+	//
+	while(1)
+	{
+		(*New_Stack_SP)=(*Old_Stack_SP);
+
+		if(Old_Stack_SP==Fault_SP)
+		{
+			break;
+		}
+
+		New_Stack_SP--;
+		Old_Stack_SP--;
+
+	}
+	//释放掉溢出的栈空间
+	if(Sys_Memory==true)
+	{
+		__Sys_Memory_Free(P_TCB_Stack->SP_Head);
+	}
+	else
+	{
+		__Usr_Memory_Free(P_TCB_Stack->SP_Head);
+	}
+	
+	P_TCB_Stack->SP_Head=New_Stack;
+	P_TCB_Stack->SP_End=New_Stack_End;
+	P_TCB_Stack->SP=New_Stack_SP;
+
+	if(P_TCB_Stack->Count<0xFFFFFFFF)
+	{
+		P_TCB_Stack->Count++;
+	}
+
+	//设置CPU溢出的SP指针
+	__Sys_SET_CPU_SP(Mode,P_TCB_Stack->SP);
+
+	//while(1);
+
+	return Error_OK;
+}
+
 #endif

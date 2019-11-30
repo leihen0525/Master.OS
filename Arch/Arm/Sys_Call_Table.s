@@ -10,7 +10,9 @@
 
 	SECTION .text:CODE(2)
 
-	EXTERN __Usr_Memory_Size
+	EXTERN __Usr_Memory_Size_Malloc
+	EXTERN __Usr_Memory_Size_Free
+	EXTERN __Usr_Memory_Malloc_Align
 	EXTERN __Usr_Memory_Malloc
 	EXTERN __Usr_Memory_Free
 
@@ -114,7 +116,9 @@
 __SysCall_Table
 	DCD 0
 
-	DCD __Usr_Memory_Size
+	DCD __Usr_Memory_Size_Malloc
+	DCD __Usr_Memory_Size_Free
+	DCD __Usr_Memory_Malloc_Align
 	DCD __Usr_Memory_Malloc
 	DCD __Usr_Memory_Free
 

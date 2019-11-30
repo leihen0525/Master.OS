@@ -101,6 +101,9 @@ typedef struct
 	int (*SET_Region_Enable)(unsigned int);
 	int (*SET_Region_Disable)(unsigned int);
 
+	int (*GET_Data_Fault_Status)(unsigned int *);
+	int (*GET_Instruction_Fault_Status)(unsigned int *);
+
 }Machine_Desc_MPU_Type;
 
 #endif

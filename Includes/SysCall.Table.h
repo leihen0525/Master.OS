@@ -12,7 +12,9 @@ typedef enum
 {
 	SysCall_Table_Index_Null			=0,
 
-	SysCall_Table_Memory_Size,
+	SysCall_Table_Memory_Size_Malloc,
+	SysCall_Table_Memory_Size_Free,
+	SysCall_Table_Memory_Malloc_Align,
 	SysCall_Table_Memory_Malloc,
 	SysCall_Table_Memory_Free,
 

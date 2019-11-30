@@ -8,6 +8,10 @@
 #ifndef DEFINE_H_
 #define DEFINE_H_
 
+#ifdef __MPU__
+#include "MPU.Define.h"
+#endif
+
 #define Valid_Handle								(0)
 
 #define Task_Time_Slice_MS							(10)
@@ -24,8 +28,19 @@
 #define Priority_Task_Task							(10)
 
 //Stack
+#ifdef __MPU__
+#define Stack_Default_Protection_Size				MPU_Region_Size_32Byte
+#define Stack_Default_Protection_Size_Byte(x)		(1<<(x+1))
+//#define Stack_Alignment_Byte						(32)
+#else
+#define Stack_Alignment_Byte						(8)
+#endif
+
+//
+#define Stack_Add_Size_4Byte						(16)
 #define Stack_System_Default_Size_4Byte				(100)
 #define Stack_Task_Task_4Byte						(100)
+
 
 
 

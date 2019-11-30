@@ -21,8 +21,10 @@
 int __Sys_Apply_Handle(void);
 
 //Memory
-uint32_t __Sys_Memory_Size(void);
-void *__Sys_Memory_Malloc(unsigned int Size);
+uint32_t __Sys_Memory_Size_Malloc(void);
+uint32_t __Sys_Memory_Size_Free(void);
+void *__Sys_Memory_Malloc_Align(uint32_t Size,uint32_t Align);
+void *__Sys_Memory_Malloc(uint32_t Size);
 void __Sys_Memory_Free(void *ap);
 
 //IRQ
@@ -52,7 +54,13 @@ uint32_t __Sys_Power_GET_External_Frequency(void);
 */
 
 //Context_Switch
-void __Sys_Switch_To_Idle(uint32_t *SP_End,uint32_t *SP_Begin,Task_Enter_Function Task_Enter);
+
+void __Sys_SET_CPU_SP(uint32_t Mode,uint32_t *SP);
+
+
+void __Sys_Switch_To_Idle(uint32_t *Usr_SP_End,uint32_t *Usr_SP_Begin,Task_Enter_Function Task_Enter);
+
+
 
 #ifdef __MPU__
 void __Sys_Switch_To(uint32_t **Cur_TCB_Sys_SP,uint32_t **NEXT_TCB_Sys_SP,uint32_t **Cur_TCB_Usr_SP,uint32_t **NEXT_TCB_Usr_SP);

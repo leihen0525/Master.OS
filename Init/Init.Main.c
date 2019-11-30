@@ -147,8 +147,7 @@ void Start_Kernel(void)
 	}
 
 	//跳转到空闲任务
-#pragma section="CSTACK"
-	__Sys_Switch_To_Idle(__section_end("CSTACK"),__section_begin("CSTACK"),Task_Idle);
+	Scheduling_Switch_To_Idle();
 
 	//
 	while(1)

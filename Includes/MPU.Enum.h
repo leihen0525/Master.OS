@@ -17,41 +17,7 @@ typedef enum
 	MPU_Execute_Never_End,
 }MPU_Execute_Never_Type;
 
-typedef enum
-{
-	MPU_Region_Size_Null	= 3,
 
-	MPU_Region_Size_32Byte  = 4,    /*!< Region size 32 Byte */
-	MPU_Region_Size_64Byte  = 5,    /*!< Region size 64 Byte */
-	MPU_Region_Size_128Byte = 6,    /*!< Region size 128 Byte */
-	MPU_Region_Size_256Byte = 7,    /*!< Region size 256 Byte */
-	MPU_Region_Size_512Byte = 8,    /*!< Region size 512 Byte */
-	MPU_Region_Size_1kB     = 9,    /*!< Region size 1 kB */
-	MPU_Region_Size_2kB     = 10,   /*!< Region size 2 kB */
-	MPU_Region_Size_4kB     = 11,   /*!< Region size 4 kB */
-	MPU_Region_Size_8kB     = 12,   /*!< Region size 8 kB */
-	MPU_Region_Size_16kB    = 13,   /*!< Region size 16 kB */
-	MPU_Region_Size_32kB    = 14,   /*!< Region size 32 kB */
-	MPU_Region_Size_64kB    = 15,   /*!< Region size 64 kB */
-	MPU_Region_Size_128kB   = 16,   /*!< Region size 128 kB */
-	MPU_Region_Size_256kB   = 17,   /*!< Region size 256 kB */
-	MPU_Region_Size_512kB   = 18,   /*!< Region size 512 kB */
-	MPU_Region_Size_1MB     = 19,   /*!< Region size 1M MB */
-	MPU_Region_Size_2MB     = 20,   /*!< Region size 2 MB */
-	MPU_Region_Size_4MB     = 21,   /*!< Region size 4 MB */
-	MPU_Region_Size_8MB     = 22,   /*!< Region size 8 MB */
-	MPU_Region_Size_16MB    = 23,   /*!< Region size 16 MB */
-	MPU_Region_Size_32MB    = 24,   /*!< Region size 32 MB */
-	MPU_Region_Size_64MB    = 25,   /*!< Region size 64 MB */
-	MPU_Region_Size_128MB   = 26,   /*!< Region size 128 MB */
-	MPU_Region_Size_256MB   = 27,   /*!< Region size 256 MB */
-	MPU_Region_Size_512MB   = 28,   /*!< Region size 512 MB */
-	MPU_Region_Size_1GB     = 29,   /*!< Region size 1 GB */
-	MPU_Region_Size_2GB     = 30,   /*!< Region size 2 GB */
-	MPU_Region_Size_4GB     = 31,   /*!< Region size 4 GB */
-
-	MPU_Region_Size_End,
-}MPU_Region_Size_Type;
 
 typedef enum
 {
@@ -110,6 +76,22 @@ typedef enum
 	MPU_Attributes_Inner_Policy_Wb_NoWa				=((1<<1)|(1<<0)),
 }MPU_Attributes_Inner_Policy_Type;
 
+
+
+typedef enum
+{
+	MPU_Fault_Status_Null							=0,
+
+	MPU_Fault_Status_Background,
+	MPU_Fault_Status_Background_Read,
+	MPU_Fault_Status_Background_Write,
+
+	MPU_Fault_Status_Permission,
+	MPU_Fault_Status_Permission_Read,
+	MPU_Fault_Status_Permission_Write,
+
+	MPU_Fault_Status_End,
+}MPU_Fault_Status_Type;
 
 #endif
 

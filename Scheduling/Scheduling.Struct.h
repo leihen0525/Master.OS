@@ -14,6 +14,8 @@
 
 typedef struct
 {
+	__Sys_Scheduling_Task_TCB_Type *Last_TCB;
+
 	__Sys_Scheduling_Task_TCB_Type *Current_TCB;
 
 }Scheduling_DATA_Type;

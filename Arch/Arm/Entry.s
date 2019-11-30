@@ -208,7 +208,7 @@ __iar_program_start:
 
 
 
-	BL BSP_Init_Core
+	BL BSP_Core_Init
 
 
 	MRS r0, cpsr                ; Original PSR value
@@ -323,9 +323,9 @@ SCTLR_IE         DEFINE   0x80000000
 
 	ARM
 
-	PUBWEAK BSP_Init_Core
+	PUBWEAK BSP_Core_Init
 	SECTION .text:CODE:NOROOT(2)
-BSP_Init_Core
+BSP_Core_Init
 	bx lr
 
 	PUBWEAK Undefined_Handler

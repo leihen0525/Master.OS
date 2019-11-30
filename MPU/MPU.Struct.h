@@ -14,8 +14,13 @@
 
 #include "Machine/Machine.Struct.h"
 
+
+
 typedef struct
 {
+	Machine_Desc_MPU_Cfg_Type Sys_Cfg;
+	Machine_Desc_MPU_Cfg_Type Usr_Cfg;
+
 	Machine_Desc_MPU_Type *MPU;
 
 }MPU_DATA_Type;

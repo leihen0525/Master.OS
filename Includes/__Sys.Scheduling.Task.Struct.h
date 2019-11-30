@@ -56,6 +56,10 @@ typedef struct
 	uint32_t *SP;
 	uint32_t *SP_Head;
 	uint32_t *SP_End;
+#ifdef __MPU__
+	uint32_t Count;
+	uint32_t Protection_Size;
+#endif
 }Scheduling_Task_TCB_Stack_Type;
 
 typedef struct Scheduling_Task_TCB

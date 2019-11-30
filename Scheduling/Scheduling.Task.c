@@ -78,7 +78,7 @@ int Scheduling_Task_Create(
 	//初始化内核栈
 	uint32_t Stack_Size_Sys_4Byte;
 
-	Stack_Size_Sys_4Byte=(Stack_Size_4Byte>>16)&0xFFFF;
+	Stack_Size_Sys_4Byte=Scheduling_Task_Stack_GET_Sys_Size_4Byte(Stack_Size_4Byte);
 
 	if(Stack_Size_Sys_4Byte==0)
 	{
@@ -89,12 +89,25 @@ int Scheduling_Task_Create(
 		Stack_Size_Sys_4Byte=Stack_Size_Sys_4Byte;
 	}
 
-	Temp_Task_TCB->Stack_System.SP_Head=__Sys_Memory_Malloc(Stack_Size_Sys_4Byte*4+VFP_Nb);
+	//设置栈保护区域大小
+	Temp_Task_TCB->Stack_System.Protection_Size=Stack_Default_Protection_Size;
+
+	uint32_t Sys_Stack_Alignment_Byte=Stack_Default_Protection_Size_Byte(Stack_Default_Protection_Size);
+
+	Stack_Size_Sys_4Byte=Stack_Size_Sys_4Byte+8+Sys_Stack_Alignment_Byte/4;
+
+	Temp_Task_TCB->Stack_System.SP_Head=__Sys_Memory_Malloc_Align(Stack_Size_Sys_4Byte*4+VFP_Nb,Sys_Stack_Alignment_Byte);
 
 	if(Temp_Task_TCB->Stack_System.SP_Head==Null)
 	{
 		Err=Error_Allocation_Memory_Failed;
 		goto Task_Create_Exit_3;
+	}
+
+	if(((uint32_t)Temp_Task_TCB->Stack_System.SP_Head&(Sys_Stack_Alignment_Byte-1))!=0)
+	{
+		Err=Error_Allocation_Memory_Failed;
+		goto Task_Create_Exit_4;
 	}
 
 	Temp_Task_TCB->Stack_System.SP_End=&Temp_Task_TCB->Stack_System.SP_Head[(Stack_Size_Sys_4Byte+VFP_Nb/4)-1];
@@ -103,18 +116,30 @@ int Scheduling_Task_Create(
 
 	Temp_Task_TCB->Stack_System.SP=Temp_Task_TCB->Stack_System.SP_End;
 
+	Temp_Task_TCB->Stack_System.Count=0;
 
 	//初始化用户栈
-	Stack_Size_4Byte=Stack_Size_4Byte&0xFFFF;
+	Stack_Size_4Byte=Scheduling_Task_Stack_Usr_Size_4Byte(Stack_Size_4Byte);
+
+	//设置栈保护区域大小
+	Temp_Task_TCB->Stack_User.Protection_Size=Scheduling_Task_Option_GET_Usr_Stack_Protection_Size(Temp_Task_TCB->Info.Option);
+	if(Temp_Task_TCB->Stack_User.Protection_Size==0)
+	{
+		//没有设置保护大小，则默认大小
+		Temp_Task_TCB->Stack_User.Protection_Size=Stack_Default_Protection_Size;
+	}
+	uint32_t Usr_Stack_Alignment_Byte=Stack_Default_Protection_Size_Byte(Temp_Task_TCB->Stack_User.Protection_Size);
 	if(Stack==Null)
 	{
+		Stack_Size_4Byte=Stack_Size_4Byte+8+Usr_Stack_Alignment_Byte/4;
+
 		if((Temp_Task_TCB->Info.Option&Scheduling_Task_Option_System)!=0)
 		{
-			Temp_Task_TCB->Stack_User.SP_Head=__Sys_Memory_Malloc(Stack_Size_4Byte*4);
+			Temp_Task_TCB->Stack_User.SP_Head=__Sys_Memory_Malloc_Align(Stack_Size_4Byte*4,Usr_Stack_Alignment_Byte);
 		}
 		else
 		{
-			Temp_Task_TCB->Stack_User.SP_Head=__Usr_Memory_Malloc(Stack_Size_4Byte*4);
+			Temp_Task_TCB->Stack_User.SP_Head=__Usr_Memory_Malloc_Align(Stack_Size_4Byte*4,Usr_Stack_Alignment_Byte);
 		}
 
 		if(Temp_Task_TCB->Stack_User.SP_Head==Null)
@@ -123,17 +148,32 @@ int Scheduling_Task_Create(
 			goto Task_Create_Exit_4;
 		}
 
+		if(((uint32_t)Temp_Task_TCB->Stack_User.SP_Head&(Usr_Stack_Alignment_Byte-1))!=0)
+		{
+			Err=Error_Allocation_Memory_Failed;
+			goto Task_Create_Exit_5;
+		}
 	}
 	else
 	{
 		Temp_Task_TCB->Stack_User.SP_Head=Stack;
+
+		if(((uint32_t)Temp_Task_TCB->Stack_User.SP_Head&(Usr_Stack_Alignment_Byte-1))!=0)
+		{
+			Err=Error_Invalid_Parameter;
+			goto Task_Create_Exit_4;
+		}
 	}
+
+
 
 	Temp_Task_TCB->Stack_User.SP_End=&Temp_Task_TCB->Stack_User.SP_Head[(Stack_Size_4Byte)-1];
 
 	memset(Temp_Task_TCB->Stack_User.SP_Head,0xEF,Stack_Size_4Byte*4);
 
 	Temp_Task_TCB->Stack_User.SP=Temp_Task_TCB->Stack_User.SP_End;
+
+	Temp_Task_TCB->Stack_User.Count=0;
 
 	if((Err=Scheduling_Task_Stack_Init(Task_Enter,Args,Task_Exit,&Temp_Task_TCB->Stack_System.SP,&Temp_Task_TCB->Stack_User.SP,Option))!=Error_OK)
 	{
@@ -143,7 +183,7 @@ int Scheduling_Task_Create(
 #else
 	if(Stack==Null)
 	{
-		Temp_Task_TCB->Stack.SP_Head=__Usr_Memory_Malloc(Stack_Size_4Byte*4+VFP_Nb);
+		Temp_Task_TCB->Stack.SP_Head=__Usr_Memory_Malloc_Align(Stack_Size_4Byte*4+VFP_Nb,Stack_Alignment_Byte);
 		if(Temp_Task_TCB->Stack.SP_Head==Null)
 		{
 			Err=Error_Allocation_Memory_Failed;

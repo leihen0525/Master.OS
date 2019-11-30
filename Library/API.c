@@ -11,11 +11,19 @@
 #include "API.h"
 
 //Memory
-uint32_t Memory_Size(void)
+uint32_t Memory_Size_Malloc(void)
 {
-	return (uint32_t)SysCall(SysCall_Table_Memory_Size);
+	return (uint32_t)SysCall(SysCall_Table_Memory_Size_Malloc);
 }
-void *Memory_Malloc(unsigned int Size)
+uint32_t Memory_Size_Free(void)
+{
+	return (uint32_t)SysCall(SysCall_Table_Memory_Size_Free);
+}
+void *Memory_Malloc_Align(uint32_t Size,uint32_t Align)
+{
+	return (void *)SysCall(SysCall_Table_Memory_Malloc_Align,Size,Align);
+}
+void *Memory_Malloc(uint32_t Size)
 {
 	return (void *)SysCall(SysCall_Table_Memory_Malloc,Size);
 }

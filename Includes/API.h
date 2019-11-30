@@ -16,10 +16,13 @@
 #include "Timer.Enum.h"
 #include "Event.Enum.h"
 #include "Event.Define.h"
+#include "MPU.Define.h"
 
 //Memory
-uint32_t Memory_Size(void);
-void *Memory_Malloc(unsigned int Size);
+uint32_t Memory_Size_Malloc(void);
+uint32_t Memory_Size_Free(void);
+void *Memory_Malloc_Align(uint32_t Size,uint32_t Align);
+void *Memory_Malloc(uint32_t Size);
 void Memory_Free(void *ap);
 
 //Device

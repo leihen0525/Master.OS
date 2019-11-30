@@ -30,7 +30,7 @@ define symbol __ICFEDIT_size_svcstack__ = 0x80;
 define symbol __ICFEDIT_size_irqstack__ = 0x80;
 define symbol __ICFEDIT_size_fiqstack__ = 0x80;
 define symbol __ICFEDIT_size_undstack__ = 0x80;
-define symbol __ICFEDIT_size_abtstack__ = 0x80;
+define symbol __ICFEDIT_size_abtstack__ = 0x100;
 define symbol __ICFEDIT_size_sys_heap__ = 0x19000;
 define symbol __ICFEDIT_size_heap__     = 0x19000;
 
@@ -69,7 +69,8 @@ define region BU_RAM_region = mem:[from BU_RAM_start to BU_RAM_end];
 
 define region VRAM_region = mem:[from VRAM_start to VRAM_end];
 
-define block CSTACK    with alignment = 8, size = __ICFEDIT_size_cstack__   { };
+define block CSTACK    with alignment = 32, size = __ICFEDIT_size_cstack__   { };
+
 define block SVC_STACK with alignment = 8, size = __ICFEDIT_size_svcstack__ { };
 define block IRQ_STACK with alignment = 8, size = __ICFEDIT_size_irqstack__ { };
 define block FIQ_STACK with alignment = 8, size = __ICFEDIT_size_fiqstack__ { };

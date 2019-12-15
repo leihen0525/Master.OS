@@ -290,8 +290,10 @@ int Scheduling_Create_Task_Idle(
 
 	return P_Task_TCB->Info.Handle;
 
+#ifdef __MPU__
 Exit2:
 	__Sys_Memory_Free(P_Task_TCB->Stack_System.SP_Head);
+#endif
 
 Exit1:
 	Scheduling_Task_Release_Idle(P_Task_TCB);
@@ -300,7 +302,11 @@ Exit1:
 
 void Scheduling_Switch_To_Idle(void)
 {
+#ifdef __MPU__
 	__Sys_Switch_To_Idle(Scheduling_DATA.Current_TCB->Stack_User.SP_End,Scheduling_DATA.Current_TCB->Stack_User.SP_Head,Task_Idle);
+#else
+	__Sys_Switch_To_Idle(Scheduling_DATA.Current_TCB->Stack.SP_End,Scheduling_DATA.Current_TCB->Stack.SP_Head,Task_Idle);
+#endif
 }
 
 void Scheduling_SysTick(void)

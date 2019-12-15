@@ -108,20 +108,20 @@ int Scheduling_Task_Stack_Init(
 	P_Task_Stack_VFP=(Scheduling_Task_Stack_VFP_Type *)*SP;
 #endif
 
-	P_Task_Stack_VFP->VFP_FPEXC.DATA=0;
+	//P_Task_Stack_VFP->VFP_FPEXC.DATA=0;
 
 	if((Option&Scheduling_Task_Option_FPU_VFP)!=0)
 	{
-		P_Task_Stack_VFP->VFP_FPEXC.EN=1;
+		P_Task_Stack_VFP->VFP_FPEXC=(Scheduling_Task_Stack_VFP_FPEXC_Type){.EN=1};
 		for(int i=0; i<32;i++)
 		{
 			P_Task_Stack_VFP->VFP_S[i]=0;
 		}
-		P_Task_Stack_VFP->VFP_FPSCR=0;
+		P_Task_Stack_VFP->VFP_FPSCR=(Scheduling_Task_Stack_VFP_FPSCR_Type){.DN=1};
 	}
 	else
 	{
-		P_Task_Stack_VFP->VFP_FPEXC.EN=0;
+		P_Task_Stack_VFP->VFP_FPEXC=(Scheduling_Task_Stack_VFP_FPEXC_Type){.EN=0};
 	}
 
 #endif

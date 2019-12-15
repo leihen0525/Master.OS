@@ -27,17 +27,18 @@ void *__Usr_Memory_Malloc_Align(uint32_t Size,uint32_t Align);
 void *__Usr_Memory_Malloc(uint32_t Size);
 
 void __Usr_Memory_Free(void *ap);
-
+//------------------------------------------------
+int __Memory_Test_List(Memory_Node_List_Type *P_List_DATA);
 int __Memory_Init(
 		Memory_DATA_Type *P_Memory_DATA,
-		uint32_t *HEAP_Begin,
-		uint32_t *HEAP_End,
-		uint32_t HEAP_Size);
+		uint8_t *HEAP,
+		uint32_t Size);
 
 uint32_t __Memory_Size_Malloc(Memory_DATA_Type *P_Memory_DATA);
 uint32_t __Memory_Size_Free(Memory_DATA_Type *P_Memory_DATA);
 void *__Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Align);
 void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap);
+//-------------------------------------------------
 
 int __Memory_Calculate_Node_Verify(Memory_Node_Type *P_Node_DATA,uint32_t Size_Byte,Memory_Node_Type *P_Node_NEXT);
 int __Memory_Check_Node_Verify(Memory_Node_Type *P_Node_DATA);

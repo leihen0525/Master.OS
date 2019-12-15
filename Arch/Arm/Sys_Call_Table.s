@@ -16,6 +16,11 @@
 	EXTERN __Usr_Memory_Malloc
 	EXTERN __Usr_Memory_Free
 
+	EXTERN __Memory_Init
+	EXTERN __Memory_Size_Malloc
+	EXTERN __Memory_Size_Free
+	EXTERN __Memory_Malloc
+	EXTERN __Memory_Free
 
 	EXTERN __Sys_Device_Open
 	EXTERN __Sys_Device_Close
@@ -121,6 +126,12 @@ __SysCall_Table
 	DCD __Usr_Memory_Malloc_Align
 	DCD __Usr_Memory_Malloc
 	DCD __Usr_Memory_Free
+
+	DCD __Memory_Init
+	DCD __Memory_Size_Malloc
+	DCD __Memory_Size_Free
+	DCD __Memory_Malloc
+	DCD __Memory_Free
 
 	DCD __Sys_Device_Open
 	DCD __Sys_Device_Close

@@ -32,6 +32,31 @@ void Memory_Free(void *ap)
 	SysCall(SysCall_Table_Memory_Free,ap);
 }
 
+//用户自定义
+int UGC_Memory_Init(
+		Memory_DATA_Type *P_Memory_DATA,
+		uint8_t *HEAP,
+		uint32_t Size)
+{
+	return SysCall(SysCall_Table_UGC_Memory_Init,P_Memory_DATA,HEAP,Size);
+}
+uint32_t UGC_Memory_Size_Malloc(Memory_DATA_Type *P_Memory_DATA)
+{
+	return (uint32_t)SysCall(SysCall_Table_UGC_Memory_Size_Malloc,P_Memory_DATA);
+}
+uint32_t UGC_Memory_Size_Free(Memory_DATA_Type *P_Memory_DATA)
+{
+	return (uint32_t)SysCall(SysCall_Table_UGC_Memory_Size_Free,P_Memory_DATA);
+}
+void *UGC_Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Align)
+{
+	return (void *)SysCall(SysCall_Table_UGC_Memory_Malloc,P_Memory_DATA,Size,Align);
+}
+void UGC_Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
+{
+	SysCall(SysCall_Table_UGC_Memory_Free,P_Memory_DATA,ap);
+}
+
 //Device
 int Device_Open(const char *Device_Name,int Mode)
 {

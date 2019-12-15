@@ -17,6 +17,7 @@
 #include "Event.Enum.h"
 #include "Event.Define.h"
 #include "MPU.Define.h"
+#include "Memory.Struct.h"
 
 //Memory
 uint32_t Memory_Size_Malloc(void);
@@ -24,6 +25,17 @@ uint32_t Memory_Size_Free(void);
 void *Memory_Malloc_Align(uint32_t Size,uint32_t Align);
 void *Memory_Malloc(uint32_t Size);
 void Memory_Free(void *ap);
+
+//用户自定义
+int UGC_Memory_Init(
+		Memory_DATA_Type *P_Memory_DATA,
+		uint8_t *HEAP,
+		uint32_t Size);
+
+uint32_t UGC_Memory_Size_Malloc(Memory_DATA_Type *P_Memory_DATA);
+uint32_t UGC_Memory_Size_Free(Memory_DATA_Type *P_Memory_DATA);
+void *UGC_Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Align);
+void UGC_Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap);
 
 //Device
 int Device_Open(const char *Device_Name,int Mode);

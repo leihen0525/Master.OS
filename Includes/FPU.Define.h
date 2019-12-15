@@ -10,6 +10,9 @@
 
 #ifdef __ARMVFP__
 
+#if ((__ARM_ARCH == 6) || (__ARM_ARCH == 7)) && (__ARM_ARCH_PROFILE == 'M')
+
+#elif (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'R')
 #define __FPU_IRQ_Temp_Enable_Begin__														\
 											int VFP_FPEXC_old=0;							\
 											int VFP_FPEXC_New=0x40000000;					\
@@ -22,7 +25,7 @@
 #define __FPU_IRQ_Temp_Enable_End__															\
 											asm("VMSR FPEXC, %0"							\
 													:"+r"(VFP_FPEXC_old));
-
+#endif
 
 #endif
 

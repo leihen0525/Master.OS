@@ -242,13 +242,7 @@ __iar_program_start:
 	//FUNCALL __iar_program_start, __iar_init_core
 	BL      __iar_init_core
 	//FUNCALL __iar_program_start, __iar_init_vfp
-	BL      __iar_init_vfp
-
-	//FUNCALL __iar_program_start, __cmain
-	//BL      __cmain
-	bl      __iar_data_init3
-
-
+	//BL      __iar_init_vfp
 #ifdef __ARMVFP__
 C1_ACCESS_FP_EN  DEFINE   0x00F00000                            ; C1, Coprocessor Access Register cp10 and cp11 enabled
 
@@ -283,6 +277,14 @@ FPEXC_EN         DEFINE   0x40000000                            ; VFP enable bit
 	FMDRR   D15, R1, R1
 	*/
 #endif
+
+
+	//FUNCALL __iar_program_start, __cmain
+	//BL      __cmain
+	bl      __iar_data_init3
+
+
+
 
 
 SCTLR_M          DEFINE   0x00000001

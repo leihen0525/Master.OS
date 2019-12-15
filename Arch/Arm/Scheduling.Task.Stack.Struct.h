@@ -41,6 +41,10 @@ typedef struct
 
 }Scheduling_Task_Stack_CPU_Type;
 
+#ifdef __ARMVFP__
+
+#endif
+
 #elif (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'R')
 
 typedef union
@@ -84,15 +88,6 @@ typedef struct
 
 }Scheduling_Task_Stack_CPU_Type;
 
-#elif (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'A')
-
-
-#else
-
-#error "123"
-
-#endif
-
 
 
 #ifdef __ARMVFP__
@@ -109,6 +104,42 @@ typedef union
 	};
 }Scheduling_Task_Stack_VFP_FPEXC_Type;
 
+typedef union
+{
+	uint32_t DATA;
+	struct
+	{
+		uint32_t IOC		:1;
+		uint32_t DZC		:1;
+		uint32_t OFC		:1;
+		uint32_t UFC		:1;
+		uint32_t IXC		:1;
+		uint32_t			:2;
+		uint32_t IDC		:1;
+
+		uint32_t IOE		:1;
+		uint32_t DZE		:1;
+		uint32_t OFE		:1;
+		uint32_t UFE		:1;
+		uint32_t IXE		:1;
+		uint32_t			:2;
+		uint32_t IDE		:1;
+
+		uint32_t LEN		:3;
+		uint32_t 			:1;
+		uint32_t STRIDE		:2;
+		uint32_t RMODE		:2;
+
+		uint32_t FZ			:1;
+		uint32_t DN			:1;
+		uint32_t AHP		:1;
+		uint32_t QC			:1;
+		uint32_t V			:1;
+		uint32_t C			:1;
+		uint32_t Z			:1;
+		uint32_t N			:1;
+	};
+}Scheduling_Task_Stack_VFP_FPSCR_Type;
 
 typedef struct
 {
@@ -116,8 +147,20 @@ typedef struct
 
 	uint32_t VFP_S[32];
 
-	uint32_t VFP_FPSCR;
+	Scheduling_Task_Stack_VFP_FPSCR_Type VFP_FPSCR;
 }Scheduling_Task_Stack_VFP_Type;
 #endif
+
+#elif (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'A')
+
+
+#else
+
+#error "123"
+
+#endif
+
+
+
 
 #endif /* SCHEDULING_TASK_STACK_STRUCT_H_ */

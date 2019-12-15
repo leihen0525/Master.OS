@@ -8,7 +8,7 @@
 #ifndef SCHEDULING_TASK_DEFINE_H_
 #define SCHEDULING_TASK_DEFINE_H_
 
-
+#define Scheduling_Task_Option_Null									(0<<0)
 
 #ifdef __MPU__
 #define Scheduling_Task_Stack_Usr_Size_4Byte(x)						(x&0xFFFF)

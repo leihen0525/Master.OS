@@ -18,6 +18,11 @@ typedef enum
 	SysCall_Table_Memory_Malloc,
 	SysCall_Table_Memory_Free,
 
+	SysCall_Table_UGC_Memory_Init,
+	SysCall_Table_UGC_Memory_Size_Malloc,
+	SysCall_Table_UGC_Memory_Size_Free,
+	SysCall_Table_UGC_Memory_Malloc,
+	SysCall_Table_UGC_Memory_Free,
 
 	SysCall_Table_Index_Device_Open,
 	SysCall_Table_Index_Device_Close,

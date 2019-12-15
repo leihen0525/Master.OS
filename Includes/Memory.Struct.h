@@ -37,8 +37,8 @@ typedef struct
 {
 	struct
 	{
-		uint32_t *Begin;
-		uint32_t *End;
+		uint8_t *Begin;
+		uint8_t *End;
 		uint32_t Size_Byte;
 	}HEAP;
 
@@ -55,7 +55,10 @@ typedef struct
 			uint8_t Free_Head_Err				:1;
 			uint8_t Null_Err					:1;
 			uint8_t Unknown_Err					:1;
+
 			uint8_t Free_Err					:1;
+			uint8_t TEST_Malloc_Size_Err		:1;
+			uint8_t TEST_Free_Size_Err			:1;
 		};
 	}Flag;
 

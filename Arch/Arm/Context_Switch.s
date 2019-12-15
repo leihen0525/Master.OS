@@ -8,9 +8,9 @@
 
 	MODULE Context_Switch
 
-#if ((__ARM_ARCH == 6) || (__ARM_ARCH == 7)) && (__ARM_ARCH_PROFILE == 'M')
-
 	SECTION .text:CODE:REORDER:NOROOT(2)
+
+#if ((__ARM_ARCH == 6) || (__ARM_ARCH == 7)) && (__ARM_ARCH_PROFILE == 'M')
 
 
 	THUMB
@@ -77,8 +77,6 @@ __Sys_Switch_To_Step2
 	bx lr
 
 #elif (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'R')
-
-	SECTION .text:CODE:REORDER:NOROOT(2)
 
 
 	ARM

@@ -30,18 +30,18 @@
 
 SysCall
 
-	push {r4, r5, r6, r7,r12}
+	push {r4, r5, r6, r7,r8,r12}
 
 	mov r12, r0
 	mov r0, r1
 	mov r1, r2
 	mov r2, r3
-	add r7, sp, #(4 * 5)
-	ldmia r7!, {r3, r4, r5, r6}
-	mov r7, r12
+	add r8, sp, #(4 * 6)
+	ldmia r8!, {r3, r4, r5, r6,r7}
+	mov r8, r12
 	swi 0x0
 
-	pop {r4, r5, r6, r7,r12}
+	pop {r4, r5, r6, r7,r8,r12}
 	//ldr	r1, =0xfffff000
 	//cmp	r0, r1
 	//bcs	1f

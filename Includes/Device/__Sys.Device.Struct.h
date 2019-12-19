@@ -14,11 +14,13 @@ typedef struct
 	const char *Device_Name;
 	const char *Info;
 
-	int (*Open)   (int Mode);
-	int (*Close)  (void);
-	int (*Read)   (long OffSet_Pos, void *Buffer, unsigned long Size,int TimeOut);
-	int (*Write)  (long OffSet_Pos, const void *Buffer, unsigned long Size,int TimeOut);
-	int (*Control)(int Cmd, unsigned long Args);
+	void *Device_Args;
+
+	int (*Open)   (void *Device_Args,int Mode);
+	int (*Close)  (void *Device_Args);
+	int (*Read)   (void *Device_Args,long OffSet_Pos, void *Buffer, unsigned long Size,int TimeOut);
+	int (*Write)  (void *Device_Args,long OffSet_Pos, const void *Buffer, unsigned long Size,int TimeOut);
+	int (*Control)(void *Device_Args,int Cmd, unsigned long Args);
 
 }__Sys_Device_OPS_Type;
 

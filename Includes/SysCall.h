@@ -10,7 +10,7 @@
 
 int SysCall(
 		int number,
-		...//Max:7
+		...//Max:8
 		);
 
 #endif /* SYSCALL_H_ */

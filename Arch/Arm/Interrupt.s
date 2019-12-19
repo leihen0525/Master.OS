@@ -33,18 +33,19 @@ __SVC_Entry
 	Exception_Entry
 
 
-	sub sp,sp,#0x0c
+	sub sp,sp,#0x10
 
+	str r7,[sp,#0xC]
 	str r6,[sp,#0x8]
 	str r5,[sp,#0x4]
 	str r4,[sp]
 
 	ldr r6,=__SysCall_Table
-	lsls r7,r7,#2
-	ldr r7,[r6,r7]
-	blx r7
+	lsls r8,r8,#2
+	ldr r8,[r6,r8]
+	blx r8
 
-	add sp,sp,#0x0c
+	add sp,sp,#0x10
 
 	MRS R7, PSP
 
@@ -168,18 +169,19 @@ __SVC_Entry
 	STMDB sp!, {lr}
 //
 
-	sub sp,sp,#0x0c
+	sub sp,sp,#0x10
 
+	str r7,[sp,#0xC]
 	str r6,[sp,#0x8]
 	str r5,[sp,#0x4]
 	str r4,[sp]
 
 	ldr r6,=__SysCall_Table
-	lsls r7,r7,#2
-	ldr r7,[r6,r7]
-	blx r7
+	lsls r8,r8,#2
+	ldr r8,[r6,r8]
+	blx r8
 
-	add sp,sp,#0x0c
+	add sp,sp,#0x10
 
 
 //

@@ -160,7 +160,7 @@ int __Sys_Device_Open(const char *Device_Name,int Mode)
 
 	if(Temp_Node->P_OPS->Open!=Null)
 	{
-		int Re=Temp_Node->P_OPS->Open(Mode);
+		int Re=Temp_Node->P_OPS->Open(Temp_Node->P_OPS->Device_Args,Mode);
 		if(Re!=Error_OK)
 		{
 			return Re;
@@ -193,7 +193,7 @@ int __Sys_Device_Close(int Handle)
 	{
 		return Error_Undefined;
 	}
-	return Temp_Node->P_OPS->Close();
+	return Temp_Node->P_OPS->Close(Temp_Node->P_OPS->Device_Args);
 
 }
 int __Sys_Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,int TimeOut)
@@ -220,7 +220,7 @@ int __Sys_Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Si
 	{
 		return Error_Undefined;
 	}
-	return Temp_Node->P_OPS->Read(OffSet_Pos,Buffer,Size,TimeOut);
+	return Temp_Node->P_OPS->Read(Temp_Node->P_OPS->Device_Args,OffSet_Pos,Buffer,Size,TimeOut);
 }
 int __Sys_Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,int TimeOut)
 {
@@ -246,7 +246,7 @@ int __Sys_Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned 
 	{
 		return Error_Undefined;
 	}
-	return Temp_Node->P_OPS->Write(OffSet_Pos,Buffer,Size,TimeOut);
+	return Temp_Node->P_OPS->Write(Temp_Node->P_OPS->Device_Args,OffSet_Pos,Buffer,Size,TimeOut);
 }
 int __Sys_Device_Control(int Handle,int Cmd, unsigned long Args)
 {
@@ -272,7 +272,7 @@ int __Sys_Device_Control(int Handle,int Cmd, unsigned long Args)
 	{
 		return Error_Undefined;
 	}
-	return Temp_Node->P_OPS->Control(Cmd, Args);
+	return Temp_Node->P_OPS->Control(Temp_Node->P_OPS->Device_Args,Cmd, Args);
 }
 
 int __Sys_Device_Info(int Handle,const char **P_Info)

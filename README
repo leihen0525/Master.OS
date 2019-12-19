@@ -1,0 +1,4 @@
+Master.OS 使用IAR编译并且这个工程是由eclipse建立
+关于IAR Eclipse 可以访问后面网站进行环境搭建 http://eclipse-update.iar.com/
+另外这个需要BSP支持和一个IAR外部工程才能运行
+目前BSP有STM32F407和其他芯片，如果有兴趣可以联系我索取，我的邮箱Xiaosong.HE@hotmail.com

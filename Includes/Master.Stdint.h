@@ -1,7 +1,7 @@
 /*
  * Master.Stdint.h
  *
- *  Created on: 2019Äê4ÔÂ8ÈÕ
+ *  Created on: 2019å¹´4æœˆ8æ—¥
  *      Author: Master.HE
  */
 
@@ -19,10 +19,10 @@ typedef enum
 	bool_End,
 }bool;
 
-typedef enum	//Ê¹ÄÜ×´Ì¬
+typedef enum	//ä½¿èƒ½çŠ¶æ€
 {
-	Disable=0,		//¹Ø±Õ
-	Enable,			//¿ªÆô
+	Disable=0,		//å…³é—­
+	Enable,			//å¼€å¯
 
 	Enabled_End
 }Enabled_Type;

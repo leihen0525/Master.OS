@@ -1,7 +1,7 @@
 /*
  * Timer.Enum.h
  *
- *  Created on: 2019Äê5ÔÂ5ÈÕ
+ *  Created on: 2019å¹´5æœˆ5æ—¥
  *      Author: Master.HE
  */
 
@@ -10,8 +10,8 @@
 
 typedef enum
 {
-	Timer_Operation_N_Time_Cycle		=0,		//´ÎÊıÖÜÆÚ
-	Timer_Operation_Loop_Cycle,					//Ñ­»·ÖÜÆÚ
+	Timer_Operation_N_Time_Cycle		=0,		//æ¬¡æ•°å‘¨æœŸ
+	Timer_Operation_Loop_Cycle,					//å¾ªç¯å‘¨æœŸ
 
 	Timer_Operation_End,
 }Timer_Operation_Type;

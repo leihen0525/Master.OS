@@ -1,12 +1,16 @@
 /*
  * API.h
  *
- *  Created on: 2019Äê4ÔÂ12ÈÕ
+ *  Created on: 2019å¹´4æœˆ12æ—¥
  *      Author: Master.HE
  */
 
 #ifndef API_H_
 #define API_H_
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 #include "Error.h"
 #include "Master.Stdint.h"
@@ -26,7 +30,7 @@ void *Memory_Malloc_Align(uint32_t Size,uint32_t Align);
 void *Memory_Malloc(uint32_t Size);
 void Memory_Free(void *ap);
 
-//ÓÃ»§×Ô¶¨Òå
+//ç”¨æˆ·è‡ªå®šä¹‰
 int UGC_Memory_Init(
 		Memory_DATA_Type *P_Memory_DATA,
 		uint8_t *HEAP,
@@ -284,13 +288,18 @@ int Timer_Register(
 int Timer_Delete(int Handle);
 int Timer_Start(
 		int Handle,
-		int32_t N_Time_Cycle,	//´ÎÊı
-		int32_t Cycle_Time_MS,	//ÖÜÆÚ
+		int32_t N_Time_Cycle,	//æ¬¡æ•°
+		int32_t Cycle_Time_MS,	//å‘¨æœŸ
 		Timer_Operation_Type Timer_Operation);
 int Timer_Stop(int Handle);
-int Timer_Suspend(int Handle);//ÔİÍ£
-int Timer_Resume(int Handle);//»Ö¸´
-int Timer_Reset(int Handle);//¸´Î»
+int Timer_Suspend(int Handle);//æš‚åœ
+int Timer_Resume(int Handle);//æ¢å¤
+int Timer_Reset(int Handle);//å¤ä½
 int Timer_Enabled(uint8_t Enabled);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* API_H_ */

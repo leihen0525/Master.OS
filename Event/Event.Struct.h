@@ -1,7 +1,7 @@
 /*
  * Event.Struct.h
  *
- *  Created on: 2019Äê4ÔÂ29ÈÕ
+ *  Created on: 2019å¹´4æœˆ29æ—¥
  *      Author: Master.HE
  */
 
@@ -40,7 +40,7 @@ typedef struct Event_NODE
 
 	int8_t *Name;
 
-	//µÈ´ý¶ÓÁÐ
+	//ç­‰å¾…é˜Ÿåˆ—
 	Task_Queue_Type Pend_Task_Queue;
 
 	struct Event_NODE *NEXT;

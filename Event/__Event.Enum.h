@@ -1,7 +1,7 @@
 /*
  * __Event.Enum.h
  *
- *  Created on: 2019Äê5ÔÂ6ÈÕ
+ *  Created on: 2019å¹´5æœˆ6æ—¥
  *      Author: Master.HE
  */
 
@@ -13,7 +13,7 @@ typedef enum
 
 	Event_Pend_Event_Flag=0,
 
-	Event_Pend_Event_Flag_Group,				//×èÈû
+	Event_Pend_Event_Flag_Group,				//é˜»å¡
 
 	Event_Pend_FIFO_Queue,
 

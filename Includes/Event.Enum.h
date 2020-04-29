@@ -1,7 +1,7 @@
 /*
  * Event.Enum.h
  *
- *  Created on: 2019Äê4ÔÂ29ÈÕ
+ *  Created on: 2019å¹´4æœˆ29æ—¥
  *      Author: Master.HE
  */
 
@@ -20,11 +20,11 @@ typedef enum
 
 typedef enum
 {
-	Event_Time_Out_Query				=-2,		//²éÑ¯
+	Event_Time_Out_Query				=-2,		//æŸ¥è¯¢
 
-	Event_Time_Out_Infinite				=-1,		//ÎŞÏŞµÈ´ı
+	Event_Time_Out_Infinite				=-1,		//æ— é™ç­‰å¾…
 
-	Event_Time_Out_Occupy_Return_Back	=0,			//³¢ÊÔÕ¼ÓÃ²¢Á¢¼´·µ»Ø
+	Event_Time_Out_Occupy_Return_Back	=0,			//å°è¯•å ç”¨å¹¶ç«‹å³è¿”å›
 
 }Event_Time_Out_Type;
 
@@ -32,17 +32,17 @@ typedef enum
 
 typedef enum
 {
-	Event_Flag_Group_Clear_Any_Read_Retain		=0,					//ÈÎºÎ¶ÁÈ¡¶¼±£³Ö
-	Event_Flag_Group_Clear_Any_Read_Clear,							//ÈÎºÎ¶ÁÈ¡ºó¶¼Çå³ı
+	Event_Flag_Group_Clear_Any_Read_Retain		=0,					//ä»»ä½•è¯»å–éƒ½ä¿æŒ
+	Event_Flag_Group_Clear_Any_Read_Clear,							//ä»»ä½•è¯»å–åéƒ½æ¸…é™¤
 
 
-	//Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_NoOK_Retain,	//½á¹ûOK±£Áô NoOK±£Áô
+	//Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_NoOK_Retain,	//ç»“æœOKä¿ç•™ NoOKä¿ç•™
 
-	Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_Dissatisfy_Clear,//½á¹ûOK±£Áô DissatisfyÇå³ı
+	Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_Dissatisfy_Clear,//ç»“æœOKä¿ç•™ Dissatisfyæ¸…é™¤
 
-	Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_Dissatisfy_Retain,//½á¹ûOKÇå³ı Dissatisfy±£Áô
+	Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_Dissatisfy_Retain,//ç»“æœOKæ¸…é™¤ Dissatisfyä¿ç•™
 
-	//Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_NoOK_Clear,		//½á¹ûOKÇå³ı NoOKÇå³ı
+	//Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_NoOK_Clear,		//ç»“æœOKæ¸…é™¤ NoOKæ¸…é™¤
 
 	Event_Flag_Group_Clear_End,
 }Event_Flag_Group_Clear_Type;

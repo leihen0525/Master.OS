@@ -1,7 +1,7 @@
 /*
  * Task.c
  *
- *  Created on: 2019Äê9ÔÂ30ÈÕ
+ *  Created on: 2019å¹´9æœˆ30æ—¥
  *      Author: Master.HE
  */
 
@@ -19,7 +19,7 @@
 __task void Task_Idle(void *Args)
 {
 
-	//´ò¿ª¶¨Ê±Æ÷
+	//æ‰“å¼€å®šæ—¶å™¨
 	if(Timer_Enable()!=Error_OK)
 	{
 		while(1);

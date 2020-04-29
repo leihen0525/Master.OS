@@ -1,16 +1,24 @@
 /*
  * SysCall.h
  *
- *  Created on: 2019Äê4ÔÂ8ÈÕ
+ *  Created on: 2019å¹´4æœˆ8æ—¥
  *      Author: Master.HE
  */
 
 #ifndef SYSCALL_H_
 #define SYSCALL_H_
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 int SysCall(
 		int number,
 		...//Max:8
 		);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SYSCALL_H_ */

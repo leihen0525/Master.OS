@@ -1,7 +1,7 @@
 /*
  * Context_Switch.s
  *
- *  Created on: 2019��4��9��
+ *  Created on: 2019年4月9日
  *      Author: Master.HE
  */
 #include "Interrupt_Header.inc"
@@ -62,9 +62,9 @@ __Sys_Switch_To
 __Sys_Switch_To_Step2
 
 
-	LDR R12, [R1]						// ��next task ��spָ���͵�R12��.
+	LDR R12, [R1]						// 把next task 的sp指针送到R12中.
 
-	MSR MSP, R12							//���µ�SP���µ�PSP��
+	MSR MSP, R12							//将新的SP更新到PSP中
 
 
 	POP {R4-R11}
@@ -144,7 +144,7 @@ Clear_Idle_Stack_Loop:
 	PUBLIC __Sys_Switch_To
 __Sys_Switch_To
 
-	//��鵱ǰ���� ��������򱣴浱ǰ�����ջ��TCB��
+	//检查当前任务 如果存在则保存当前任务的栈到TCB中
 	CMP R0,#0x0
 	BEQ __Sys_Switch_To_Step2
 
@@ -186,8 +186,8 @@ __no_vfp_frame1:
 
 __Sys_Switch_To_Step2
 
-	//����һ�������ջ����װ�ؽ���
-	LDR r12, [R1]						// ��next task ��spָ���͵�R12��.
+	//将下一个任务的栈进行装载进来
+	LDR r12, [R1]						// 把next task 的sp指针送到R12中.
 
 
 #ifdef __ARMVFP__
@@ -208,7 +208,7 @@ __no_vfp_frame2:
 
 	mov r5,r4
 
-	//�����һ�����������ģʽ ���Ϊuser����system����Ϊ�ǵ�һ��װ���������
+	//检查下一个任务的运行模式 如果为user或者system则认为是第一次装载这个任务
 	and r4 ,r4, #MODE_MSK
 
 	cmp r4,#USR_MODE
@@ -228,7 +228,7 @@ __no_vfp_frame2:
 #endif
 
 
-	//���ǵ�һ��װ���������
+	//不是第一次装载这个任务
 	MSR     cpsr_cxsf, r5
 
 	LDMIA   r12!, {r5}
@@ -248,7 +248,7 @@ __no_vfp_frame2:
 
 
 __Sys_Switch_To_New
-	//�����µ�����װ��
+	//这是新的任务被装载
 
 #ifdef __MPU__
 	PUSH {r3,r5}
@@ -257,9 +257,9 @@ __Sys_Switch_To_New
 	POP {r3,r5}
 #endif
 
-	mov sp,#0//����ں˶�ջָ��
+	mov sp,#0//清除内核堆栈指针
 
-	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//�л���SVCģʽ
+	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//切换到SVC模式
 
 	MSR spsr_cxsf, r5
 
@@ -269,7 +269,7 @@ __Sys_Switch_To_New
 
 	LDMIA R12!, {lr}
 
-	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//�л���sysģʽ
+	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//切换到sys模式
 
 	mov sp,r12
 
@@ -278,7 +278,7 @@ __Sys_Switch_To_New
 	ldmia sp!,{r0-r12,lr}
 
 
-	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//�л���SVCģʽ
+	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//切换到SVC模式
 
 
 	MOVS PC,LR

@@ -1,7 +1,7 @@
 /*
  * __Sys.Scheduling.Task.Struct.h
  *
- *  Created on: 2019Äê4ÔÂ23ÈÕ
+ *  Created on: 2019å¹´4æœˆ23æ—¥
  *      Author: Master.HE
  */
 
@@ -99,10 +99,10 @@ typedef struct Scheduling_Task_TCB
 		}List;
 	}Event;
 
-	struct//ÈÎÎñÓÅÏÈ¼¶
+	struct//ä»»åŠ¡ä¼˜å…ˆçº§
 	{
-		uint8_t Current;//µ±Ç°
-		uint8_t Default;//Ä¬ÈÏ
+		uint8_t Current;//å½“å‰
+		uint8_t Default;//é»˜è®¤
 	}Priority;
 
 	struct

@@ -1,7 +1,7 @@
 /*
  * FIFO.Queue.Struct.h
  *
- *  Created on: 2019Äê5ÔÂ5ÈÕ
+ *  Created on: 2019å¹´5æœˆ5æ—¥
  *      Author: Master.HE
  */
 
@@ -27,7 +27,7 @@ typedef struct
 
 	__Sys_Scheduling_Task_TCB_Type *Possess_TCB;
 
-	//µÈ´ý¶ÓÁÐ
+	//ç­‰å¾…é˜Ÿåˆ—
 	//Task_Queue_Type Pend_Task_Queue;
 
 	__Sys_Event_FIFO_OverFlow_Function OverFlow_Fun;

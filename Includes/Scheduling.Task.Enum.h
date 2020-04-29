@@ -1,7 +1,7 @@
 /*
  * Scheduling.Task.Enum.h
  *
- *  Created on: 2019Äê4ÔÂ23ÈÕ
+ *  Created on: 2019å¹´4æœˆ23æ—¥
  *      Author: Master.HE
  */
 
@@ -10,13 +10,13 @@
 
 typedef enum
 {
-	Task_State_Runing							=0,	//ÔËĞĞ
+	Task_State_Runing							=0,	//è¿è¡Œ
 
-	Task_State_Ready,								//×¼±¸
+	Task_State_Ready,								//å‡†å¤‡
 
 	Task_State_Pend_Event_Flag,
 
-	Task_State_Pend_Event_Flag_Group,				//×èÈû
+	Task_State_Pend_Event_Flag_Group,				//é˜»å¡
 
 	Task_State_Pend_FIFO_Queue,
 
@@ -30,11 +30,11 @@ typedef enum
 
 	Task_State_Pend_Semaphore_Group,
 
-	Task_State_Suspended,							//¹ÒÆğ
+	Task_State_Suspended,							//æŒ‚èµ·
 
-	Task_State_Event_Group,							//ÊÂ¼ş×é
+	Task_State_Event_Group,							//äº‹ä»¶ç»„
 
-	//Task_State_Delete,								//É¾³ı
+	//Task_State_Delete,								//åˆ é™¤
 
 	Task_State_End,
 

@@ -1,7 +1,7 @@
 /*
  * Error.h
  *
- *  Created on: 2019Äê4ÔÂ15ÈÕ
+ *  Created on: 2019å¹´4æœˆ15æ—¥
  *      Author: Master.HE
  */
 
@@ -10,24 +10,27 @@
 
 typedef enum
 {
-	Error_Exist							=-14,					//ÒÑ¾­´æÔÚ
-	Error_OverFlow						=-13,					//Òç³ö
-	Error_Empty							=-12,					//¿Õ
+	Error_No_Find						=-18,					//æœªæ‰¾åˆ°
+	Error_No_Start						=-17,					//æ²¡æœ‰å¼€å§‹
+	Error_No_Space						=-16,					//
+	Error_No_Link						=-15,					//æ²¡æœ‰è¿æ¥
+	Error_Exist							=-14,					//å·²ç»å­˜åœ¨
+	Error_OverFlow						=-13,					//æº¢å‡º
+	Error_Empty							=-12,					//ç©º
 
-	Error_Busy							=-11,					//Ã¦Âµ
-	Error_No_Open						=-10,					//Î´´ò¿ª
-	Error_Illegal						=-9,					//²»ºÏ·¨µÄ
-	Error_Dissatisfy					=-8,					//ÎŞ·¨µÃµ½Âú×ã
-	Error_Time_Out						=-7,					//³¬Ê±
-	Error_Operation_Failed				=-6,					//²Ù×÷Ê§°Ü
-	Error_Unknown						=-5,					//Î´Öª´íÎó
-	Error_Allocation_Memory_Failed		=-4,					//ÄÚ´æ·ÖÅäÊ§°Ü
-	Error_Invalid_Parameter				=-3,					//ÎŞĞ§²ÎÊı
-	Error_Invalid_Handle				=-2,					//ÎŞĞ§¾ä±ú
-	Error_Undefined						=-1,					//Î´¶¨Òå
+	Error_Busy							=-11,					//å¿™ç¢Œ
+	Error_No_Open						=-10,					//æœªæ‰“å¼€
+	Error_Illegal						=-9,					//ä¸åˆæ³•çš„
+	Error_Dissatisfy					=-8,					//æ— æ³•å¾—åˆ°æ»¡è¶³
+	Error_Time_Out						=-7,					//è¶…æ—¶
+	Error_Operation_Failed				=-6,					//æ“ä½œå¤±è´¥
+	Error_Unknown						=-5,					//æœªçŸ¥é”™è¯¯
+	Error_Allocation_Memory_Failed		=-4,					//å†…å­˜åˆ†é…å¤±è´¥
+	Error_Invalid_Parameter				=-3,					//æ— æ•ˆå‚æ•°
+	Error_Invalid_Handle				=-2,					//æ— æ•ˆå¥æŸ„
+	Error_Undefined						=-1,					//æœªå®šä¹‰
 
 	Error_OK							=0,						//OK
-
 
 
 }Error_Type;

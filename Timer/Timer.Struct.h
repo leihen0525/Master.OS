@@ -1,7 +1,7 @@
 /*
  * Timer.Struct.h
  *
- *  Created on: 2019Äê4ÔÂ29ÈÕ
+ *  Created on: 2019å¹´4æœˆ29æ—¥
  *      Author: Master.HE
  */
 
@@ -24,14 +24,14 @@ typedef struct Timer_Node
 	int Handle;
 
 	//Init
-	int32_t N_Time_Cycle;				//´ÎÊý
-	int32_t Cycle_Time_MS;				//ÖÜÆÚ
+	int32_t N_Time_Cycle;				//æ¬¡æ•°
+	int32_t Cycle_Time_MS;				//å‘¨æœŸ
 
 	//Temp
-	int32_t Suspended_Time_MS;			//±»¹ÒÆðÊ±Ê±¼ä
+	int32_t Suspended_Time_MS;			//è¢«æŒ‚èµ·æ—¶æ—¶é—´
 	int32_t Now_Countdown_N_Time_Cycle;
 
-	int32_t TimeOut_MS;//µ¹¼ÆÊ±Ê±¼ä
+	int32_t TimeOut_MS;//å€’è®¡æ—¶æ—¶é—´
 
 	Timer_Function_Type Timer_Function;
 
@@ -55,7 +55,7 @@ typedef struct
 	int FIFO_Queue;
 
 
-	//¶¨Ê±Æ÷¶ÓÁÐ
+	//å®šæ—¶å™¨é˜Ÿåˆ—
 	Timer_Queue_Type Timer_Queue;
 
 

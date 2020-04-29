@@ -1,7 +1,7 @@
 /*
  * Queue.c
  *
- *  Created on: 2019Äê4ÔÂ23ÈÕ
+ *  Created on: 2019å¹´4æœˆ23æ—¥
  *      Author: Master.HE
  */
 #include "Define.h"
@@ -12,7 +12,7 @@
 
 Queue_DATA_Type Queue_DATA;
 
-int Queue_Init(void)//³õÊ¼»¯¶ÓÁĞ
+int Queue_Init(void)//åˆå§‹åŒ–é˜Ÿåˆ—
 {
 
 	Queue_DATA.TCB_Queue.Begin=Null;
@@ -93,7 +93,7 @@ int Queue_TCB_Delete_TCB_Queue(
 
 		}
 
-		//µ÷ÕûÁ´±í
+		//è°ƒæ•´é“¾è¡¨
 		if(Temp_TCB_LAST==Null)
 		{
 			Queue_DATA.TCB_Queue.Begin=Temp_TCB->Queue.TCB_NEXT;
@@ -173,11 +173,11 @@ Loop_End:
 	return Error_Invalid_Handle;
 }
 
-//Ìí¼Óµ½×¼±¸ÔËĞĞ¶ÓÁĞµÄ ×¨ÓÃº¯Êı
-//±ØÒªËµÃ÷Ò»ÏÂ ÊµÏÖ¹ı³Ì ½«ÈÎÎñ°´ÕÕ´Ó´óµ½Ğ¡µÄÓÅÏÈ¼¶ÅÅÁĞ·½Ê½·ÅÈë×¼±¸ÔËĞĞ¶ÓÁĞ ÓÅÏÈ¼¶ÏàÍ¬µÄ¶ÓÁĞ °´ÕÕFIFO·½Ê½°Ú·Å
-int Queue_TCB_Add_Ready_Queue(__Sys_Scheduling_Task_TCB_Type *Add_TCB)//Õâ¸öµØ·½ÓĞ¸ö¿ª¹Ø ´æ·ÅÍê³ÉºóÊÇ·ñÁ¢¼´½øĞĞµ÷¶È
+//æ·»åŠ åˆ°å‡†å¤‡è¿è¡Œé˜Ÿåˆ—çš„ ä¸“ç”¨å‡½æ•°
+//å¿…è¦è¯´æ˜ä¸€ä¸‹ å®ç°è¿‡ç¨‹ å°†ä»»åŠ¡æŒ‰ç…§ä»å¤§åˆ°å°çš„ä¼˜å…ˆçº§æ’åˆ—æ–¹å¼æ”¾å…¥å‡†å¤‡è¿è¡Œé˜Ÿåˆ— ä¼˜å…ˆçº§ç›¸åŒçš„é˜Ÿåˆ— æŒ‰ç…§FIFOæ–¹å¼æ‘†æ”¾
+int Queue_TCB_Add_Ready_Queue(__Sys_Scheduling_Task_TCB_Type *Add_TCB)//è¿™ä¸ªåœ°æ–¹æœ‰ä¸ªå¼€å…³ å­˜æ”¾å®Œæˆåæ˜¯å¦ç«‹å³è¿›è¡Œè°ƒåº¦
 {
-	__Sys_Scheduling_Task_TCB_Type *Temp_TCB,*LSAT_TCB,*NEXT_TCB;
+	__Sys_Scheduling_Task_TCB_Type *Temp_TCB;//,*LSAT_TCB,*NEXT_TCB;
 
 	if(Add_TCB==Null)
 	{
@@ -188,7 +188,7 @@ int Queue_TCB_Add_Ready_Queue(__Sys_Scheduling_Task_TCB_Type *Add_TCB)//Õâ¸öµØ·½
 	Add_TCB->Queue.Event_NEXT=Null;
 	Add_TCB->Event.Event_Queue=Null;
 
-	if(Queue_DATA.Ready_Queue.Begin==Null || Queue_DATA.Ready_Queue.End==Null)//µÚÒ»´Î¼Ó
+	if(Queue_DATA.Ready_Queue.Begin==Null || Queue_DATA.Ready_Queue.End==Null)//ç¬¬ä¸€æ¬¡åŠ 
 	{
 		Queue_DATA.Ready_Queue.Begin=Add_TCB;
 		Queue_DATA.Ready_Queue.End=Add_TCB;
@@ -197,14 +197,14 @@ int Queue_TCB_Add_Ready_Queue(__Sys_Scheduling_Task_TCB_Type *Add_TCB)//Õâ¸öµØ·½
 	}
 	else
 	{
-		if(Add_TCB->Priority.Current<Queue_DATA.Ready_Queue.Begin->Priority.Current)//ÓÅÏÈ¼¶±ÈÍ·´ó ¼ÓÈëÍ·
+		if(Add_TCB->Priority.Current<Queue_DATA.Ready_Queue.Begin->Priority.Current)//ä¼˜å…ˆçº§æ¯”å¤´å¤§ åŠ å…¥å¤´
 		{
 
 			Add_TCB->Queue.Queue_NEXT=Queue_DATA.Ready_Queue.Begin;
 
 			Queue_DATA.Ready_Queue.Begin=Add_TCB;
 		}
-		else if(Queue_DATA.Ready_Queue.End->Priority.Current<=Add_TCB->Priority.Current)//¼ÓÈëµÄÓÅÏÈ¼¶±ÈÎ²Ğ¡£¨»òÕßµÈÓÚÎ²£© ¼ÓÈëÄ©Î²
+		else if(Queue_DATA.Ready_Queue.End->Priority.Current<=Add_TCB->Priority.Current)//åŠ å…¥çš„ä¼˜å…ˆçº§æ¯”å°¾å°ï¼ˆæˆ–è€…ç­‰äºå°¾ï¼‰ åŠ å…¥æœ«å°¾
 		{
 			Queue_DATA.Ready_Queue.End->Queue.Queue_NEXT=Add_TCB;
 
@@ -212,24 +212,27 @@ int Queue_TCB_Add_Ready_Queue(__Sys_Scheduling_Task_TCB_Type *Add_TCB)//Õâ¸öµØ·½
 
 			Queue_DATA.Ready_Queue.End=Add_TCB;
 		}
-		else //ÓÅÏÈ¼¶ÔÚÖĞ¼ä
+		else //ä¼˜å…ˆçº§åœ¨ä¸­é—´
 		{
 			Temp_TCB=Queue_DATA.Ready_Queue.Begin;
 			while(Temp_TCB!=Null)
 			{
-				if(Temp_TCB->Priority.Current<=Add_TCB->Priority.Current)//²åÈëµÄÈÎÎñÓÅÏÈ¼¶±ÈTemp_TCBĞ¡£¨»òÕßµÈÓÚ£©
+				if(Temp_TCB->Priority.Current<=Add_TCB->Priority.Current)//æ’å…¥çš„ä»»åŠ¡ä¼˜å…ˆçº§æ¯”Temp_TCBå°ï¼ˆæˆ–è€…ç­‰äºï¼‰
 				{
-					if(Temp_TCB->Queue.Queue_NEXT!=Null)//Temp_TCBÏÂÒ»¸ö»¹ÓĞ½Úµã
+					if(Temp_TCB->Queue.Queue_NEXT!=Null)//Temp_TCBä¸‹ä¸€ä¸ªè¿˜æœ‰èŠ‚ç‚¹
 					{
-						if(Add_TCB->Priority.Current<Temp_TCB->Queue.Queue_NEXT->Priority.Current)//µ±Ç°ÈÎÎñ±ÈTemp_TCBÏÂÒ»¸ö½ÚµãµÄÓÅÏÈ¼¶Ğ¡
+						if(Add_TCB->Priority.Current<Temp_TCB->Queue.Queue_NEXT->Priority.Current)//å½“å‰ä»»åŠ¡æ¯”Temp_TCBä¸‹ä¸€ä¸ªèŠ‚ç‚¹çš„ä¼˜å…ˆçº§å°
 						{
-							LSAT_TCB=Temp_TCB;
+//							LSAT_TCB=Temp_TCB;
+//
+//							NEXT_TCB=Temp_TCB->Queue.Queue_NEXT;
+//
+//							LSAT_TCB->Queue.Queue_NEXT=Add_TCB;
+//
+//							Add_TCB->Queue.Queue_NEXT=NEXT_TCB;
 
-							NEXT_TCB=Temp_TCB->Queue.Queue_NEXT;
-
-							LSAT_TCB->Queue.Queue_NEXT=Add_TCB;
-
-							Add_TCB->Queue.Queue_NEXT=NEXT_TCB;
+							Add_TCB->Queue.Queue_NEXT=Temp_TCB->Queue.Queue_NEXT;
+							Temp_TCB->Queue.Queue_NEXT=Add_TCB;
 
 							break;
 						}
@@ -238,7 +241,7 @@ int Queue_TCB_Add_Ready_Queue(__Sys_Scheduling_Task_TCB_Type *Add_TCB)//Õâ¸öµØ·½
 							Temp_TCB=Temp_TCB->Queue.Queue_NEXT;
 						}
 					}
-					else//Èç¹ûÕÒµ½Êı¾İÔÚÎ²¶Ë
+					else//å¦‚æœæ‰¾åˆ°æ•°æ®åœ¨å°¾ç«¯
 					{
 						Queue_DATA.Ready_Queue.End->Queue.Queue_NEXT=Add_TCB;
 
@@ -250,7 +253,7 @@ int Queue_TCB_Add_Ready_Queue(__Sys_Scheduling_Task_TCB_Type *Add_TCB)//Õâ¸öµØ·½
 					}
 
 				}
-				else//²åÈëµÄÈÎÎñÓÅÏÈ¼¶±ÈTemp_TCB´ó
+				else//æ’å…¥çš„ä»»åŠ¡ä¼˜å…ˆçº§æ¯”Temp_TCBå¤§
 				{
 
 					Add_TCB->Queue.Queue_NEXT=Queue_DATA.Ready_Queue.Begin;
@@ -270,9 +273,9 @@ int Queue_TCB_Add_Ready_Queue(__Sys_Scheduling_Task_TCB_Type *Add_TCB)//Õâ¸öµØ·½
 	return Error_OK;
 
 }
-//Ìí¼ÓÒ»¸öTCBµ½Suspended_Queue¶ÓÁĞÖĞ
-//ÌØ±ğËµÃ÷ ¶ÓÁĞ°´ÕÕ²î·ÖÊ±¼äÁ´·½Ê½ÅÅÁĞ
-//Ã»ÓĞµ¹¼ÆÊ±µÄÈÎÎñ£¨TimeOut==-1£© Ò»ÂÉ·Åµ½¶ÓÁĞÄ©Î²
+//æ·»åŠ ä¸€ä¸ªTCBåˆ°Suspended_Queueé˜Ÿåˆ—ä¸­
+//ç‰¹åˆ«è¯´æ˜ é˜Ÿåˆ—æŒ‰ç…§å·®åˆ†æ—¶é—´é“¾æ–¹å¼æ’åˆ—
+//æ²¡æœ‰å€’è®¡æ—¶çš„ä»»åŠ¡ï¼ˆTimeOut==-1ï¼‰ ä¸€å¾‹æ”¾åˆ°é˜Ÿåˆ—æœ«å°¾
 int Queue_TCB_Add_Suspended_Queue(
 		__Sys_Scheduling_Task_TCB_Type *Add_TCB,
 		Task_State_Type Add_TCB_Task_State,
@@ -315,27 +318,27 @@ int Queue_TCB_Add_Suspended_Queue(
 
 	Temp_TCB=Queue_DATA.Suspended_Queue.Begin;
 
-	//¼ÆËã²åÈëµÄÈÎÎñÔÚ²î·ÖÊ±¼äÁ´µÄÎ»ÖÃ
+	//è®¡ç®—æ’å…¥çš„ä»»åŠ¡åœ¨å·®åˆ†æ—¶é—´é“¾çš„ä½ç½®
 	while(Temp_TCB!=Null)
 	{
-		if(Temp_TCB->Info.TimeOut<0)break;//Temp_TCBÎª²»ĞèÒªµ¹¼ÆÊ±ÈÎÎñ Ìø³ö
+		if(Temp_TCB->Info.TimeOut<0)break;//Temp_TCBä¸ºä¸éœ€è¦å€’è®¡æ—¶ä»»åŠ¡ è·³å‡º
 
-		TimeOut=TimeOut-Temp_TCB->Info.TimeOut;//×ö²îÖµ
+		TimeOut=TimeOut-Temp_TCB->Info.TimeOut;//åšå·®å€¼
 
-		if(TimeOut<0)//Òª²åÈëµÄÈÎÎñÔÚµ±Ç°Temp_TCBÈÎÎñÖ®Ç°
+		if(TimeOut<0)//è¦æ’å…¥çš„ä»»åŠ¡åœ¨å½“å‰Temp_TCBä»»åŠ¡ä¹‹å‰
 		{
 
 			Temp_TCB_NEXT=Temp_TCB;
 
 
-			TimeOut=TimeOut+Temp_TCB_NEXT->Info.TimeOut;//»¹Ô­¸Õ¸Õ±»×ö²îÖµµÄ½á¹û
+			TimeOut=TimeOut+Temp_TCB_NEXT->Info.TimeOut;//è¿˜åŸåˆšåˆšè¢«åšå·®å€¼çš„ç»“æœ
 
-			Temp_TimeOut_NEXT=Temp_TCB_NEXT->Info.TimeOut-TimeOut;//ÖØĞÂ¼ÆËãTemp_TCBµÄ²î·ÖÊ±¼ä
+			Temp_TimeOut_NEXT=Temp_TCB_NEXT->Info.TimeOut-TimeOut;//é‡æ–°è®¡ç®—Temp_TCBçš„å·®åˆ†æ—¶é—´
 
 			break;
 
 		}
-		else if(TimeOut==0)//Òª²åÈëµÄÈÎÎñºÍµ±Ç°ÈÎÎñÊ±¼äÒ»ÖÂ ÄÇÃ´²»ÓÃÖØĞÂ¼ÆËã²î·ÖÊ±¼ä Ö±½Ó²åÈëµ½Temp_TCBÈÎÎñºóÃæ
+		else if(TimeOut==0)//è¦æ’å…¥çš„ä»»åŠ¡å’Œå½“å‰ä»»åŠ¡æ—¶é—´ä¸€è‡´ é‚£ä¹ˆä¸ç”¨é‡æ–°è®¡ç®—å·®åˆ†æ—¶é—´ ç›´æ¥æ’å…¥åˆ°Temp_TCBä»»åŠ¡åé¢
 		{
 			Temp_TCB_LAST=Temp_TCB;
 
@@ -347,7 +350,7 @@ int Queue_TCB_Add_Suspended_Queue(
 
 			break;
 		}
-		else//Temp_TimeOut>0 //Temp_TCB½Úµã²»·ûºÏ ¼ÌĞø²éÕÒÏÂÒ»¸ö
+		else//Temp_TimeOut>0 //Temp_TCBèŠ‚ç‚¹ä¸ç¬¦åˆ ç»§ç»­æŸ¥æ‰¾ä¸‹ä¸€ä¸ª
 		{
 			Temp_TCB_LAST=Temp_TCB;
 
@@ -356,10 +359,10 @@ int Queue_TCB_Add_Suspended_Queue(
 
 	}
 
-	//Êı¾İÔÚÍ· »òÕßµÚÒ»´Î
+	//æ•°æ®åœ¨å¤´ æˆ–è€…ç¬¬ä¸€æ¬¡
 	if(Temp_TCB_LAST==Null)
 	{
-		//¶ÓÁĞÎª¿Õ µÚÒ»´Î´´½¨
+		//é˜Ÿåˆ—ä¸ºç©º ç¬¬ä¸€æ¬¡åˆ›å»º
 		if(Queue_DATA.Suspended_Queue.Begin==Null)
 		{
 			Queue_DATA.Suspended_Queue.Begin=Add_TCB;
@@ -370,7 +373,7 @@ int Queue_TCB_Add_Suspended_Queue(
 			Add_TCB->Info.TimeOut=TimeOut;
 
 		}
-		else if(Queue_DATA.Suspended_Queue.Begin==Temp_TCB_NEXT)//Êı¾İÔÚÍ·Ö®Ç°
+		else if(Queue_DATA.Suspended_Queue.Begin==Temp_TCB_NEXT)//æ•°æ®åœ¨å¤´ä¹‹å‰
 		{
 
 			if(Temp_TimeOut_NEXT!=-1)
@@ -385,7 +388,7 @@ int Queue_TCB_Add_Suspended_Queue(
 			Add_TCB->Info.TimeOut=TimeOut;
 
 		}
-		else	//Êı¾İÔÚÍ·Ö®Ç° µ«ÊÇÍ·ÊÇÎŞÏŞµÈ´ı
+		else	//æ•°æ®åœ¨å¤´ä¹‹å‰ ä½†æ˜¯å¤´æ˜¯æ— é™ç­‰å¾…
 		{
 
 			Add_TCB->Queue.Queue_NEXT=Queue_DATA.Suspended_Queue.Begin;
@@ -396,9 +399,9 @@ int Queue_TCB_Add_Suspended_Queue(
 		}
 
 	}
-	else //Êı¾İÔÚÖĞ¼ä»òÕßÔÚÎ²
+	else //æ•°æ®åœ¨ä¸­é—´æˆ–è€…åœ¨å°¾
 	{
-		//Êı¾İÔÚÖĞ¼ä
+		//æ•°æ®åœ¨ä¸­é—´
 		if(Temp_TCB_NEXT!=Null)
 		{
 			Temp_TCB_LAST->Queue.Queue_NEXT=Add_TCB;
@@ -415,7 +418,7 @@ int Queue_TCB_Add_Suspended_Queue(
 				Temp_TCB_NEXT->Info.TimeOut=Temp_TimeOut_NEXT;
 			}
 		}
-		else//Êı¾İÔÚÎ²
+		else//æ•°æ®åœ¨å°¾
 		{
 			if(Temp_TCB_LAST==Queue_DATA.Suspended_Queue.End)
 			{
@@ -429,7 +432,7 @@ int Queue_TCB_Add_Suspended_Queue(
 				Queue_DATA.Suspended_Queue.End=Add_TCB;
 
 			}
-			else	//Êı¾İÔÚÎ²Ö®Ç° Î²ÊÇÊ±¼äÎŞÏŞµÈ´ı
+			else	//æ•°æ®åœ¨å°¾ä¹‹å‰ å°¾æ˜¯æ—¶é—´æ— é™ç­‰å¾…
 			{
 				Temp_TCB_NEXT=Temp_TCB_LAST->Queue.Queue_NEXT;
 
@@ -449,7 +452,7 @@ int Queue_TCB_Add_Suspended_Queue(
 	}
 	return Error_OK;
 }
-//½«Ò»¸öÈÎÎñ´ÓSuspended_Queue¶ÓÁĞÉ¾³ı
+//å°†ä¸€ä¸ªä»»åŠ¡ä»Suspended_Queueé˜Ÿåˆ—åˆ é™¤
 int Queue_TCB_Delete_Suspended_Queue(__Sys_Scheduling_Task_TCB_Type *Delete_TCB)
 {
 	if(Delete_TCB==Null)
@@ -464,18 +467,18 @@ int Queue_TCB_Delete_Suspended_Queue(__Sys_Scheduling_Task_TCB_Type *Delete_TCB)
 
 	while(Temp_TCB!=Null)
 	{
-		if(Temp_TCB==Delete_TCB)//²éÕÒµ½
+		if(Temp_TCB==Delete_TCB)//æŸ¥æ‰¾åˆ°
 		{
 			Temp_TCB_NEXT=Temp_TCB->Queue.Queue_NEXT;
 
-			//Èç¹ûÕâ¸öÊı¾İÊÇÍ·
+			//å¦‚æœè¿™ä¸ªæ•°æ®æ˜¯å¤´
 			if(Temp_TCB_LAST==Null || Delete_TCB==Queue_DATA.Suspended_Queue.Begin)
 			{
 				Queue_DATA.Suspended_Queue.Begin=Queue_DATA.Suspended_Queue.Begin->Queue.Queue_NEXT;
 
-				if(Queue_DATA.Suspended_Queue.Begin!=Null)//ÏÂÒ»¸ö»¹ÓĞ
+				if(Queue_DATA.Suspended_Queue.Begin!=Null)//ä¸‹ä¸€ä¸ªè¿˜æœ‰
 				{
-					//ĞŞ²¹Ê±¼ä¶ÓÁĞ
+					//ä¿®è¡¥æ—¶é—´é˜Ÿåˆ—
 					if(Queue_DATA.Suspended_Queue.Begin->Info.TimeOut>=0)
 					{
 						if(Delete_TCB->Info.TimeOut>=0)
@@ -490,7 +493,7 @@ int Queue_TCB_Delete_Suspended_Queue(__Sys_Scheduling_Task_TCB_Type *Delete_TCB)
 
 				}
 			}
-			//Èç¹ûÕâ¸öÊı¾İÊÇÎ²
+			//å¦‚æœè¿™ä¸ªæ•°æ®æ˜¯å°¾
 			if(Temp_TCB_NEXT==Null || Delete_TCB==Queue_DATA.Suspended_Queue.End)
 			{
 				Queue_DATA.Suspended_Queue.End=Temp_TCB_LAST;
@@ -501,10 +504,10 @@ int Queue_TCB_Delete_Suspended_Queue(__Sys_Scheduling_Task_TCB_Type *Delete_TCB)
 				}
 			}
 
-			//Èç¹ûÍ·ºÍÎ²¶¼²»ÊÇ¿Õ ÄÇÃ´Êı¾İÔÚÖĞ¼ä
+			//å¦‚æœå¤´å’Œå°¾éƒ½ä¸æ˜¯ç©º é‚£ä¹ˆæ•°æ®åœ¨ä¸­é—´
 			if(Temp_TCB_LAST!=Null && Temp_TCB_NEXT!=Null)
 			{
-				//ĞŞ²¹Ê±¼ä¶ÓÁĞ
+				//ä¿®è¡¥æ—¶é—´é˜Ÿåˆ—
 				if(Delete_TCB->Info.TimeOut>=0
 				&& Temp_TCB_NEXT->Info.TimeOut>=0)
 				{
@@ -651,7 +654,7 @@ int Queue_TCB_Add_Event_Node_Queue(
 	{
 		__Sys_Scheduling_Task_TCB_Type *Temp_TCB,*LSAT_TCB,*NEXT_TCB;
 
-		if(Event_Node_Queue->Begin==Null || Event_Node_Queue->End==Null)//µÚÒ»´Î¼Ó
+		if(Event_Node_Queue->Begin==Null || Event_Node_Queue->End==Null)//ç¬¬ä¸€æ¬¡åŠ 
 		{
 			Event_Node_Queue->Begin=Add_TCB;
 			Event_Node_Queue->End=Add_TCB;
@@ -660,14 +663,14 @@ int Queue_TCB_Add_Event_Node_Queue(
 		}
 		else
 		{
-			if(Add_TCB->Priority.Current<Event_Node_Queue->Begin->Priority.Current)//ÓÅÏÈ¼¶±ÈÍ·´ó ¼ÓÈëÍ·
+			if(Add_TCB->Priority.Current<Event_Node_Queue->Begin->Priority.Current)//ä¼˜å…ˆçº§æ¯”å¤´å¤§ åŠ å…¥å¤´
 			{
 
 				Add_TCB->Queue.Event_NEXT=Event_Node_Queue->Begin;
 
 				Event_Node_Queue->Begin=Add_TCB;
 			}
-			else if(Event_Node_Queue->End->Priority.Current<=Add_TCB->Priority.Current)//¼ÓÈëµÄÓÅÏÈ¼¶±È½ÏĞ¡£¨»òÕßµÈÓÚÎ²£© ¼ÓÈëÄ©Î²
+			else if(Event_Node_Queue->End->Priority.Current<=Add_TCB->Priority.Current)//åŠ å…¥çš„ä¼˜å…ˆçº§æ¯”è¾ƒå°ï¼ˆæˆ–è€…ç­‰äºå°¾ï¼‰ åŠ å…¥æœ«å°¾
 			{
 				Event_Node_Queue->End->Queue.Event_NEXT=Add_TCB;
 
@@ -676,7 +679,7 @@ int Queue_TCB_Add_Event_Node_Queue(
 
 				Event_Node_Queue->End=Add_TCB;
 			}
-			else //ÓÅÏÈ¼¶ÔÚÖĞ¼ä
+			else //ä¼˜å…ˆçº§åœ¨ä¸­é—´
 			{
 				Temp_TCB=Event_Node_Queue->Begin;
 				while(Temp_TCB!=Null)
@@ -702,7 +705,7 @@ int Queue_TCB_Add_Event_Node_Queue(
 								Temp_TCB=Temp_TCB->Queue.Event_NEXT;
 							}
 						}
-						else//Èç¹ûÕÒµ½Êı¾İÔÚÎ²¶Ë
+						else//å¦‚æœæ‰¾åˆ°æ•°æ®åœ¨å°¾ç«¯
 						{
 							Event_Node_Queue->End->Queue.Event_NEXT=Add_TCB;
 
@@ -799,17 +802,17 @@ int Queue_TCB_Delete_Event_Node_Queue(
 
 	while(Temp_TCB!=Null)
 	{
-		if(Temp_TCB==Delet_TCB)//²éÕÒµ½
+		if(Temp_TCB==Delet_TCB)//æŸ¥æ‰¾åˆ°
 		{
 			Temp_TCB_NEXT=Temp_TCB->Queue.Event_NEXT;
 
-			//Èç¹ûÕâ¸öÊı¾İÊÇÍ·
+			//å¦‚æœè¿™ä¸ªæ•°æ®æ˜¯å¤´
 			if(Temp_TCB_LAST==Null || Delet_TCB==Event_Node_Queue->Begin)
 			{
 				Event_Node_Queue->Begin=Event_Node_Queue->Begin->Queue.Event_NEXT;
 
 			}
-			//Èç¹ûÕâ¸öÊı¾İÊÇÎ²
+			//å¦‚æœè¿™ä¸ªæ•°æ®æ˜¯å°¾
 			if(Temp_TCB_NEXT==Null || Delet_TCB==Event_Node_Queue->End)
 			{
 				Event_Node_Queue->End=Temp_TCB_LAST;
@@ -820,7 +823,7 @@ int Queue_TCB_Delete_Event_Node_Queue(
 				}
 			}
 
-			//Èç¹ûÍ·ºÍÎ²¶¼²»ÊÇ¿Õ ÄÇÃ´Êı¾İÔÚÖĞ¼ä
+			//å¦‚æœå¤´å’Œå°¾éƒ½ä¸æ˜¯ç©º é‚£ä¹ˆæ•°æ®åœ¨ä¸­é—´
 			if(Temp_TCB_LAST!=Null && Temp_TCB_NEXT!=Null)
 			{
 				Temp_TCB_LAST->Queue.Event_NEXT=Temp_TCB_NEXT;

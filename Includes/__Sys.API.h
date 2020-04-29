@@ -1,12 +1,16 @@
 /*
  * __Sys.API.h
  *
- *  Created on: 2019Äê4ÔÂ12ÈÕ
+ *  Created on: 2019å¹´4æœˆ12æ—¥
  *      Author: Master.HE
  */
 
 #ifndef __SYS_API_H_
 #define __SYS_API_H_
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 #include "Master.Stdint.h"
 #include "Scheduling.Task.Enum.h"
@@ -296,13 +300,17 @@ int __Sys_Timer_Register(
 int __Sys_Timer_Delete(int Handle);
 int __Sys_Timer_Start(
 		int Handle,
-		int32_t N_Time_Cycle,	//´ÎÊı
-		int32_t Cycle_Time_MS,	//ÖÜÆÚ
+		int32_t N_Time_Cycle,	//æ¬¡æ•°
+		int32_t Cycle_Time_MS,	//å‘¨æœŸ
 		Timer_Operation_Type Timer_Operation);
 int __Sys_Timer_Stop(int Handle);
-int __Sys_Timer_Suspend(int Handle);//ÔİÍ£
-int __Sys_Timer_Resume(int Handle);//»Ö¸´
-int __Sys_Timer_Reset(int Handle);//¸´Î»
+int __Sys_Timer_Suspend(int Handle);//æš‚åœ
+int __Sys_Timer_Resume(int Handle);//æ¢å¤
+int __Sys_Timer_Reset(int Handle);//å¤ä½
 int __Sys_Timer_Enabled(uint8_t Enabled);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __SYS_API_H_ */

@@ -1,7 +1,7 @@
 /*
  * Define.h
  *
- *  Created on: 2019Äê4ÔÂ16ÈÕ
+ *  Created on: 2019å¹´4æœˆ16æ—¥
  *      Author: Master.HE
  */
 
@@ -39,7 +39,7 @@
 //
 #define Stack_Add_Size_4Byte						(16)
 #define Stack_System_Default_Size_4Byte				(100)
-#define Stack_Task_Task_4Byte						(100)
+#define Stack_Task_Task_4Byte						(150)
 
 
 

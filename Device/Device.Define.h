@@ -1,7 +1,7 @@
 /*
  * Device.Define.h
  *
- *  Created on: 2019Äê4ÔÂ15ÈÕ
+ *  Created on: 2019å¹´4æœˆ15æ—¥
  *      Author: Master.HE
  */
 

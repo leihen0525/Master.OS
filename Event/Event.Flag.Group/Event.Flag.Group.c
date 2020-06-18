@@ -1,7 +1,7 @@
 /*
  * Event.Flag.Group.c
  *
- *  Created on: 2019Äê4ÔÂ30ÈÕ
+ *  Created on: 2019å¹´4æœˆ30æ—¥
  *      Author: Master.HE
  */
 #include <string.h>
@@ -25,6 +25,7 @@
 
 #include "Scheduling/Scheduling.Task.h"
 
+#if (defined(Master_OS_Config_Event_Flag_Group_Create) || defined(Master_OS_Config_Event_Flag_Group_Create_8bit) || defined(Master_OS_Config_Event_Flag_Group_Create_16bit) || defined(Master_OS_Config_Event_Flag_Group_Create_32bit))
 int __Sys_Event_Flag_Group_Create(
 		char *Name,
 		uint32_t Flag_Group_LEN)
@@ -57,6 +58,8 @@ int __Sys_Event_Flag_Group_Create(
 	return Handle;
 
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Delete
 int __Sys_Event_Flag_Group_Delete(int Handle)
 {
 	if(Handle<Valid_Handle)return Error_Invalid_Handle;
@@ -81,6 +84,8 @@ int __Sys_Event_Flag_Group_Delete(int Handle)
 	return Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Find_Handle
 int __Sys_Event_Flag_Group_Find_Handle(char *Name)
 {
 	if(Name==Null)
@@ -90,6 +95,8 @@ int __Sys_Event_Flag_Group_Find_Handle(char *Name)
 
 	return Event_Node_Name_Find_Node(Name,Event_Pend_Event_Flag_Group);
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Open
 int __Sys_Event_Flag_Group_Open(int Handle)
 {
 	if(Handle<Valid_Handle)
@@ -147,6 +154,8 @@ int __Sys_Event_Flag_Group_Open(int Handle)
 	return Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Close
 int __Sys_Event_Flag_Group_Close(int Handle)
 {
 	if(Handle<Valid_Handle)
@@ -193,7 +202,7 @@ int __Sys_Event_Flag_Group_Close(int Handle)
 	return Error_OK;
 
 }
-
+#endif
 static bool Event_Flag_Group_Operation_And(
 		Task_Event_DATA_Event_Flag_Group_Type *Event_Flag_Group,
 
@@ -306,6 +315,7 @@ static bool Event_Flag_Group_Operation_Clear_BIT(
 	return true;
 
 }
+#if (defined(Master_OS_Config_Event_Flag_Group_Wait_And) || defined(Master_OS_Config_Event_Flag_Group_Wait_And_8bit) || defined(Master_OS_Config_Event_Flag_Group_Wait_And_16bit) || defined(Master_OS_Config_Event_Flag_Group_Wait_And_32bit))
 int __Sys_Event_Flag_Group_Wait_And(
 		int Handle,
 		uint8_t *Event_Flag_Group_Mask,
@@ -347,7 +357,7 @@ int __Sys_Event_Flag_Group_Wait_And(
 	{
 		return Err;
 	}
-	//¼ì²éµ±Ç°taskÊÇ·ñºÍµ±Ç°ÊÂ¼þ¹ØÁª£¬Èç¹û¹ØÁªÔòµ¼³ötask¹ØÓÚ´ËÊÂ¼þ²ÎÊý±í
+	//æ£€æŸ¥å½“å‰taskæ˜¯å¦å’Œå½“å‰äº‹ä»¶å…³è”ï¼Œå¦‚æžœå…³è”åˆ™å¯¼å‡ºtaskå…³äºŽæ­¤äº‹ä»¶å‚æ•°è¡¨
 	Task_Event_DATA_Type *Temp_DATA=Null;
 	Err=Scheduling_Task_Event_List_Find_Node(Temp_TCB,Handle,&Temp_DATA);
 
@@ -392,7 +402,7 @@ int __Sys_Event_Flag_Group_Wait_And(
 
 		}
 
-		//±»Õ¼ÓÃ ¹ÒÆðµ±Ç°ÈÎÎñ
+		//è¢«å ç”¨ æŒ‚èµ·å½“å‰ä»»åŠ¡
 
 		if((Err=Queue_TCB_Add_Event_Node_Queue(Temp_Pend_Task_Queue,Temp_TCB,Event_Queue_Option_FIFO))!=Error_OK)
 		{
@@ -423,7 +433,7 @@ int __Sys_Event_Flag_Group_Wait_And(
 			Err=Error_Dissatisfy;//????
 		}
 	}
-	//Çå³ý
+	//æ¸…é™¤
 	if(Clear_Type==Event_Flag_Group_Clear_Any_Read_Clear
 	||(Err==Error_OK && Clear_Type==Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_Dissatisfy_Retain)
 	||(Err==Error_Dissatisfy && Clear_Type==Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_Dissatisfy_Clear)
@@ -445,6 +455,8 @@ int __Sys_Event_Flag_Group_Wait_And(
 
 
 }
+#endif
+#if (defined(Master_OS_Config_Event_Flag_Group_Wait_Or) || defined(Master_OS_Config_Event_Flag_Group_Wait_Or_8bit) || defined(Master_OS_Config_Event_Flag_Group_Wait_Or_16bit) || defined(Master_OS_Config_Event_Flag_Group_Wait_Or_32bit))
 int __Sys_Event_Flag_Group_Wait_Or(
 		int Handle,
 		uint8_t *Event_Flag_Group_Mask,
@@ -486,7 +498,7 @@ int __Sys_Event_Flag_Group_Wait_Or(
 	{
 		return Err;
 	}
-	//¼ì²éµ±Ç°taskÊÇ·ñºÍµ±Ç°ÊÂ¼þ¹ØÁª£¬Èç¹û¹ØÁªÔòµ¼³ötask¹ØÓÚ´ËÊÂ¼þ²ÎÊý±í
+	//æ£€æŸ¥å½“å‰taskæ˜¯å¦å’Œå½“å‰äº‹ä»¶å…³è”ï¼Œå¦‚æžœå…³è”åˆ™å¯¼å‡ºtaskå…³äºŽæ­¤äº‹ä»¶å‚æ•°è¡¨
 	Task_Event_DATA_Type *Temp_DATA=Null;
 	Err=Scheduling_Task_Event_List_Find_Node(Temp_TCB,Handle,&Temp_DATA);
 
@@ -531,7 +543,7 @@ int __Sys_Event_Flag_Group_Wait_Or(
 
 		}
 
-		//±»Õ¼ÓÃ ¹ÒÆðµ±Ç°ÈÎÎñ
+		//è¢«å ç”¨ æŒ‚èµ·å½“å‰ä»»åŠ¡
 
 		if((Err=Queue_TCB_Add_Event_Node_Queue(Temp_Pend_Task_Queue,Temp_TCB,Event_Queue_Option_FIFO))!=Error_OK)
 		{
@@ -562,7 +574,7 @@ int __Sys_Event_Flag_Group_Wait_Or(
 			Err=Error_Dissatisfy;//????
 		}
 	}
-	//Çå³ý
+	//æ¸…é™¤
 	if(Clear_Type==Event_Flag_Group_Clear_Any_Read_Clear
 	||(Err==Error_OK && Clear_Type==Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_Dissatisfy_Retain)
 	||(Err==Error_Dissatisfy && Clear_Type==Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_Dissatisfy_Clear)
@@ -582,7 +594,8 @@ int __Sys_Event_Flag_Group_Wait_Or(
 
 	return Err;
 }
-
+#endif
+#if (defined(Master_OS_Config_Event_Flag_Group_Set) || defined(Master_OS_Config_Event_Flag_Group_Set_8bit) || defined(Master_OS_Config_Event_Flag_Group_Set_16bit) || defined(Master_OS_Config_Event_Flag_Group_Set_32bit))
 int __Sys_Event_Flag_Group_Set(
 		int Handle,
 		uint8_t *Event_Flag_Group_Mask,
@@ -636,7 +649,7 @@ int __Sys_Event_Flag_Group_Set(
 	}
 
 
-	//½«·ûºÏÌõ¼þµÄµÈ´ýµÄÈÎÎñ ·ÅÈë×¼±¸ÔËÐÐ¶ÓÁÐ
+	//å°†ç¬¦åˆæ¡ä»¶çš„ç­‰å¾…çš„ä»»åŠ¡ æ”¾å…¥å‡†å¤‡è¿è¡Œé˜Ÿåˆ—
 	Temp_TCB=Temp_Pend_Task_Queue->Begin;
 	__Sys_Scheduling_Task_TCB_Type *Temp_TCB_NEXT=Null,*Temp_TCB_LAST=Null;
 
@@ -727,7 +740,7 @@ int __Sys_Event_Flag_Group_Set(
 
 	return Error_OK;
 }
-
+#endif
 
 
 

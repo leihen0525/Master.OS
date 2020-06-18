@@ -1,7 +1,7 @@
 /*
  * Event.c
  *
- *  Created on: 2019Äê4ÔÂ29ÈÕ
+ *  Created on: 2019å¹´4æœˆ29æ—¥
  *      Author: Master.HE
  */
 #include <string.h>
@@ -45,7 +45,7 @@ int Event_Node_Add_Node(
 
 	Temp_Node=(Event_Node_Type *)__Sys_Memory_Malloc(sizeof(Event_Node_Type));
 
-	//·ÖÅä¿Õ¼äÊ§°Ü
+	//åˆ†é…ç©ºé—´å¤±è´¥
 	if(Temp_Node==Null)
 	{
 		return Error_Allocation_Memory_Failed;
@@ -59,7 +59,7 @@ int Event_Node_Add_Node(
 	{
 		Temp_Node->Name=(int8_t *)__Sys_Memory_Malloc(strlen(Name)+1);
 
-		//·ÖÅä¿Õ¼äÊ§°Ü
+		//åˆ†é…ç©ºé—´å¤±è´¥
 		if(Temp_Node->Name==Null)
 		{
 
@@ -67,7 +67,7 @@ int Event_Node_Add_Node(
 			goto Event_Add_Node_Exit1;
 		}
 
-		//×Ö·û´®¿½±´
+		//å­—ç¬¦ä¸²æ‹·è´
 		strcpy(Temp_Node->Name,Name);
 
 	}
@@ -155,7 +155,7 @@ int Event_Node_Delete_Node(
 				*DATA_Node=Temp_Node->DATA_Node;
 			}
 
-			//Çå³ýµÈ´ý¶ÓÁÐ
+			//æ¸…é™¤ç­‰å¾…é˜Ÿåˆ—
 			__Sys_Scheduling_Task_TCB_Type *Temp_TCB=Null;
 			bool Try_Context_Switch=false;
 

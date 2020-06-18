@@ -8,6 +8,7 @@
 #ifndef SCHEDULING_H_
 #define SCHEDULING_H_
 
+#include "Master.OS.Config.h"
 #include "Scheduling.Task.Enum.h"
 #include "Scheduling.Task.Define.h"
 
@@ -15,6 +16,7 @@
 
 int Scheduling_Init(void);
 
+#ifdef Master_OS_Config_Scheduling_Create_Task
 int __Sys_Scheduling_Create_Task(
 		char *Name,
 		Task_Enter_Function Task_Enter,
@@ -24,15 +26,19 @@ int __Sys_Scheduling_Create_Task(
 		uint32_t *Stack,
 		uint32_t Stack_Size_4Byte,
 		int Option);
-
+#endif
+#ifdef Master_OS_Config_Scheduling_Release_Task
 int __Sys_Scheduling_Release_Task(int Handle);
-
+#endif
+#ifdef Master_OS_Config_Scheduling_Sleep_Task
 int __Sys_Scheduling_Sleep_Task(int32_t TimeOut);
-
+#endif
+#ifdef Master_OS_Config_Scheduling_Suspend_Task
 int __Sys_Scheduling_Suspend_Task(int Handle);
-
+#endif
+#ifdef Master_OS_Config_Scheduling_Resume_Task
 int __Sys_Scheduling_Resume_Task(int Handle);
-
+#endif
 int Scheduling_Create_Task_Idle(
 		char *Name,
 		uint8_t Priority);

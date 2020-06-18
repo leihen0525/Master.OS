@@ -1,7 +1,7 @@
 /*
  * Init.Main.c
  *
- *  Created on: 2019Äê9ÔÂ17ÈÕ
+ *  Created on: 2019å¹´9æœˆ17æ—¥
  *      Author: Master.HE
  */
 #include "Error.h"
@@ -34,7 +34,7 @@ void Start_Kernel(void)
 {
 	
 
-	//³õÊ¼»¯BSP
+	//åˆå§‹åŒ–BSP
 	if(Machine_Init(&Machine_Desc)!=Error_OK)
 	{
 		while(1);
@@ -48,87 +48,87 @@ void Start_Kernel(void)
 	}
 #endif
 
-	//¹Ø±Õ¿´ÃÅ¹·
+	//å…³é—­çœ‹é—¨ç‹—
 	if(Machine_Wdog_Disable(&Machine_Desc->Wdog)!=Error_OK)
 	{
 		while(1);
 	}
 
-	//³õÊ¼»¯Ğ¾Æ¬
+	//åˆå§‹åŒ–èŠ¯ç‰‡
 	if(Machine_Init_CPU(&Machine_Desc->CPU)!=Error_OK)
 	{
 		while(1);
 	}
 
-	//¶¯Ì¬ÄÚ´æ³õÊ¼»¯
+	//åŠ¨æ€å†…å­˜åˆå§‹åŒ–
 	if(__Sys_Memory_Init()!=Error_OK)
 	{
 		while(1);
 	}
 
-	//³õÊ¼»¯Çı¶¯Éè±¸¿ØÖÆ
+	//åˆå§‹åŒ–é©±åŠ¨è®¾å¤‡æ§åˆ¶
 	if(Device_Init()!=Error_OK)
 	{
 		while(1);
 	}
 
 
-	//³õÊ¼»¯ÄÚºËÊÂ¼ş»úÖÆ
+	//åˆå§‹åŒ–å†…æ ¸äº‹ä»¶æœºåˆ¶
 	if(Event_Init()!=Error_OK)
 	{
 		while(1);
 	}
 
 
-	//³õÊ¼»¯IRQ
+	//åˆå§‹åŒ–IRQ
 	if(IRQ_Init(&Machine_Desc->IRQ)!=Error_OK)
 	{
 		while(1);
 	}
 
-	//¹Ø±ÕËùÓĞÖĞ¶Ï
+	//å…³é—­æ‰€æœ‰ä¸­æ–­
 	if(__Sys_IRQ_All_Disable()!=Error_OK)
 	{
 		while(1);
 	}
 
-	//³õÊ¼»¯¶¨Ê±Æ÷
+	//åˆå§‹åŒ–å®šæ—¶å™¨
 	if(Timer_Init(&Machine_Desc->Timer)!=Error_OK)
 	{
 		while(1);
 	}
 
-	//³õÊ¼»¯ÈÎÎñ¶ÓÁĞ
+	//åˆå§‹åŒ–ä»»åŠ¡é˜Ÿåˆ—
 	if(Queue_Init()!=Error_OK)
 	{
 		while(1);
 	}
 
-	//³õÊ¼»¯µ÷¶ÈÆ÷
+	//åˆå§‹åŒ–è°ƒåº¦å™¨
 	if(Scheduling_Init()!=Error_OK)
 	{
 		while(1);
 	}
 
-	//³õÊ¼»¯Shell
+	//åˆå§‹åŒ–Shell
 	if(Shell_Init(&Machine_Desc->UART)!=Error_OK)
 	{
 		;
 	}
 
-	//´´½¨Ò»¸ö¿ÕÏĞÈÎÎñ
+	//åˆ›å»ºä¸€ä¸ªç©ºé—²ä»»åŠ¡
 	if(Scheduling_Create_Task_Idle("Idle",Priority_Task_Idle)<Error_OK)
 	{
 		while(1);
 	}
 
-	//´´½¨ÈÎÎñ
+	//åˆ›å»ºä»»åŠ¡
 	if(Module_Init_Task()!=Error_OK)
 	{
 		while(1);
 	}
 
-	//³õÊ¼»¯Çı¶¯Ä£¿é
+	//åˆå§‹åŒ–é©±åŠ¨æ¨¡å—
 	if(Module_Init_Sys_Device()!=Error_OK)
 	{
 		while(1);
@@ -140,13 +140,13 @@ void Start_Kernel(void)
 		while(1);
 	}
 
-	//´ò¿ªËùÓĞÖĞ¶Ï
+	//æ‰“å¼€æ‰€æœ‰ä¸­æ–­
 	if(__Sys_IRQ_All_Enable()!=Error_OK)
 	{
 		while(1);
 	}
 
-	//Ìø×ªµ½¿ÕÏĞÈÎÎñ
+	//è·³è½¬åˆ°ç©ºé—²ä»»åŠ¡
 	Scheduling_Switch_To_Idle();
 
 	//

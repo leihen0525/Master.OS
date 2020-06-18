@@ -1,7 +1,7 @@
 /*
  * Shell.PrintK.c
  *
- *  Created on: 2019��9��23��
+ *  Created on: 2019年9月23日
  *      Author: Master.HE
  */
 #include <stdarg.h>
@@ -122,7 +122,7 @@ int __Sys_PrintK(const char *Format,...)
 
 	va_list ap;
 
-	va_start(ap,Format);     //��apָ���һ��ʵ�ʲ����ĵ�ַ
+	va_start(ap,Format);     //将ap指向第一个实际参数的地址
 
 	while(*Format)
 	{
@@ -284,7 +284,7 @@ int __Sys_PrintK(const char *Format,...)
 			switch(*++Format)
 			{
 
-				//���ʮ�����з���32bits������i����ʽд��
+				//输出十进制有符号32bits整数，i是老式写法
 				case 'd':
 				case 'i':
 				{
@@ -368,19 +368,19 @@ int __Sys_PrintK(const char *Format,...)
 
 				}break;
 /*
-				//�޷���8����(octal)����(�����ǰ׺0)
+				//无符号8进制(octal)整数(不输出前缀0)
 				case 'o':
 				{
 
 				}break;
 
-				//�޷���10��������
+				//无符号10进制整数
 				case 'u':
 				{
 
 				}break;
 */
-				//�޷���16����������x��Ӧ����abcdef��X��Ӧ����ABCDEF�������ǰ׺0x)
+				//无符号16进制整数，x对应的是abcdef，X对应的是ABCDEF（不输出前缀0x)
 				case 'x':
 				case 'X':
 				{
@@ -462,7 +462,7 @@ int __Sys_PrintK(const char *Format,...)
 
 				}break;
 				/*
-				//�����ȸ�������f,˫���ȸ�������lf(printf�ɻ��ã���scanf���ܻ���)
+				//单精度浮点数用f,双精度浮点数用lf(printf可混用，但scanf不能混用)
 				case 'f':
 				{
 
@@ -472,31 +472,31 @@ int __Sys_PrintK(const char *Format,...)
 				{
 
 				}break;
-				//��f��ʽ��ͬ��ֻ���� infinity �� nan ���Ϊ��д��ʽ��
+				//与f格式相同，只不过 infinity 和 nan 输出为大写形式。
 				case 'F':
 				{
 
 				}break;
 
-				//��ѧ��������ʹ��ָ��(Exponent)��ʾ���������˴���e���Ĵ�Сд���������ʱ��e���Ĵ�Сд
+				//科学计数法，使用指数(Exponent)表示浮点数，此处”e”的大小写代表在输出时“e”的大小写
 				case 'e':
 				case 'E':
 				{
 
 				}break;
 
-				//������ֵ�ĳ��ȣ�ѡ������̵ķ�ʽ�����%f��%e
+				//根据数值的长度，选择以最短的方式输出，%f或%e
 				case 'g':
 				{
 
 				}break;
-				//������ֵ�ĳ��ȣ�ѡ������̵ķ�ʽ�����%f��%E
+				//根据数值的长度，选择以最短的方式输出，%f或%E
 				case 'G':
 				{
 
 				}break;
 */
-				//�ַ��͡����԰���������ְ���ASCII����Ӧת��Ϊ��Ӧ���ַ�
+				//字符型。可以把输入的数字按照ASCII码相应转换为对应的字符
 				case 'c':
 				{
 
@@ -505,7 +505,7 @@ int __Sys_PrintK(const char *Format,...)
 					System_HMI_PutChar(&SDP_DATA.Len,SDP_DATA.Temp_DATA,&SDP_DATA.Index,(uint8_t)SDP_DATA.Temp);
 				}break;
 
-				//�ַ���������ַ����е��ַ�ֱ���ַ����еĿ��ַ����ַ����Կ��ַ���\0����β��
+				//字符串。输出字符串中的字符直至字符串中的空字符（字符串以空字符’\0‘结尾）
 				case 's':
 				{
 
@@ -532,37 +532,37 @@ int __Sys_PrintK(const char *Format,...)
 
 				}break;
 /*
-				//���ַ���������ַ����е��ַ�ֱ���ַ����еĿ��ַ������ַ������������ַ���\0����β��
+				//宽字符串。输出字符串中的字符直至字符串中的空字符（宽字符串以两个空字符’\0‘结尾）
 				case 'S':
 				{
 
 				}break;
 
-				//��16������ʽ���ָ��
+				//以16进制形式输出指针
 				case 'p':
 				{
 
 				}break;
 
-				//ʲôҲ�������%n��Ӧ�Ĳ�����һ��ָ��signed int��ָ�룬�ڴ�֮ǰ������ַ������洢��ָ����ָ��λ��
+				//什么也不输出。%n对应的参数是一个指向signed int的指针，在此之前输出的字符数将存储到指针所指的位置
 				case 'n':
 				{
 
 				}break;
 
-				//����ַ���%�����ٷֺţ�����
+				//输出字符‘%’（百分号）本身
 				case '%':
 				{
 
 				}break;
 
-				//��ӡerrnoֵ��Ӧ�ĳ�������
+				//打印errno值对应的出错内容
 				case 'm':
 				{
 
 				}break;
 
-				//ʮ������p�����������������aΪСд��AΪ��д
+				//十六进制p计数法输出浮点数，a为小写，A为大写
 				case 'a':
 				case 'A':
 				{

@@ -1,7 +1,7 @@
 /*
  * Semaphore.Group.c
  *
- *  Created on: 2019Äê4ÔÂ30ÈÕ
+ *  Created on: 2019å¹´4æœˆ30æ—¥
  *      Author: Master.HE
  */
 #include "Master.Stdint.h"
@@ -22,6 +22,7 @@
 #include "Scheduling/Scheduling.h"
 #include "Scheduling/Scheduling.Task.h"
 
+#ifdef Master_OS_Config_Semaphore_Group_Create
 int __Sys_Semaphore_Group_Create(
 		char *Name,
 		Event_Queue_Option_Type Option_Type)
@@ -53,6 +54,8 @@ int __Sys_Semaphore_Group_Create(
 	return Handle;
 
 }
+#endif
+#ifdef Master_OS_Config_Semaphore_Group_Delete
 int __Sys_Semaphore_Group_Delete(int Handle)
 {
 	if(Handle<Valid_Handle)return Error_Invalid_Handle;
@@ -77,6 +80,8 @@ int __Sys_Semaphore_Group_Delete(int Handle)
 	return Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_Semaphore_Group_Find_Handle
 int __Sys_Semaphore_Group_Find_Handle(char *Name)
 {
 	if(Name==Null)
@@ -86,6 +91,8 @@ int __Sys_Semaphore_Group_Find_Handle(char *Name)
 
 	return Event_Node_Name_Find_Node(Name,Event_Pend_Semaphore_Group);
 }
+#endif
+#ifdef Master_OS_Config_Semaphore_Group_Wait
 int __Sys_Semaphore_Group_Wait(
 		int Handle,
 		bool Monopolize,
@@ -230,6 +237,8 @@ int __Sys_Semaphore_Group_Wait(
 	}
 
 }
+#endif
+#ifdef Master_OS_Config_Semaphore_Group_Release
 int __Sys_Semaphore_Group_Release(
 		int Handle,
 		bool Monopolize,
@@ -364,3 +373,4 @@ int __Sys_Semaphore_Group_Release(
 	return Error_OK;
 
 }
+#endif

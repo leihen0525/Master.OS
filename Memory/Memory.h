@@ -9,17 +9,27 @@
 #define MEMORY_H_
 
 #include "Master.Stdint.h"
+#include "Master.OS.Config.h"
 
 #include "Memory.Struct.h"
 
 int __Sys_Memory_Init(void);
 
+#ifdef Master_OS_Config_Memory_Size_Malloc
 uint32_t __Sys_Memory_Size_Malloc(void);
+#endif
+#ifdef Master_OS_Config_Memory_Size_Free
 uint32_t __Sys_Memory_Size_Free(void);
+#endif
+#ifdef Master_OS_Config_Memory_Malloc_Align
 void *__Sys_Memory_Malloc_Align(uint32_t Size,uint32_t Align);
+#endif
+#ifdef Master_OS_Config_Memory_Malloc
 void *__Sys_Memory_Malloc(uint32_t Size);
-
+#endif
+#ifdef Master_OS_Config_Memory_Free
 void __Sys_Memory_Free(void *ap);
+#endif
 
 uint32_t __Usr_Memory_Size_Malloc(void);
 uint32_t __Usr_Memory_Size_Free(void);

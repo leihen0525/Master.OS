@@ -1,7 +1,7 @@
 /*
  * Memory.c
  *
- *  Created on: 2019��4��12��
+ *  Created on: 2019年4月12日
  *      Author: Master.HE
  */
 //#include "__Sys.API.h"
@@ -41,7 +41,7 @@ int __Sys_Memory_Init(void)
 	}
 	return Error_OK;
 }
-
+#ifdef Master_OS_Config_Memory_Size_Malloc
 uint32_t __Sys_Memory_Size_Malloc(void)
 {
 #ifdef __MPU__
@@ -50,7 +50,8 @@ uint32_t __Sys_Memory_Size_Malloc(void)
 	return __Memory_Size_Malloc(&__Usr_Memory_DATA);
 #endif
 }
-
+#endif
+#ifdef Master_OS_Config_Memory_Size_Free
 uint32_t __Sys_Memory_Size_Free(void)
 {
 #ifdef __MPU__
@@ -59,8 +60,8 @@ uint32_t __Sys_Memory_Size_Free(void)
 	return __Memory_Size_Free(&__Usr_Memory_DATA);
 #endif
 }
-
-
+#endif
+#ifdef Master_OS_Config_Memory_Malloc_Align
 void *__Sys_Memory_Malloc_Align(uint32_t Size,uint32_t Align)
 {
 #ifdef __MPU__
@@ -69,7 +70,8 @@ void *__Sys_Memory_Malloc_Align(uint32_t Size,uint32_t Align)
 	return __Memory_Malloc(&__Usr_Memory_DATA,Size,Align);
 #endif
 }
-
+#endif
+#ifdef Master_OS_Config_Memory_Malloc
 void *__Sys_Memory_Malloc(uint32_t Size)
 {
 #ifdef __MPU__
@@ -78,7 +80,8 @@ void *__Sys_Memory_Malloc(uint32_t Size)
 	return __Memory_Malloc(&__Usr_Memory_DATA,Size,4);
 #endif
 }
-
+#endif
+#ifdef Master_OS_Config_Memory_Free
 void __Sys_Memory_Free(void *ap)
 {
 #ifdef __MPU__
@@ -87,7 +90,7 @@ void __Sys_Memory_Free(void *ap)
 	__Memory_Free(&__Usr_Memory_DATA,ap);
 #endif
 }
-
+#endif
 uint32_t __Usr_Memory_Size_Malloc(void)
 {
 	return __Memory_Size_Malloc(&__Usr_Memory_DATA);
@@ -158,7 +161,7 @@ int __Memory_Init(
 
 	Temp_Node=(Memory_Node_Type *)&P_Memory_DATA->HEAP.Begin[0];
 
-	//����������
+	//检查对齐问题
 	BUILD_BUG_ON(Memory_Node_Head_Size!=8);
 
 	P_Memory_DATA->Malloc.Begin=Null;
@@ -200,7 +203,7 @@ uint32_t __Memory_Size_Free(Memory_DATA_Type *P_Memory_DATA)
 	}
 	return P_Memory_DATA->Free.Size_Byte;
 }
-//Align������2�ı����Ҳ���С��4
+//Align必须是2的倍数且不能小于4
 void *__Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Align)
 {
 	if(P_Memory_DATA==Null || Size==0 || Align==0 || (Align&0x3)!=0)
@@ -208,7 +211,7 @@ void *__Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Ali
 		return Null;
 	}
 
-	//��������4�ֽڶ���
+	//长度先用4字节对齐
 	if((Size&0x03)!=0)
 	{
 		Size=(Size&0xFFFFFFFC)+0x04;
@@ -237,10 +240,10 @@ void *__Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Ali
 
 	Temp_Node=P_Memory_DATA->Free.Begin;
 
-	//��ʼ����Free������������Ĵ�С�����ݽڵ�
+	//开始进入Free链表查找满足的大小的数据节点
 	while(Temp_Node!=Null)
 	{
-		//�������ݿ�ͷ�Ƿ���ȷ
+		//检验数据块头是否正确
 		if(__Memory_Check_Node_Verify(Temp_Node)!=Error_OK)
 		{
 			P_Memory_DATA->Flag.Free_Head_Err=1;
@@ -252,7 +255,7 @@ void *__Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Ali
 		//uint32_t End_Adress=Begin_Address+Temp_Node->Size_Byte-1;
 
 
-		//��������Ҫ�����Ŀ�껹����ٸ��ֽ�
+		//计算离需要对齐的目标还差多少个字节
 		uint32_t Size_Align=0;
 
 		if((Begin_Address&(Align-1))!=0)
@@ -262,10 +265,10 @@ void *__Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Ali
 
 		uint32_t New_Size=Size+Size_Align;
 
-		//�ҵ���С�������������ݿ�
+		//找到大小满足条件的数据块
 		if(Temp_Node->Size_Byte>=New_Size)
 		{
-			//��ַ����-��������С�ڵ���һ��ͷ�Ĵ�С���򲻽��зָ��Ϊ�ָ�û������
+			//地址对齐-误差控制在小于等于一个头的大小，则不进行分割，因为分割没有意义
 			if(Size_Align<=Memory_Node_Head_Size)
 			{
 
@@ -280,13 +283,13 @@ void *__Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Ali
 				}
 #endif
 
-			//���ȷָ����Ҫ�����ݽڵ��ʣ��δʹ�õ����ݽڵ�
-				//������һ���������ݿ�
+			//首先分割出需要的数据节点和剩余未使用的数据节点
+				//计算下一个空余数据块
 				Memory_Node_Type *Temp_Node_NEXT=Null;
-				//��ǰ�ڵ���Էָ����һ��ʣ��δʹ�õĽڵ�
+				//当前节点可以分割出下一个剩余未使用的节点
 				if(Temp_Node->Size_Byte>(New_Size+Memory_Node_Head_Size))
 				{
-					//�������һ��δʹ�ýڵ���׵�ַ
+					//计算出下一个未使用节点的首地址
 					Temp_Node_NEXT=(Memory_Node_Type *)(Begin_Address+New_Size);
 
 					//
@@ -295,31 +298,31 @@ void *__Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Ali
 						P_Memory_DATA->Flag.Unknown_Err=1;
 						return Null;
 					}
-					//������ǰ����ڵ�ĳ���
+					//修正当前申请节点的长度
 					if(__Memory_Calculate_Node_Verify(Temp_Node,New_Size,Null)!=Error_OK)
 					{
 						P_Memory_DATA->Flag.Unknown_Err=1;
 						return Null;
 					}
 
-					//��Ϊ���һ���ڵ�ͷ���ȼ���
+					//因为多出一个节点头，先减掉
 					P_Memory_DATA->Free.Size_Byte=P_Memory_DATA->Free.Size_Byte-Memory_Node_Head_Size;
 				}
-				else//��ǰ���ָܷ����һ��δʹ�õĽڵ�
+				else//当前不能分割出下一个未使用的节点
 				{
 					Temp_Node_NEXT=Temp_Node->NEXT;
 
-					//�����������Ľڵ�
+					//修正这个申请的节点
 					if(__Memory_Calculate_Node_Verify(Temp_Node,Temp_Node->Size_Byte,Null)!=Error_OK)
 					{
 						P_Memory_DATA->Flag.Unknown_Err=1;
 						return Null;
 					}
 				}
-				//���������������򳤶�
+				//减掉这个申请的区域长度
 				P_Memory_DATA->Free.Size_Byte=P_Memory_DATA->Free.Size_Byte-Temp_Node->Size_Byte;
 
-				//������ڵ��Free������ȥ��
+				//将这个节点从Free链表中去除
 				if(Temp_Node_LAST==Null || Temp_Node==P_Memory_DATA->Free.Begin)
 				{
 					P_Memory_DATA->Free.Begin=Temp_Node_NEXT;
@@ -349,7 +352,7 @@ void *__Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Ali
 					}
 				}
 #endif
-				//������Ľڵ����ӵ�Malloc������
+				//将申请的节点添加到Malloc链表中
 				//
 				P_Memory_DATA->Malloc.Size_Byte=P_Memory_DATA->Malloc.Size_Byte+Temp_Node->Size_Byte;
 
@@ -391,37 +394,37 @@ void *__Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Ali
 					while(i);
 				}
 #endif
-				//��������ڵ�������׵�ַ
+				//返回这个节点的数据首地址
 				return (void *)((uint32_t)Temp_Node+Memory_Node_Head_Size+Size_Align);
 
 			}
-			else//��ַ���������ڵ���һ���ڵ�ͷ����ô���Գ����и��2�����ݿ�
+			else//地址对齐误差大于等于一个节点头，那么可以尝试切割成2个数据块
 			{
-				//�����Ƿ��������и�
+				//计算是否能满足切割
 				if(Temp_Node->Size_Byte>(Memory_Node_Head_Size+New_Size))
 				{
 
 					Memory_Node_Type *Temp_Node_Split;
 
-					//�������ַ����Ľڵ���׵�ַ
+					//计算出地址对齐的节点的首地址
 					Temp_Node_Split=(Memory_Node_Type *)(Begin_Address+Size_Align-Memory_Node_Head_Size);
 
 
-					//�ָ��һ����������Ľڵ�
+					//分割成一个满足需求的节点
 					if(__Memory_Calculate_Node_Verify(Temp_Node_Split,Temp_Node->Size_Byte-(Size_Align-Memory_Node_Head_Size)-Memory_Node_Head_Size,Temp_Node->NEXT)!=Error_OK)
 					{
 						P_Memory_DATA->Flag.Unknown_Err=1;
 						return Null;
 					}
 
-					//������ǰ�����ָ�Ľڵ�
+					//修正当前被被分割的节点
 					if(__Memory_Calculate_Node_Verify(Temp_Node,Size_Align-Memory_Node_Head_Size,Temp_Node_Split)!=Error_OK)
 					{
 						P_Memory_DATA->Flag.Unknown_Err=1;
 						return Null;
 					}
 
-					//��ȥ����ָ�����Ľڵ�ͷ
+					//减去这个分割出来的节点头
 					P_Memory_DATA->Free.Size_Byte=P_Memory_DATA->Free.Size_Byte-Memory_Node_Head_Size;
 				}
 				
@@ -472,10 +475,10 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 
 	Temp_Node=P_Memory_DATA->Malloc.Begin;
 
-	//��Malloc�������ҵ���Ҫ�ͷŵĽڵ�
+	//从Malloc链表中找到需要释放的节点
 	while(Temp_Node!=Null)
 	{
-		//�������ݿ�ͷ�Ƿ���ȷ
+		//检验数据块头是否正确
 		if(__Memory_Check_Node_Verify(Temp_Node)!=Error_OK)
 		{
 			P_Memory_DATA->Flag.Free_Head_Err=1;
@@ -486,10 +489,10 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 		uint32_t Begin_Address_Free=(uint32_t)Temp_Node+Memory_Node_Head_Size;
 		uint32_t End_Adress_Free=Begin_Address_Free+Temp_Node->Size_Byte-1;
 
-		//�ҵ������Ҫ�ͷŵĽڵ�
+		//找到这个需要释放的节点
 		if((Begin_Address_Free<=(uint32_t)ap) && (uint32_t)ap<=End_Adress_Free)
 		{
-			//�ȴ�Malloc�����н���ǰ��Ҫ�ͷŵĽڵ��޳�
+			//先从Malloc链表中将当前需要释放的节点剔除
 			if(Temp_Node_LAST==Null || Temp_Node==P_Memory_DATA->Malloc.Begin)
 			{
 				P_Memory_DATA->Malloc.Begin=Temp_Node->NEXT;
@@ -512,7 +515,7 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 			}
 			P_Memory_DATA->Malloc.Size_Byte=P_Memory_DATA->Malloc.Size_Byte-Temp_Node->Size_Byte;
 
-			//�����յĽڵ�ŵ�free��
+			//将回收的节点放到free中
 			Temp_Node_Free=Temp_Node;
 
 			Temp_Node=P_Memory_DATA->Free.Begin;
@@ -521,11 +524,11 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 			Begin_Address_Free=(uint32_t)Temp_Node_Free;
 			End_Adress_Free=Begin_Address_Free+Memory_Node_Head_Size+Temp_Node_Free->Size_Byte;
 
-			//��Free���ҵ����ʵ�λ�÷Ž�ȥ���ߺϲ���
+			//从Free中找到合适的位置放进去或者合并掉
 			while(Temp_Node!=Null)
 			{
 
-				//�������ݿ�ͷ�Ƿ���ȷ
+				//检验数据块头是否正确
 				if(__Memory_Check_Node_Verify(Temp_Node)!=Error_OK)
 				{
 					P_Memory_DATA->Flag.Free_Head_Err=1;
@@ -534,10 +537,10 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 				}
 				Temp_Node_NEXT=Temp_Node->NEXT;
 
-				//�ҳ����ʵ���һ�ں���һ�ڣ�Ȼ�� ��һ�� �м� ��һ�ںϲ�
-				//������һ��ΪLAST��FreeΪ�м䣬��һ��ΪNEXT
-				//LASTΪ��ǰTemp_Node
-				//��ô�����ּ���
+				//找出合适的上一节和下一节，然后 上一节 中间 下一节合并
+				//假设上一节为LAST，Free为中间，下一节为NEXT
+				//LAST为当前Temp_Node
+				//那么有三种假设
 
 				//Free<LAST || Free==LAST
 
@@ -551,10 +554,10 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 				{
 					//Free<LAST || Free==LAST
 
-					//�ͷŵĽڵ�ĵ�ַ�ڵ�ǰ�ڵ�֮ǰ
+					//释放的节点的地址在当前节点之前
 					if(End_Adress_Free<=(uint32_t)Temp_Node)
 					{
-						//�ͷŵĽڵ���Ժ͵�ǰ�ڵ�ϲ�
+						//释放的节点可以和当前节点合并
 						if(End_Adress_Free==(uint32_t)Temp_Node)
 						{
 							//
@@ -567,7 +570,7 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 							}
 
 						}
-						else//End_Adress_Free<(uint32_t)Temp_Node//���ܺϲ������뵽ͷ֮ǰ
+						else//End_Adress_Free<(uint32_t)Temp_Node//不能合并，插入到头之前
 						{
 							P_Memory_DATA->Free.Size_Byte=P_Memory_DATA->Free.Size_Byte+Temp_Node_Free->Size_Byte;
 
@@ -605,7 +608,7 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 				//
 				if(Temp_Node_NEXT!=Null)
 				{
-					//�������ݿ�ͷ�Ƿ���ȷ
+					//检验数据块头是否正确
 					if(__Memory_Check_Node_Verify(Temp_Node_NEXT)!=Error_OK)
 					{
 						P_Memory_DATA->Flag.Free_Head_Err=1;
@@ -622,9 +625,9 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 					//(LAST<Free || LAST==Free) && (Free<NEXT || Free==NEXT)
 					if(End_Adress_LAST<=Begin_Address_Free && End_Adress_Free<=Begin_Address_NEXT)
 					{
-						//�ȿ�ǰ���
+						//先看前半段
 						//(LAST<Free || LAST==Free)
-						if(End_Adress_LAST<Begin_Address_Free)//���ܺϲ��嵽����
+						if(End_Adress_LAST<Begin_Address_Free)//不能合并插到后面
 						{
 							P_Memory_DATA->Free.Size_Byte=P_Memory_DATA->Free.Size_Byte+Temp_Node_Free->Size_Byte;
 
@@ -635,7 +638,7 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 							}
 
 						}
-						else if(End_Adress_LAST==Begin_Address_Free)//���Ժϲ�
+						else if(End_Adress_LAST==Begin_Address_Free)//可以合并
 						{
 							P_Memory_DATA->Free.Size_Byte=P_Memory_DATA->Free.Size_Byte+(Memory_Node_Head_Size+Temp_Node_Free->Size_Byte);
 
@@ -644,18 +647,18 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 								P_Memory_DATA->Flag.Unknown_Err=1;
 								return ;
 							}
-							//����ϲ���ô��ǰ����ڵ�����ͷŵĽڵ���
+							//如果合并那么当前这个节点便是释放的节点了
 							Temp_Node_Free=Temp_Node;
 						}
-						else//�����ܴ���
+						else//不可能存在
 						{
 							P_Memory_DATA->Flag.Unknown_Err=1;
 							return ;
 						}
 
-						//����
+						//后半段
 						//(Free<NEXT || Free==NEXT)
-						if(End_Adress_Free<Begin_Address_NEXT)//���ܺϲ�
+						if(End_Adress_Free<Begin_Address_NEXT)//不能合并
 						{
 							if(__Memory_Calculate_Node_Verify(Temp_Node_Free,Temp_Node_Free->Size_Byte,Temp_Node_NEXT)!=Error_OK)
 							{
@@ -664,9 +667,9 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 							}
 
 						}
-						else if(End_Adress_Free==Begin_Address_NEXT)//���Ժϲ�
+						else if(End_Adress_Free==Begin_Address_NEXT)//可以合并
 						{
-							//��ΪNEXT�Ľڵ�ռ��Ѿ��������ˣ����Ժϲ���ֻ�ܶ��һ��NEXT�Ľڵ�ͷ��С
+							//因为NEXT的节点空间已经算在内了，所以合并后只能多出一个NEXT的节点头大小
 							P_Memory_DATA->Free.Size_Byte=P_Memory_DATA->Free.Size_Byte+(Memory_Node_Head_Size+0);
 
 							if(__Memory_Calculate_Node_Verify(Temp_Node_Free,Temp_Node_Free->Size_Byte+(Memory_Node_Head_Size+Temp_Node_NEXT->Size_Byte),Temp_Node_NEXT->NEXT)!=Error_OK)
@@ -675,7 +678,7 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 								return ;
 							}
 						}
-						else//�����ܴ���
+						else//不可能存在
 						{
 							P_Memory_DATA->Flag.Unknown_Err=1;
 							return ;
@@ -704,13 +707,13 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 				}
 				else if(Temp_Node_NEXT==Null)
 				{
-					//��ǰ�����һ���ڵ���
+					//当前是最后一个节点了
 
 					//NEXT<Free || NEXT==Free
 					uint32_t Begin_Address_LAST=(uint32_t)Temp_Node;
 					//uint32_t End_Adress_LAST=Begin_Address_LAST+Temp_Node->Size_Byte+Memory_Node_Head_Size;
 
-					if(Begin_Address_LAST<Begin_Address_Free)//���ܺϲ�
+					if(Begin_Address_LAST<Begin_Address_Free)//不能合并
 					{
 						P_Memory_DATA->Free.Size_Byte=P_Memory_DATA->Free.Size_Byte+Temp_Node_Free->Size_Byte;
 
@@ -726,7 +729,7 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 							return ;
 						}
 					}
-					else if(Begin_Address_LAST==Begin_Address_Free)//���Ժϲ�
+					else if(Begin_Address_LAST==Begin_Address_Free)//可以合并
 					{
 						P_Memory_DATA->Free.Size_Byte=P_Memory_DATA->Free.Size_Byte+(Memory_Node_Head_Size+Temp_Node_Free->Size_Byte);
 
@@ -736,7 +739,7 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 							return ;
 						}
 					}
-					else//�����ܴ���
+					else//不可能存在
 					{
 						P_Memory_DATA->Flag.Unknown_Err=1;
 						return ;
@@ -763,7 +766,7 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 
 				Temp_Node=Temp_Node->NEXT;
 			}
-			//����һ��������� ��ǰFree������û���κ�����
+			//这是一个特殊情况 当前Free链表中没有任何数据
 			if(P_Memory_DATA->Free.Begin==Null)
 			{
 				P_Memory_DATA->Free.Size_Byte=P_Memory_DATA->Free.Size_Byte+Temp_Node_Free->Size_Byte;
@@ -793,7 +796,7 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 #endif
 				return ;
 			}
-			else//����
+			else//出错
 			{
 				P_Memory_DATA->Flag.Unknown_Err=1;
 				return ;
@@ -807,7 +810,7 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 		Temp_Node=Temp_Node->NEXT;
 	}
 
-	//û���ҵ�����ǰ��Ҫ�ͷŵĿռ䲻���ڣ�
+	//没有找到？当前需要释放的空间不存在？
 	P_Memory_DATA->Flag.Free_Err=1;
 	return ;
 

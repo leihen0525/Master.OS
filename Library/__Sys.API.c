@@ -1,14 +1,14 @@
 /*
  * __Sys.API.c
  *
- *  Created on: 2019Äê4ÔÂ12ÈÕ
+ *  Created on: 2019å¹´4æœˆ12æ—¥
  *      Author: Master.HE
  */
 #include "Error.h"
 #include "__Sys.API.h"
 
 
-int Sys_Handle=1;//0±£Áô¸øIdle Task
+int Sys_Handle=1;//0ä¿ç•™ç»™Idle Task
 int __Sys_Apply_Handle(void)
 {
 	if(Sys_Handle>=0x7FFFFFFF)
@@ -20,18 +20,25 @@ int __Sys_Apply_Handle(void)
 
 
 //Event-Event_Flag_Group
+#ifdef Master_OS_Config_Event_Flag_Group_Create_8bit
 int __Sys_Event_Flag_Group_Create_8bit(char *Name)
 {
 	return __Sys_Event_Flag_Group_Create(Name,sizeof(uint8_t));
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Create_16bit
 int __Sys_Event_Flag_Group_Create_16bit(char *Name)
 {
 	return __Sys_Event_Flag_Group_Create(Name,sizeof(uint16_t));
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Create_32bit
 int __Sys_Event_Flag_Group_Create_32bit(char *Name)
 {
 	return __Sys_Event_Flag_Group_Create(Name,sizeof(uint32_t));
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Wait_And_8bit
 int __Sys_Event_Flag_Group_Wait_And_8bit(
 		int Handle,
 		uint8_t Event_Flag_Group_Mask,
@@ -50,6 +57,8 @@ int __Sys_Event_Flag_Group_Wait_And_8bit(
 			(uint8_t *)&Event_Flag_Group_Clear_BIT,
 			Time_Out_MS);
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Wait_And_16bit
 int __Sys_Event_Flag_Group_Wait_And_16bit(
 		int Handle,
 		uint16_t Event_Flag_Group_Mask,
@@ -68,6 +77,8 @@ int __Sys_Event_Flag_Group_Wait_And_16bit(
 			(uint8_t *)&Event_Flag_Group_Clear_BIT,
 			Time_Out_MS);
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Wait_And_32bit
 int __Sys_Event_Flag_Group_Wait_And_32bit(
 		int Handle,
 		uint32_t Event_Flag_Group_Mask,
@@ -86,6 +97,8 @@ int __Sys_Event_Flag_Group_Wait_And_32bit(
 			(uint8_t *)&Event_Flag_Group_Clear_BIT,
 			Time_Out_MS);
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Wait_Or_8bit
 int __Sys_Event_Flag_Group_Wait_Or_8bit(
 		int Handle,
 		uint8_t Event_Flag_Group_Mask,
@@ -104,6 +117,8 @@ int __Sys_Event_Flag_Group_Wait_Or_8bit(
 			(uint8_t *)&Event_Flag_Group_Clear_BIT,
 			Time_Out_MS);
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Wait_Or_16bit
 int __Sys_Event_Flag_Group_Wait_Or_16bit(
 		int Handle,
 		uint16_t Event_Flag_Group_Mask,
@@ -122,6 +137,8 @@ int __Sys_Event_Flag_Group_Wait_Or_16bit(
 			(uint8_t *)&Event_Flag_Group_Clear_BIT,
 			Time_Out_MS);
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Wait_Or_32bit
 int __Sys_Event_Flag_Group_Wait_Or_32bit(
 		int Handle,
 		uint32_t Event_Flag_Group_Mask,
@@ -140,6 +157,8 @@ int __Sys_Event_Flag_Group_Wait_Or_32bit(
 			(uint8_t *)&Event_Flag_Group_Clear_BIT,
 			Time_Out_MS);
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Set_8bit
 int __Sys_Event_Flag_Group_Set_8bit(
 		int Handle,
 		uint8_t Event_Flag_Group_Mask,
@@ -150,6 +169,8 @@ int __Sys_Event_Flag_Group_Set_8bit(
 			(uint8_t *)&Event_Flag_Group_Mask,
 			(uint8_t *)&Event_Flag_Group_BIT);
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Set_16bit
 int __Sys_Event_Flag_Group_Set_16bit(
 		int Handle,
 		uint16_t Event_Flag_Group_Mask,
@@ -160,6 +181,8 @@ int __Sys_Event_Flag_Group_Set_16bit(
 			(uint8_t *)&Event_Flag_Group_Mask,
 			(uint8_t *)&Event_Flag_Group_BIT);
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Group_Set_32bit
 int __Sys_Event_Flag_Group_Set_32bit(
 		int Handle,
 		uint32_t Event_Flag_Group_Mask,
@@ -170,3 +193,4 @@ int __Sys_Event_Flag_Group_Set_32bit(
 			(uint8_t *)&Event_Flag_Group_Mask,
 			(uint8_t *)&Event_Flag_Group_BIT);
 }
+#endif

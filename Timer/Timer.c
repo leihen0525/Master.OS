@@ -1,7 +1,7 @@
 /*
  * Timer.c
  *
- *  Created on: 2019Äê4ÔÂ29ÈÕ
+ *  Created on: 2019å¹´4æœˆ29æ—¥
  *      Author: Master.HE
  */
 #include "Define.h"
@@ -37,7 +37,7 @@ int Timer_Init(Machine_Desc_Timer_Type *P_Timer)
 		return Error_Undefined;
 	}
 
-	//³õÊ¼»¯¶¨Ê±Æ÷
+	//åˆå§‹åŒ–å®šæ—¶å™¨
 	int Err=Timer_DATA.Timer->Init();
 
 	if(Err!=Error_OK)
@@ -45,21 +45,21 @@ int Timer_Init(Machine_Desc_Timer_Type *P_Timer)
 		return Err;
 	}
 
-	//×¢²á¶¨Ê±Æ÷ÖĞ¶Ïº¯Êı
+	//æ³¨å†Œå®šæ—¶å™¨ä¸­æ–­å‡½æ•°
 	Err=__Sys_IRQ_Register_Hook(Timer_DATA.Timer->IRQ_Index,Timer_IRQ,Null);
 	if(Err<Error_OK)
 	{
 		return Err;
 	}
 
-	//Ê¹ÄÜ¶¨Ê±Æ÷ÖĞ¶Ï
+	//ä½¿èƒ½å®šæ—¶å™¨ä¸­æ–­
 	Err=__Sys_IRQ_Enable(Timer_DATA.Timer->IRQ_Index);
 	if(Err!=Error_OK)
 	{
 		return Err;
 	}
 
-	//ÏÈ¹Ø±Õ¶¨Ê±Æ÷
+	//å…ˆå…³é—­å®šæ—¶å™¨
 	Err=Timer_DATA.Timer->Disable();
 	if(Err!=Error_OK)
 	{
@@ -89,6 +89,7 @@ int Timer_Get_Flag(void)
 	}
 	return Timer_DATA.Timer->GET_Flag();
 }
+#ifdef Master_OS_Config_Timer_Enable
 int __Sys_Timer_Enable(void)
 {
 	if(Timer_DATA.Timer->Enable==Null)
@@ -97,6 +98,8 @@ int __Sys_Timer_Enable(void)
 	}
 	return Timer_DATA.Timer->Enable();
 }
+#endif
+#ifdef Master_OS_Config_Timer_Disable
 int __Sys_Timer_Disable(void)
 {
 	if(Timer_DATA.Timer->Disable==Null)
@@ -105,6 +108,7 @@ int __Sys_Timer_Disable(void)
 	}
 	return Timer_DATA.Timer->Disable();
 }
+#endif
 void Timer_IRQ(void *Args,int IRQ_Index)
 {
 	if(Timer_Get_Flag()==Error_OK)
@@ -118,7 +122,8 @@ void Timer_IRQ(void *Args,int IRQ_Index)
 	//while(1);
 }
 //------------------------------------------------------------------------------------------
-//--API----ÒÔÏÂAPIÖ»ÄÜÊÇÌØÈ¨¼¶Ä£Ê½µ÷ÓÃ
+//--API----ä»¥ä¸‹APIåªèƒ½æ˜¯ç‰¹æƒçº§æ¨¡å¼è°ƒç”¨
+#ifdef Master_OS_Config_Timer_Register
 int __Sys_Timer_Register(
 		Timer_Enter_Function Timer_Function,
 		void *Args)
@@ -165,8 +170,8 @@ int __Sys_Timer_Register(
 
 	return Temp_Timer_Node->Handle;
 }
-
-
+#endif
+#ifdef Master_OS_Config_Timer_Delete
 int __Sys_Timer_Delete(int Handle)
 {
 	if(Handle<Valid_Handle)
@@ -187,11 +192,12 @@ int __Sys_Timer_Delete(int Handle)
 	return Err;
 
 }
-
+#endif
+#ifdef Master_OS_Config_Timer_Start
 int __Sys_Timer_Start(
 		int Handle,
-		int32_t N_Time_Cycle,	//´ÎÊı
-		int32_t Cycle_Time_MS,	//ÖÜÆÚ
+		int32_t N_Time_Cycle,	//æ¬¡æ•°
+		int32_t Cycle_Time_MS,	//å‘¨æœŸ
 		Timer_Operation_Type Timer_Operation)
 {
 	if(Handle<Valid_Handle)
@@ -205,7 +211,7 @@ int __Sys_Timer_Start(
 		return Error_Invalid_Parameter;
 	}
 
-	//½«¶¨Ê±Æ÷ÈÎÎñ´Ó ¶ÓÁĞÖĞÈ¡³öÀ´
+	//å°†å®šæ—¶å™¨ä»»åŠ¡ä» é˜Ÿåˆ—ä¸­å–å‡ºæ¥
 	int Err;
 	Timer_Node_Type *Temp_Node=Null;
 	if((Err=Timer_Delete_Timer_Queue(Handle,&Temp_Node))!=Error_OK)
@@ -216,7 +222,7 @@ int __Sys_Timer_Start(
 	{
 		return Error_Unknown;
 	}
-	//²ÎÊı¸´ÖÆ
+	//å‚æ•°å¤åˆ¶
 	if(Timer_Operation==Timer_Operation_N_Time_Cycle)
 	{
 		Temp_Node->N_Time_Cycle=N_Time_Cycle;
@@ -238,14 +244,15 @@ int __Sys_Timer_Start(
 	return Error_OK;
 
 }
-
+#endif
+#ifdef Master_OS_Config_Timer_Stop
 int __Sys_Timer_Stop(int Handle)
 {
 	if(Handle<Valid_Handle)
 	{
 		return Error_Invalid_Handle;
 	}
-	//½«¶¨Ê±Æ÷ÈÎÎñ´Ó ¶ÓÁĞÖĞÈ¡³öÀ´
+	//å°†å®šæ—¶å™¨ä»»åŠ¡ä» é˜Ÿåˆ—ä¸­å–å‡ºæ¥
 	int Err;
 	Timer_Node_Type *Temp_Node=Null;
 	if((Err=Timer_Delete_Timer_Queue(Handle,&Temp_Node))!=Error_OK)
@@ -256,7 +263,7 @@ int __Sys_Timer_Stop(int Handle)
 	{
 		return Error_Unknown;
 	}
-	//ÖØÖÃ²ÎÊı
+	//é‡ç½®å‚æ•°
 	Temp_Node->Suspended_Time_MS=-1;
 	Temp_Node->Now_Countdown_N_Time_Cycle=-1;
 
@@ -268,14 +275,15 @@ int __Sys_Timer_Stop(int Handle)
 	return Error_OK;
 
 }
-
-int __Sys_Timer_Suspend(int Handle)//ÔİÍ£
+#endif
+#ifdef Master_OS_Config_Timer_Suspend
+int __Sys_Timer_Suspend(int Handle)//æš‚åœ
 {
 	if(Handle<Valid_Handle)
 	{
 		return Error_Invalid_Handle;
 	}
-	//½«¶¨Ê±Æ÷ÈÎÎñ´Ó ¶ÓÁĞÖĞÈ¡³öÀ´
+	//å°†å®šæ—¶å™¨ä»»åŠ¡ä» é˜Ÿåˆ—ä¸­å–å‡ºæ¥
 	int Err;
 	Timer_Node_Type *Temp_Node=Null;
 	if((Err=Timer_Delete_Timer_Queue(Handle,&Temp_Node))!=Error_OK)
@@ -286,7 +294,7 @@ int __Sys_Timer_Suspend(int Handle)//ÔİÍ£
 	{
 		return Error_Unknown;
 	}
-	//±£´æÊ±¼ä
+	//ä¿å­˜æ—¶é—´
 	Temp_Node->Suspended_Time_MS=Temp_Node->TimeOut_MS;
 
 	if((Err=Timer_Add_Timer_Queue(Temp_Node,-1))!=Error_OK)
@@ -297,14 +305,15 @@ int __Sys_Timer_Suspend(int Handle)//ÔİÍ£
 	return Error_OK;
 
 }
-
-int __Sys_Timer_Resume(int Handle)//»Ö¸´
+#endif
+#ifdef Master_OS_Config_Timer_Resume
+int __Sys_Timer_Resume(int Handle)//æ¢å¤
 {
 	if(Handle<Valid_Handle)
 	{
 		return Error_Invalid_Handle;
 	}
-	//½«¶¨Ê±Æ÷ÈÎÎñ´Ó ¶ÓÁĞÖĞÈ¡³öÀ´
+	//å°†å®šæ—¶å™¨ä»»åŠ¡ä» é˜Ÿåˆ—ä¸­å–å‡ºæ¥
 	int Err;
 	Timer_Node_Type *Temp_Node=Null;
 	if((Err=Timer_Delete_Timer_Queue(Handle,&Temp_Node))!=Error_OK)
@@ -315,7 +324,7 @@ int __Sys_Timer_Resume(int Handle)//»Ö¸´
 	{
 		return Error_Unknown;
 	}
-	//¼ì²é²ÎÊıÊÇ·ñ³õÊ¼»¯¹ı
+	//æ£€æŸ¥å‚æ•°æ˜¯å¦åˆå§‹åŒ–è¿‡
 	if(Temp_Node->Cycle_Time_MS<=0
 	|| Temp_Node->N_Time_Cycle==0
 	|| Temp_Node->Now_Countdown_N_Time_Cycle==0)
@@ -330,7 +339,7 @@ int __Sys_Timer_Resume(int Handle)//»Ö¸´
 		return Error_Operation_Failed;
 	}
 
-	//Ê±¼ä
+	//æ—¶é—´
 	int32_t TimeOut_MS=Temp_Node->Suspended_Time_MS;
 	Temp_Node->Suspended_Time_MS=-1;
 	if(TimeOut_MS<0)
@@ -353,14 +362,15 @@ int __Sys_Timer_Resume(int Handle)//»Ö¸´
 	return Error_OK;
 
 }
-
-int __Sys_Timer_Reset(int Handle)//¸´Î»
+#endif
+#ifdef Master_OS_Config_Timer_Reset
+int __Sys_Timer_Reset(int Handle)//å¤ä½
 {
 	if(Handle<Valid_Handle)
 	{
 		return Error_Invalid_Handle;
 	}
-	//½«¶¨Ê±Æ÷ÈÎÎñ´Ó ¶ÓÁĞÖĞÈ¡³öÀ´
+	//å°†å®šæ—¶å™¨ä»»åŠ¡ä» é˜Ÿåˆ—ä¸­å–å‡ºæ¥
 	int Err;
 	Timer_Node_Type *Temp_Node=Null;
 	if((Err=Timer_Delete_Timer_Queue(Handle,&Temp_Node))!=Error_OK)
@@ -371,7 +381,7 @@ int __Sys_Timer_Reset(int Handle)//¸´Î»
 	{
 		return Error_Unknown;
 	}
-	//¼ì²é²ÎÊıÊÇ·ñ³õÊ¼»¯¹ı
+	//æ£€æŸ¥å‚æ•°æ˜¯å¦åˆå§‹åŒ–è¿‡
 	if(Temp_Node->Cycle_Time_MS<=0
 	|| Temp_Node->N_Time_Cycle==0)
 	{
@@ -385,7 +395,7 @@ int __Sys_Timer_Reset(int Handle)//¸´Î»
 		return Error_Operation_Failed;
 	}
 
-	//Ê±¼ä
+	//æ—¶é—´
 
 	Temp_Node->Suspended_Time_MS=-1;
 	Temp_Node->Now_Countdown_N_Time_Cycle=Temp_Node->N_Time_Cycle;
@@ -399,7 +409,8 @@ int __Sys_Timer_Reset(int Handle)//¸´Î»
 	return Error_OK;
 
 }
-
+#endif
+#ifdef Master_OS_Config_Timer_Enabled
 int __Sys_Timer_Enabled(uint8_t Enabled)
 {
 	if(Enabled>=Enabled_End)
@@ -411,6 +422,7 @@ int __Sys_Timer_Enabled(uint8_t Enabled)
 	return Error_OK;
 
 }
+#endif
 //--End-API---
 
 int Timer_Add_Timer_Queue(Timer_Node_Type *Add_Node,int32_t TimeOut_MS)
@@ -481,10 +493,10 @@ int Timer_Add_Timer_Queue(Timer_Node_Type *Add_Node,int32_t TimeOut_MS)
 	}
 
 
-	if(Temp_Node_LAST==Null)//Êı¾İÔÚÍ· »òÕßµÚÒ»´Î
+	if(Temp_Node_LAST==Null)//æ•°æ®åœ¨å¤´ æˆ–è€…ç¬¬ä¸€æ¬¡
 	{
 
-		if(Timer_DATA.Timer_Queue.Begin==Null)//¶ÓÁĞÎª¿Õ µÚÒ»´Î´´½¨
+		if(Timer_DATA.Timer_Queue.Begin==Null)//é˜Ÿåˆ—ä¸ºç©º ç¬¬ä¸€æ¬¡åˆ›å»º
 		{
 			Timer_DATA.Timer_Queue.Begin=Add_Node;
 
@@ -495,7 +507,7 @@ int Timer_Add_Timer_Queue(Timer_Node_Type *Add_Node,int32_t TimeOut_MS)
 			Add_Node->TimeOut_MS=TimeOut_MS;
 
 		}
-		else if(Timer_DATA.Timer_Queue.Begin==Temp_Node_NEXT)//Êı¾İÔÚÍ·Ö®Ç°
+		else if(Timer_DATA.Timer_Queue.Begin==Temp_Node_NEXT)//æ•°æ®åœ¨å¤´ä¹‹å‰
 		{
 
 			if(Time_MS_NEXT!=-1)
@@ -510,7 +522,7 @@ int Timer_Add_Timer_Queue(Timer_Node_Type *Add_Node,int32_t TimeOut_MS)
 			Add_Node->TimeOut_MS=TimeOut_MS;
 
 		}
-		else//Êı¾İÔÚÍ·Ö®Ç° µ«ÊÇÍ·ÊÇÎŞÏŞµÈ´ı
+		else//æ•°æ®åœ¨å¤´ä¹‹å‰ ä½†æ˜¯å¤´æ˜¯æ— é™ç­‰å¾…
 		{
 			Add_Node->NEXT=Timer_DATA.Timer_Queue.Begin;
 
@@ -520,9 +532,9 @@ int Timer_Add_Timer_Queue(Timer_Node_Type *Add_Node,int32_t TimeOut_MS)
 
 		}
 	}
-	else//Êı¾İÔÚÖĞ¼ä»òÕßÔÚÎ²
+	else//æ•°æ®åœ¨ä¸­é—´æˆ–è€…åœ¨å°¾
 	{
-		if(Temp_Node_NEXT!=Null)//Êı¾İÔÚÖĞ¼ä
+		if(Temp_Node_NEXT!=Null)//æ•°æ®åœ¨ä¸­é—´
 		{
 			Temp_Node_LAST->NEXT=Add_Node;
 
@@ -537,7 +549,7 @@ int Timer_Add_Timer_Queue(Timer_Node_Type *Add_Node,int32_t TimeOut_MS)
 				Temp_Node_NEXT->TimeOut_MS=Time_MS_NEXT;
 			}
 		}
-		else//Êı¾İÔÚÎ²
+		else//æ•°æ®åœ¨å°¾
 		{
 			if(Temp_Node_LAST==Timer_DATA.Timer_Queue.End)
 			{
@@ -548,7 +560,7 @@ int Timer_Add_Timer_Queue(Timer_Node_Type *Add_Node,int32_t TimeOut_MS)
 
 				Timer_DATA.Timer_Queue.End=Add_Node;
 			}
-			else//Êı¾İÔÚÎ²Ö®Ç° Î²ÊÇÊ±¼äÎŞÏŞµÈ´ı
+			else//æ•°æ®åœ¨å°¾ä¹‹å‰ å°¾æ˜¯æ—¶é—´æ— é™ç­‰å¾…
 			{
 				Temp_Node_NEXT=Temp_Node_LAST->NEXT;
 
@@ -600,12 +612,12 @@ int Timer_Delete_Timer_Queue(int Handle,Timer_Node_Type **Delete_Node)
 
 		Temp_Node_NEXT=Temp_Node->NEXT;
 
-		//Èç¹ûÕâ¸öÊı¾İÊÇÍ·
+		//å¦‚æœè¿™ä¸ªæ•°æ®æ˜¯å¤´
 		if(Temp_Node_LAST==Null || Temp_Node==Timer_DATA.Timer_Queue.Begin)
 		{
 			Timer_DATA.Timer_Queue.Begin=Timer_DATA.Timer_Queue.Begin->NEXT;
 
-			if(Timer_DATA.Timer_Queue.Begin!=Null)//ÏÂÒ»¸ö»¹ÓĞ
+			if(Timer_DATA.Timer_Queue.Begin!=Null)//ä¸‹ä¸€ä¸ªè¿˜æœ‰
 			{
 				if(Timer_DATA.Timer_Queue.Begin->TimeOut_MS>=0)
 				{
@@ -616,7 +628,7 @@ int Timer_Delete_Timer_Queue(int Handle,Timer_Node_Type **Delete_Node)
 				}
 			}
 		}
-		//Èç¹ûÕâ¸öÊı¾İÊÇÎ²
+		//å¦‚æœè¿™ä¸ªæ•°æ®æ˜¯å°¾
 		if(Temp_Node_NEXT==Null || Temp_Node==Timer_DATA.Timer_Queue.End)
 		{
 			Timer_DATA.Timer_Queue.End=Temp_Node_LAST;
@@ -626,10 +638,10 @@ int Timer_Delete_Timer_Queue(int Handle,Timer_Node_Type **Delete_Node)
 				Timer_DATA.Timer_Queue.End->NEXT=Null;
 			}
 		}
-		//Èç¹ûÍ·ºÍÎ²¶¼²»ÊÇ¿Õ ÄÇÃ´Êı¾İÔÚÖĞ¼ä
+		//å¦‚æœå¤´å’Œå°¾éƒ½ä¸æ˜¯ç©º é‚£ä¹ˆæ•°æ®åœ¨ä¸­é—´
 		if(Temp_Node_LAST!=Null && Temp_Node_NEXT!=Null)
 		{
-			//ĞŞ²¹Ê±¼ä¶ÓÁĞ
+			//ä¿®è¡¥æ—¶é—´é˜Ÿåˆ—
 			if(Temp_Node->TimeOut_MS>=0 && Temp_Node_NEXT->TimeOut_MS>=0)
 			{
 				Temp_Node_NEXT->TimeOut_MS=Temp_Node_NEXT->TimeOut_MS+Temp_Node->TimeOut_MS;
@@ -656,7 +668,7 @@ Loop_End:
 }
 
 
-//¶¨Ê±Æ÷Ö´ĞĞ²¿·Ö ÀïÃæAPI±ØĞëÊÇ API_User
+//å®šæ—¶å™¨æ‰§è¡Œéƒ¨åˆ† é‡Œé¢APIå¿…é¡»æ˜¯ API_User
 void __Timer_Task(void)
 {
 	Timer_Function_Type Timer_Function;
@@ -726,7 +738,7 @@ void __Timer_SysTick_Entry(void)
 			{
 
 
-				//¼ÓÈë¹ÒÆğ¶ÓÁĞ
+				//åŠ å…¥æŒ‚èµ·é˜Ÿåˆ—
 				if(Timer_Add_Timer_Queue(Temp_Node,-1)!=Error_OK)
 				{
 					;

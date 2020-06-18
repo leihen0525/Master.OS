@@ -1,7 +1,7 @@
 /*
  * Semaphore.c
  *
- *  Created on: 2019Äê4ÔÂ29ÈÕ
+ *  Created on: 2019å¹´4æœˆ29æ—¥
  *      Author: Master.HE
  */
 #include "Master.Stdint.h"
@@ -20,6 +20,7 @@
 #include "Queue/Queue.h"
 #include "Scheduling/Scheduling.h"
 
+#ifdef Master_OS_Config_Semaphore_Create
 int __Sys_Semaphore_Create(
 		char *Name,
 		uint32_t Init_Count,
@@ -56,7 +57,8 @@ int __Sys_Semaphore_Create(
 	}
 	return Handle;
 }
-
+#endif
+#ifdef Master_OS_Config_Semaphore_Delete
 int __Sys_Semaphore_Delete(int Handle)
 {
 	if(Handle<Valid_Handle)return Error_Invalid_Handle;
@@ -76,6 +78,8 @@ int __Sys_Semaphore_Delete(int Handle)
 	return Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_Semaphore_Find_Handle
 int __Sys_Semaphore_Find_Handle(char *Name)
 {
 	if(Name==Null)
@@ -85,6 +89,8 @@ int __Sys_Semaphore_Find_Handle(char *Name)
 
 	return Event_Node_Name_Find_Node(Name,Event_Pend_Semaphore);
 }
+#endif
+#ifdef Master_OS_Config_Semaphore_Wait
 int __Sys_Semaphore_Wait(
 		int Handle,
 		int32_t Time_Out_MS)
@@ -139,7 +145,7 @@ int __Sys_Semaphore_Wait(
 		if(Temp_DATA_Node->Semaphore.Count==0)
 		{
 
-			//±»Õ¼ÓÃ ¹ÒÆğµ±Ç°ÈÎÎñ
+			//è¢«å ç”¨ æŒ‚èµ·å½“å‰ä»»åŠ¡
 
 			__Sys_Scheduling_Task_TCB_Type *Temp_TCB=Null;
 			if((Err=__Sys_Scheduling_GET_Current_TCB(&Temp_TCB))!=Error_OK)
@@ -185,6 +191,8 @@ int __Sys_Semaphore_Wait(
 	}
 
 }
+#endif
+#ifdef Master_OS_Config_Semaphore_Release
 int __Sys_Semaphore_Release(
 		int Handle,
 		uint32_t Release_Count,
@@ -255,3 +263,4 @@ int __Sys_Semaphore_Release(
 
 	return Error_OK;
 }
+#endif

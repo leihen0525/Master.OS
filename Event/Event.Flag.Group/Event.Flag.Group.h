@@ -8,6 +8,8 @@
 #ifndef EVENT_FLAG_GROUP_H_
 #define EVENT_FLAG_GROUP_H_
 
+#include "Master.OS.Config.h"
+
 #include "__Sys.Scheduling.Task.Struct.h"
 
 static bool Event_Flag_Group_Operation_And(

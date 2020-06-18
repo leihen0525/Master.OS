@@ -1,7 +1,7 @@
 /*
  * MPU.c
  *
- *  Created on: 2019Äê11ÔÂ18ÈÕ
+ *  Created on: 2019å¹´11æœˆ18æ—¥
  *      Author: Master.HE
  */
 #ifdef __MPU__
@@ -166,12 +166,12 @@ void MPU_Handle_Data_Fault(uint32_t Mode,uint32_t *Fault_SP,uint32_t Fault_Code_
 
 	if(Err==MPU_Fault_Status_Permission_Read || Err==MPU_Fault_Status_Permission_Write)
 	{
-		//¼ì²éµ±Ç°Õ»ºÍ³ö´íµØÖ·Ö®¼äµÄ²îÖµ£¬Èç¹û´óÓÚ32£¬ÄÇÃ´µ±Ç°¿ÉÄÜ²»ÊÇÕ»Òç³ö£¬¶øÊÇ³öÏÖÆäËûÎ´Öª´íÎó
+		//æ£€æŸ¥å½“å‰æ ˆå’Œå‡ºé”™åœ°å€ä¹‹é—´çš„å·®å€¼ï¼Œå¦‚æžœå¤§äºŽ32ï¼Œé‚£ä¹ˆå½“å‰å¯èƒ½ä¸æ˜¯æ ˆæº¢å‡ºï¼Œè€Œæ˜¯å‡ºçŽ°å…¶ä»–æœªçŸ¥é”™è¯¯
 		//if(abs((uint32_t)Fault_SP-Fault_Address)>32)
 		{
 			//while(1);
 		}
-		//ÎÞ½â
+		//æ— è§£
 		while(1);
 
 		if(__Sys_Scheduling_MPU_Add_Stack(Mode,Fault_SP,Fault_Address)!=Error_OK)

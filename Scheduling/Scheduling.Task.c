@@ -1,7 +1,7 @@
 /*
  * Scheduling.Task.c
  *
- *  Created on: 2019Äê4ÔÂ23ÈÕ
+ *  Created on: 2019å¹´4æœˆ23æ—¥
  *      Author: Master.HE
  */
 #include <string.h>
@@ -56,7 +56,7 @@ int Scheduling_Task_Create(
 			Err=Error_Allocation_Memory_Failed;
 			goto Task_Create_Exit_2;
 		}
-		//×Ö·û´®¿½±´
+		//å­—ç¬¦ä¸²æ‹·è´
 		strcpy(Temp_Task_TCB->Info.Name,Name);
 	}
 
@@ -75,7 +75,7 @@ int Scheduling_Task_Create(
 
 #ifdef __MPU__
 
-	//³õÊ¼»¯ÄÚºËÕ»
+	//åˆå§‹åŒ–å†…æ ¸æ ˆ
 	uint32_t Stack_Size_Sys_4Byte;
 
 	Stack_Size_Sys_4Byte=Scheduling_Task_Stack_GET_Sys_Size_4Byte(Stack_Size_4Byte);
@@ -89,7 +89,7 @@ int Scheduling_Task_Create(
 		Stack_Size_Sys_4Byte=Stack_Size_Sys_4Byte;
 	}
 
-	//ÉèÖÃÕ»±£»¤ÇøÓò´óĞ¡
+	//è®¾ç½®æ ˆä¿æŠ¤åŒºåŸŸå¤§å°
 	Temp_Task_TCB->Stack_System.Protection_Size=Stack_Default_Protection_Size;
 
 	uint32_t Sys_Stack_Alignment_Byte=Stack_Default_Protection_Size_Byte(Stack_Default_Protection_Size);
@@ -118,14 +118,14 @@ int Scheduling_Task_Create(
 
 	Temp_Task_TCB->Stack_System.Count=0;
 
-	//³õÊ¼»¯ÓÃ»§Õ»
+	//åˆå§‹åŒ–ç”¨æˆ·æ ˆ
 	Stack_Size_4Byte=Scheduling_Task_Stack_Usr_Size_4Byte(Stack_Size_4Byte);
 
-	//ÉèÖÃÕ»±£»¤ÇøÓò´óĞ¡
+	//è®¾ç½®æ ˆä¿æŠ¤åŒºåŸŸå¤§å°
 	Temp_Task_TCB->Stack_User.Protection_Size=Scheduling_Task_Option_GET_Usr_Stack_Protection_Size(Temp_Task_TCB->Info.Option);
 	if(Temp_Task_TCB->Stack_User.Protection_Size==0)
 	{
-		//Ã»ÓĞÉèÖÃ±£»¤´óĞ¡£¬ÔòÄ¬ÈÏ´óĞ¡
+		//æ²¡æœ‰è®¾ç½®ä¿æŠ¤å¤§å°ï¼Œåˆ™é»˜è®¤å¤§å°
 		Temp_Task_TCB->Stack_User.Protection_Size=Stack_Default_Protection_Size;
 	}
 	uint32_t Usr_Stack_Alignment_Byte=Stack_Default_Protection_Size_Byte(Temp_Task_TCB->Stack_User.Protection_Size);
@@ -317,7 +317,7 @@ int Scheduling_Task_Create_Idle(
 			Err=Error_Allocation_Memory_Failed;
 			goto Task_Create_Exit_2;
 		}
-		//×Ö·û´®¿½±´
+		//å­—ç¬¦ä¸²æ‹·è´
 		strcpy(Temp_Task_TCB->Info.Name,Name);
 	}
 
@@ -378,7 +378,7 @@ int Scheduling_Task_Event_List_Add_Node(
 
 	Temp_Node=(Task_Event_List_Type *)__Sys_Memory_Malloc(sizeof(Task_Event_List_Type));
 
-	//·ÖÅä¿Õ¼äÊ§°Ü
+	//åˆ†é…ç©ºé—´å¤±è´¥
 	if(Temp_Node==Null)
 	{
 		return Error_Allocation_Memory_Failed;

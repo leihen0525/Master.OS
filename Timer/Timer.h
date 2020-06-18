@@ -17,9 +17,12 @@ int Timer_Init(Machine_Desc_Timer_Type *P_Timer);
 
 int Timer_Get_Flag(void);
 
+#ifdef Master_OS_Config_Timer_Enable
 int __Sys_Timer_Enable(void);
+#endif
+#ifdef Master_OS_Config_Timer_Disable
 int __Sys_Timer_Disable(void);
-
+#endif
 void Timer_IRQ(void *Args,int IRQ_Index);
 
 int Timer_Add_Timer_Queue(Timer_Node_Type *Add_Node,int32_t TimeOut_MS);

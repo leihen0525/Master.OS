@@ -1,7 +1,7 @@
 /*
  * IRQ.c
  *
- *  Created on: 2019Äê4ÔÂ15ÈÕ
+ *  Created on: 2019å¹´4æœˆ15æ—¥
  *      Author: Master.HE
  */
 #include "Master.Stdint.h"
@@ -65,7 +65,7 @@ int IRQ_Init(Machine_Desc_IRQ_Type *P_IRQ)
 
 }
 
-
+#ifdef Master_OS_Config_IRQ_Enable
 int __Sys_IRQ_Enable(int IRQ_Index)
 {
 	if(IRQ_DATA.IRQ==Null)
@@ -83,6 +83,8 @@ int __Sys_IRQ_Enable(int IRQ_Index)
 
 	return IRQ_DATA.IRQ->Enable(IRQ_Index);
 }
+#endif
+#ifdef Master_OS_Config_IRQ_Disable
 int __Sys_IRQ_Disable(int IRQ_Index)
 {
 	if(IRQ_DATA.IRQ==Null)
@@ -101,6 +103,8 @@ int __Sys_IRQ_Disable(int IRQ_Index)
 	return IRQ_DATA.IRQ->Disable(IRQ_Index);
 
 }
+#endif
+#ifdef Master_OS_Config_IRQ_Set_Priority
 int __Sys_IRQ_Set_Priority(int IRQ_Index,int Priority)
 {
 	if(IRQ_DATA.IRQ==Null)
@@ -119,6 +123,8 @@ int __Sys_IRQ_Set_Priority(int IRQ_Index,int Priority)
 	return IRQ_DATA.IRQ->Set_Priority(IRQ_Index,Priority);
 
 }
+#endif
+#ifdef Master_OS_Config_IRQ_All_Enable
 int __Sys_IRQ_All_Enable(void)
 {
 	if(IRQ_DATA.IRQ==Null)
@@ -132,6 +138,8 @@ int __Sys_IRQ_All_Enable(void)
 
 	return IRQ_DATA.IRQ->All_Enable();
 }
+#endif
+#ifdef Master_OS_Config_IRQ_All_Disable
 int __Sys_IRQ_All_Disable(void)
 {
 	if(IRQ_DATA.IRQ==Null)
@@ -145,6 +153,8 @@ int __Sys_IRQ_All_Disable(void)
 
 	return IRQ_DATA.IRQ->All_Disable();
 }
+#endif
+#ifdef Master_OS_Config_IRQ_Register_Hook
 int __Sys_IRQ_Register_Hook(
 		int IRQ_Index,
 		IRQ_Hook_Function Hook_Function,
@@ -198,6 +208,8 @@ int __Sys_IRQ_Register_Hook(
 	}
 	return Temp_Node->Handle;
 }
+#endif
+#ifdef Master_OS_Config_IRQ_Delete_Hook
 int __Sys_IRQ_Delete_Hook(int IRQ_Index,int Handle)
 {
 	if(IRQ_DATA.IRQ==Null)
@@ -243,7 +255,7 @@ int __Sys_IRQ_Delete_Hook(int IRQ_Index,int Handle)
 
 	return Error_Invalid_Handle;
 }
-
+#endif
 
 void __IRQ_Entry(void)
 {

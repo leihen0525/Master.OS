@@ -1,7 +1,7 @@
 /*
  * FIFO.Queue.c
  *
- *  Created on: 2019Äê5ÔÂ5ÈÕ
+ *  Created on: 2019å¹´5æœˆ5æ—¥
  *      Author: Master.HE
  */
 
@@ -25,6 +25,7 @@
 #include "Scheduling/Scheduling.h"
 #include "Scheduling/Scheduling.Task.h"
 
+#ifdef Master_OS_Config_FIFO_Queue_Create
 int __Sys_FIFO_Queue_Create(
 		char *Name,
 		uint32_t Max_FIFO_Size,
@@ -90,6 +91,8 @@ FIFO_Queue_Create_Exit1:
 	return Err;
 
 }
+#endif
+#ifdef Master_OS_Config_FIFO_Queue_Delete
 int __Sys_FIFO_Queue_Delete(int Handle)
 {
 	if(Handle<Valid_Handle)return Error_Invalid_Handle;
@@ -112,6 +115,8 @@ int __Sys_FIFO_Queue_Delete(int Handle)
 	return Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_FIFO_Queue_Find_Handle
 int __Sys_FIFO_Queue_Find_Handle(char *Name)
 {
 	if(Name==Null)
@@ -121,6 +126,8 @@ int __Sys_FIFO_Queue_Find_Handle(char *Name)
 
 	return Event_Node_Name_Find_Node(Name,Event_Pend_FIFO_Queue);
 }
+#endif
+#ifdef Master_OS_Config_FIFO_Queue_Open
 int __Sys_FIFO_Queue_Open(int Handle)
 {
 	if(Handle<Valid_Handle)
@@ -159,6 +166,8 @@ int __Sys_FIFO_Queue_Open(int Handle)
 	return Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_FIFO_Queue_Close
 int __Sys_FIFO_Queue_Close(int Handle)
 {
 	if(Handle<Valid_Handle)
@@ -196,6 +205,8 @@ int __Sys_FIFO_Queue_Close(int Handle)
 	return Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_FIFO_Queue_Wait
 int __Sys_FIFO_Queue_Wait(
 		int Handle,
 		void *Read_FIFO_DATA,
@@ -239,7 +250,7 @@ int __Sys_FIFO_Queue_Wait(
 		return Error_Operation_Failed;
 	}
 
-	//²éÑ¯
+	//æŸ¥è¯¢
 	if(Time_Out_MS==Event_Time_Out_Query)
 	{
 		if(Temp_DATA_Node->FIFO_Queue.Index_In==Temp_DATA_Node->FIFO_Queue.Index_Out)
@@ -258,7 +269,7 @@ int __Sys_FIFO_Queue_Wait(
 		{
 			return Error_Invalid_Parameter;
 		}
-		//³¢ÊÔÕ¼ÓÃ²¢Á¢¼´·µ»Ø
+		//å°è¯•å ç”¨å¹¶ç«‹å³è¿”å›
 		if(Time_Out_MS==Event_Time_Out_Occupy_Return_Back)
 		{
 			if(Temp_DATA_Node->FIFO_Queue.Index_In==Temp_DATA_Node->FIFO_Queue.Index_Out)
@@ -296,7 +307,7 @@ int __Sys_FIFO_Queue_Wait(
 				return	Error_OK;
 			}
 		}
-		else//ÎŞÏŞµÈ´ı»òÕßÉèÖÃ³¬Ê±
+		else//æ— é™ç­‰å¾…æˆ–è€…è®¾ç½®è¶…æ—¶
 		{
 			if(Temp_DATA_Node->FIFO_Queue.Index_In==Temp_DATA_Node->FIFO_Queue.Index_Out)
 			{
@@ -386,6 +397,8 @@ int __Sys_FIFO_Queue_Wait(
 
 	}
 }
+#endif
+#ifdef Master_OS_Config_FIFO_Queue_Clear
 int __Sys_FIFO_Queue_Clear(int Handle)
 {
 	if(Handle<Valid_Handle)
@@ -424,6 +437,8 @@ int __Sys_FIFO_Queue_Clear(int Handle)
 	return	Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_FIFO_Queue_Set
 int __Sys_FIFO_Queue_Set(
 		int Handle,
 		void *Set_FIFO_DATA,
@@ -460,7 +475,7 @@ int __Sys_FIFO_Queue_Set(
 	void *P_FIFO_Data=FIFO_Queue_Void_Add(Temp_DATA_Node->FIFO_Queue.FIFO_DATA,Temp_DATA_Node->FIFO_Queue.Max_FIFO_Size*Temp_DATA_Node->FIFO_Queue.Index_In);//&P_Node->P_FIFO[P_Node->Max_FIFO_Size*P_Node->Index_In];
 	Temp_DATA_Node->FIFO_Queue.FIFO_Size[Temp_DATA_Node->FIFO_Queue.Index_In]=Set_FIFO_Size;
 
-	//ÏûÏ¢¸´ÖÆ
+	//æ¶ˆæ¯å¤åˆ¶
 	memcpy(P_FIFO_Data,Set_FIFO_DATA,Set_FIFO_Size);
 
 	Temp_DATA_Node->FIFO_Queue.Index_In++;
@@ -470,7 +485,7 @@ int __Sys_FIFO_Queue_Set(
 		Temp_DATA_Node->FIFO_Queue.Index_In=0;
 	}
 
-	//·¢ÉúÏûÏ¢Òç³ö
+	//å‘ç”Ÿæ¶ˆæ¯æº¢å‡º
 	if(Temp_DATA_Node->FIFO_Queue.Index_In==Temp_DATA_Node->FIFO_Queue.Index_Out)
 	{
 		P_FIFO_Data=FIFO_Queue_Void_Add(Temp_DATA_Node->FIFO_Queue.FIFO_DATA,Temp_DATA_Node->FIFO_Queue.Max_FIFO_Size*Temp_DATA_Node->FIFO_Queue.Index_Out);//&P_Node->P_FIFO[P_Node->Max_FIFO_Size*Temp_P_Node_TCB->Index_Out];
@@ -490,7 +505,7 @@ int __Sys_FIFO_Queue_Set(
 	__Sys_Scheduling_Task_TCB_Type *Temp_TCB=Null;
 	bool Try_Context_Switch=false;
 
-	//½«µÈ´ıµÄÈÎÎñ ·ÅÈë×¼±¸ÔËĞĞ¶ÓÁĞ
+	//å°†ç­‰å¾…çš„ä»»åŠ¡ æ”¾å…¥å‡†å¤‡è¿è¡Œé˜Ÿåˆ—
 	while(Queue_TCB_Delete_Event_Node_Queue_First_TCB(Temp_Pend_Task_Queue,&Temp_TCB)==Error_OK)
 	{
 		Queue_TCB_Delete_Suspended_Queue(Temp_TCB);
@@ -508,7 +523,7 @@ int __Sys_FIFO_Queue_Set(
 
 	return Error_OK;
 }
-
+#endif
 static void *FIFO_Queue_Void_Add(void* sou,uint32_t Index_Byte)
 {
 	uint8_t *P=(uint8_t*)sou;

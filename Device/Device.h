@@ -8,6 +8,7 @@
 #ifndef DEVICE_H_
 #define DEVICE_H_
 
+#include "Master.OS.Config.h"
 #include "Device.Struct.h"
 
 int Device_Init(void);

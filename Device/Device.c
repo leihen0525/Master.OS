@@ -1,7 +1,7 @@
 /*
  * Device.c
  *
- *  Created on: 2019Äê4ÔÂ12ÈÕ
+ *  Created on: 2019å¹´4æœˆ12æ—¥
  *      Author: Master.HE
  */
 #include "__Sys.API.h"
@@ -131,7 +131,7 @@ int __Sys_Device_Register_Drivers(const __Sys_Device_OPS_Type *P_OPS)
 	return Device_Add_Node(P_OPS);
 }
 
-
+#ifdef Master_OS_Config_Device_Open
 int __Sys_Device_Open(const char *Device_Name,int Mode)
 {
 	if(Device_Name==Null)
@@ -169,6 +169,8 @@ int __Sys_Device_Open(const char *Device_Name,int Mode)
 
 	return Handle;
 }
+#endif
+#ifdef Master_OS_Config_Device_Close
 int __Sys_Device_Close(int Handle)
 {
 	Device_Node_Type *Temp_Node=Null;
@@ -196,6 +198,8 @@ int __Sys_Device_Close(int Handle)
 	return Temp_Node->P_OPS->Close(Temp_Node->P_OPS->Device_Args);
 
 }
+#endif
+#ifdef Master_OS_Config_Device_Read
 int __Sys_Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,int TimeOut)
 {
 	Device_Node_Type *Temp_Node=Null;
@@ -222,6 +226,8 @@ int __Sys_Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Si
 	}
 	return Temp_Node->P_OPS->Read(Temp_Node->P_OPS->Device_Args,OffSet_Pos,Buffer,Size,TimeOut);
 }
+#endif
+#ifdef Master_OS_Config_Device_Write
 int __Sys_Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,int TimeOut)
 {
 	Device_Node_Type *Temp_Node=Null;
@@ -248,6 +254,8 @@ int __Sys_Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned 
 	}
 	return Temp_Node->P_OPS->Write(Temp_Node->P_OPS->Device_Args,OffSet_Pos,Buffer,Size,TimeOut);
 }
+#endif
+#ifdef Master_OS_Config_Device_Control
 int __Sys_Device_Control(int Handle,int Cmd, unsigned long Args)
 {
 	Device_Node_Type *Temp_Node=Null;
@@ -274,7 +282,8 @@ int __Sys_Device_Control(int Handle,int Cmd, unsigned long Args)
 	}
 	return Temp_Node->P_OPS->Control(Temp_Node->P_OPS->Device_Args,Cmd, Args);
 }
-
+#endif
+#ifdef Master_OS_Config_Device_Info
 int __Sys_Device_Info(int Handle,const char **P_Info)
 {
 	if(P_Info==Null)
@@ -302,3 +311,4 @@ int __Sys_Device_Info(int Handle,const char **P_Info)
 
 	return Error_OK;
 }
+#endif

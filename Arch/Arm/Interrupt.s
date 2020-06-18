@@ -1,7 +1,7 @@
 /*
  * Interrupt.S
  *
- *  Created on: 2019Äê4ÔÂ4ÈÕ
+ *  Created on: 2019å¹´4æœˆ4æ—¥
  *      Author: Master.HE
  */
 #include "Interrupt_Header.inc"
@@ -13,7 +13,7 @@
 	SECTION .text:CODE:REORDER:NOROOT(2)
 
 
-	EXTERN __SysCall_Table
+	EXTERN __Sys_Call_Table
 	EXTERN __IRQ_Entry
 	//EXTERN __Scheduling_SysTick_Entry
 	//EXTERN __Scheduling_PendSV_Entry
@@ -40,7 +40,7 @@ __SVC_Entry
 	str r5,[sp,#0x4]
 	str r4,[sp]
 
-	ldr r6,=__SysCall_Table
+	ldr r6,=__Sys_Call_Table
 	lsls r8,r8,#2
 	ldr r8,[r6,r8]
 	blx r8
@@ -116,7 +116,7 @@ __Interrupt_Entry
 
 	SECTION .text:CODE:NOROOT(2)
 
-	EXTERN __SysCall_Table
+	EXTERN __Sys_Call_Table
 	EXTERN __IRQ_Entry
 
 #ifdef __MPU__
@@ -127,13 +127,13 @@ __Interrupt_Entry
 
 	ARM
 
-	//ÌØÈ¨Ä£Ê½M[4¡Ã0]=0b10011-Supervisor
+	//ç‰¹æƒæ¨¡å¼M[4âˆ¶0]=0b10011-Supervisor
 	PUBLIC __SVC_Entry
 __SVC_Entry
 
-	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//ÇĞ»»µ½sysÄ£Ê½
+	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°sysæ¨¡å¼
 
-	stmdb sp!,{r0-r12,lr}//Ñ¹Õ»
+	stmdb sp!,{r0-r12,lr}//å‹æ ˆ
 
 #ifdef __MPU__
 
@@ -149,7 +149,7 @@ __SVC_Entry
 	ldr r0,=__Sys_Scheduling_GET_System_SP_End
 	blx r0
 
-	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//ÇĞ»»µ½SVCÄ£Ê½
+	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°SVCæ¨¡å¼
 
 	ldr sp,[r0]
 
@@ -161,7 +161,7 @@ __SVC_Entry
 #else
 	mov r12,sp
 
-	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//ÇĞ»»µ½SVCÄ£Ê½
+	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°SVCæ¨¡å¼
 
 	mov sp,r12
 #endif
@@ -176,7 +176,7 @@ __SVC_Entry
 	str r5,[sp,#0x4]
 	str r4,[sp]
 
-	ldr r6,=__SysCall_Table
+	ldr r6,=__Sys_Call_Table
 	lsls r8,r8,#2
 	ldr r8,[r6,r8]
 	blx r8
@@ -196,7 +196,7 @@ __SVC_Entry
 
 	LDMIA sp!, {lr}
 
-	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//ÇĞ»»µ½sysÄ£Ê½
+	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°sysæ¨¡å¼
 
 	ldr sp,[r0]
 
@@ -207,33 +207,33 @@ __SVC_Entry
 	LDMIA sp!, {lr}
 
 	mov r12,sp
-	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//ÇĞ»»µ½sysÄ£Ê½
+	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°sysæ¨¡å¼
 
 	mov sp,r12
 #endif
 
-	str r0,[sp]//ĞŞÕı·µ»ØÖµ
+	str r0,[sp]//ä¿®æ­£è¿”å›å€¼
 
 	ldmia sp!,{r0-r12,lr}
 
-	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//ÇĞ»»µ½SVCÄ£Ê½
+	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°SVCæ¨¡å¼
 
-	mov sp,#0//Çå³ıÄÚºË¶ÑÕ»Ö¸Õë
+	mov sp,#0//æ¸…é™¤å†…æ ¸å †æ ˆæŒ‡é’ˆ
 
 	MOVS PC,LR
 
 	//b __SVC_Entry
 
 //---------------------------------
-	//Íâ²¿ÖĞ¶ÏÇëÇóM[4¡Ã0]=0b10010-IRQ
+	//å¤–éƒ¨ä¸­æ–­è¯·æ±‚M[4âˆ¶0]=0b10010-IRQ
 	PUBLIC __Interrupt_Entry
 __Interrupt_Entry
 
 	SUB LR, LR, #4
 
-	msr cpsr_c, #(SYS_MODE | I_Bit | F_Bit)//ÇĞ»»µ½sysÄ£Ê½
+	msr cpsr_c, #(SYS_MODE | I_Bit | F_Bit)//åˆ‡æ¢åˆ°sysæ¨¡å¼
 
-	stmdb sp!,{r0-r12,lr}//Ñ¹Õ»
+	stmdb sp!,{r0-r12,lr}//å‹æ ˆ
 
 #ifdef __MPU__
 
@@ -244,7 +244,7 @@ __Interrupt_Entry
 	ldr r0,=__Sys_Scheduling_GET_System_SP_End
 	blx r0
 
-	msr cpsr_c, #(IRQ_MODE|I_Bit|F_Bit)//ÇĞ»»µ½IRQÄ£Ê½
+	msr cpsr_c, #(IRQ_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°IRQæ¨¡å¼
 
 	ldr sp,[r0]
 
@@ -252,7 +252,7 @@ __Interrupt_Entry
 
 	mov r12,sp
 
-	msr cpsr_c, #(IRQ_MODE|I_Bit|F_Bit)//ÇĞ»»µ½IRQÄ£Ê½
+	msr cpsr_c, #(IRQ_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°IRQæ¨¡å¼
 
 	mov sp,r12
 
@@ -274,7 +274,7 @@ __Interrupt_Entry
 
 	LDMIA sp!, {lr}
 
-	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//ÇĞ»»µ½sysÄ£Ê½
+	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°sysæ¨¡å¼
 
 	ldr sp,[r0]
 
@@ -283,7 +283,7 @@ __Interrupt_Entry
 	LDMIA sp!, {lr}
 
 	mov r12,sp
-	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//ÇĞ»»µ½sysÄ£Ê½
+	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°sysæ¨¡å¼
 
 	mov sp,r12
 
@@ -291,20 +291,20 @@ __Interrupt_Entry
 
 	ldmia sp!,{r0-r12,lr}
 
-	msr cpsr_c, #(IRQ_MODE|I_Bit|F_Bit)//ÇĞ»»µ½IRQÄ£Ê½
-	mov sp,#0//Çå³ıÄÚºË¶ÑÕ»Ö¸Õë
+	msr cpsr_c, #(IRQ_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°IRQæ¨¡å¼
+	mov sp,#0//æ¸…é™¤å†…æ ¸å †æ ˆæŒ‡é’ˆ
 	MOVS PC,LR
 
 	//b __Interrupt_Entry
 //---------------------------------------------------------------------
-	//Î´¶¨ÒåÖ¸ÁîÖĞÖ¹//M[4¡Ã0]=0b11011-Undefined
+	//æœªå®šä¹‰æŒ‡ä»¤ä¸­æ­¢//M[4âˆ¶0]=0b11011-Undefined
 	PUBLIC Undefined_Handler
 Undefined_Handler
 
 
 	b Undefined_Handler
 //---------------------------------------------------------------------
-	//Ô¤È¡Ö¸Áî·ÃÎÊÖĞÖ¹//M[4¡Ã0]=0b10111-Abort
+	//é¢„å–æŒ‡ä»¤è®¿é—®ä¸­æ­¢//M[4âˆ¶0]=0b10111-Abort
 	PUBLIC Prefetch_Handler
 Prefetch_Handler
 
@@ -313,13 +313,13 @@ Prefetch_Handler
 
 	b Prefetch_Handler
 //---------------------------------------------------------------------
-	//Êı¾İ·ÃÎÊÖĞÖ¹//M[4¡Ã0]=0b10111-Abort
+	//æ•°æ®è®¿é—®ä¸­æ­¢//M[4âˆ¶0]=0b10111-Abort
 	PUBLIC Abort_Handler
 Abort_Handler
 
 	SUB LR, LR, #8
 
-	stmdb sp!,{r0-r12,lr}//Ñ¹Õ»
+	stmdb sp!,{r0-r12,lr}//å‹æ ˆ
 
 #ifdef __MPU__
 
@@ -349,29 +349,29 @@ Abort_Handler
 
 Abort_Handler_GET_USR_SYS_SP
 
-	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//ÇĞ»»µ½sysÄ£Ê½
+	msr cpsr_c, #(SYS_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°sysæ¨¡å¼
 	mov r1,sp
 	b Abort_Handler_GET_SP_Exit
 
 Abort_Handler_GET_FIQ_SP
-	msr cpsr_c, #(FIQ_MODE|I_Bit|F_Bit)//ÇĞ»»µ½FIQÄ£Ê½
+	msr cpsr_c, #(FIQ_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°FIQæ¨¡å¼
 	mov r1,sp
 	b Abort_Handler_GET_SP_Exit
 
 Abort_Handler_GET_IRQ_SP
-	msr cpsr_c, #(IRQ_MODE|I_Bit|F_Bit)//ÇĞ»»µ½IRQÄ£Ê½
+	msr cpsr_c, #(IRQ_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°IRQæ¨¡å¼
 	mov r1,sp
 	b Abort_Handler_GET_SP_Exit
 
 Abort_Handler_GET_SVC_SP
-	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//ÇĞ»»µ½SVCÄ£Ê½
+	msr cpsr_c, #(SVC_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°SVCæ¨¡å¼
 	mov r1,sp
 	b Abort_Handler_GET_SP_Exit
 
 
 Abort_Handler_GET_SP_Exit
 
-	msr cpsr_c, #(ABT_MODE|I_Bit|F_Bit)//ÇĞ»»µ½ABTÄ£Ê½
+	msr cpsr_c, #(ABT_MODE|I_Bit|F_Bit)//åˆ‡æ¢åˆ°ABTæ¨¡å¼
 
 	mov r2, lr
 

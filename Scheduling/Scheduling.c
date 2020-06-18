@@ -1,7 +1,7 @@
 /*
  * Scheduling.c
  *
- *  Created on: 2019Äê4ÔÂ23ÈÕ
+ *  Created on: 2019å¹´4æœˆ23æ—¥
  *      Author: Master.HE
  */
 #include <string.h>
@@ -44,7 +44,7 @@ int Scheduling_Init(void)
 	return Error_OK;
 }
 
-
+#ifdef Master_OS_Config_Scheduling_Create_Task
 int __Sys_Scheduling_Create_Task(
 		char *Name,
 		Task_Enter_Function Task_Enter,
@@ -105,7 +105,8 @@ Exit1:
 	Scheduling_Task_Release(P_Task_TCB);
 	return Err;
 }
-
+#endif
+#ifdef Master_OS_Config_Scheduling_Release_Task
 int __Sys_Scheduling_Release_Task(int Handle)
 {
 
@@ -119,7 +120,7 @@ int __Sys_Scheduling_Release_Task(int Handle)
 		{
 			return Error_Invalid_Parameter;
 		}
-		//Õâ¸öµØ·½×öÌØÊâ´¦Àí£¬ÒòÎªÈÎÎñÓÐ¶ÀÁ¢µÄÄÚºËÕ»£¬µ±ÈÎÎñ±»ÊÍ·ÅµÄÊ±ºò£¬±»ÊÍ·ÅµÄÄÚºËÕ»»á±»Õ¼ÓÃ£¬¹Ê´ËÔö¼ÓÁÙÊ±ÄÚºËÕ»£¬
+		//è¿™ä¸ªåœ°æ–¹åšç‰¹æ®Šå¤„ç†ï¼Œå› ä¸ºä»»åŠ¡æœ‰ç‹¬ç«‹çš„å†…æ ¸æ ˆï¼Œå½“ä»»åŠ¡è¢«é‡Šæ”¾çš„æ—¶å€™ï¼Œè¢«é‡Šæ”¾çš„å†…æ ¸æ ˆä¼šè¢«å ç”¨ï¼Œæ•…æ­¤å¢žåŠ ä¸´æ—¶å†…æ ¸æ ˆï¼Œ
 
 #if ((__ARM_ARCH == 6) || (__ARM_ARCH == 7)) && (__ARM_ARCH_PROFILE == 'M')
 		asm("MSR  MSP,%0"
@@ -174,7 +175,8 @@ int __Sys_Scheduling_Release_Task(int Handle)
 
 
 }
-
+#endif
+#ifdef Master_OS_Config_Scheduling_Sleep_Task
 int __Sys_Scheduling_Sleep_Task(int32_t TimeOut)
 {
 	int Err;
@@ -198,15 +200,19 @@ int __Sys_Scheduling_Sleep_Task(int32_t TimeOut)
 		return Error_Unknown;
 	}
 }
+#endif
+#ifdef Master_OS_Config_Scheduling_Suspend_Task
 int __Sys_Scheduling_Suspend_Task(int Handle)
 {
 	return Error_Undefined;
 }
+#endif
+#ifdef Master_OS_Config_Scheduling_Resume_Task
 int __Sys_Scheduling_Resume_Task(int Handle)
 {
 	return Error_Undefined;
 }
-
+#endif
 //--------------------------------------------------------------
 int Scheduling_Create_Task_Idle(
 		char *Name,
@@ -286,7 +292,7 @@ int Scheduling_Create_Task_Idle(
 #endif
 
 
-	P_Task_TCB->Info.Handle=Valid_Handle;//0±£Áô¸ø ¿ÕÏÐ½ø³Ì
+	P_Task_TCB->Info.Handle=Valid_Handle;//0ä¿ç•™ç»™ ç©ºé—²è¿›ç¨‹
 
 	return P_Task_TCB->Info.Handle;
 
@@ -313,7 +319,7 @@ void Scheduling_SysTick(void)
 {
 	__Sys_Scheduling_Task_TCB_Type *Temp_TCB=Null;
 
-	//µ±Ç°ÈÎÎñÊ±¼äÆ¬¼õÒ»
+	//å½“å‰ä»»åŠ¡æ—¶é—´ç‰‡å‡ä¸€
 	if(Scheduling_DATA.Current_TCB!=Null)
 	{
 		if(Scheduling_DATA.Current_TCB->Info.Time_Slice>0)
@@ -321,7 +327,7 @@ void Scheduling_SysTick(void)
 			Scheduling_DATA.Current_TCB->Info.Time_Slice--;
 		}
 
-		//µ±Ç°ÈÎÎñÊ±¼äÆ¬ÒÑ¾­ÓÃÍê
+		//å½“å‰ä»»åŠ¡æ—¶é—´ç‰‡å·²ç»ç”¨å®Œ
 		if(Scheduling_DATA.Current_TCB->Info.Time_Slice==0)
 		{
 			;
@@ -329,20 +335,20 @@ void Scheduling_SysTick(void)
 	}
 
 
-	//¼ì²éSuspended¶ÓÁÐÊÇ·ñÓÐÐèÒª×¼±¸ÔËÐÐµÄÈÎÎñ
+	//æ£€æŸ¥Suspendedé˜Ÿåˆ—æ˜¯å¦æœ‰éœ€è¦å‡†å¤‡è¿è¡Œçš„ä»»åŠ¡
 	if(Queue_TimeOut_1MS_AT_Suspended_Queue(&Temp_TCB)==Error_OK)
 	{
-		//µ±Ç°ÈÎÎñÔÚÊÂ¼þ¶ÓÁÐÖÐ
+		//å½“å‰ä»»åŠ¡åœ¨äº‹ä»¶é˜Ÿåˆ—ä¸­
 		if(Temp_TCB->Event.Event_Queue!=Null)
 		{
-			//É¾³ý ÊÂ¼þµÈ´ý¶ÓÁÐ ÖÐµÄÈÎÎñ
+			//åˆ é™¤ äº‹ä»¶ç­‰å¾…é˜Ÿåˆ— ä¸­çš„ä»»åŠ¡
 			if(Queue_TCB_Delete_Event_Node_Queue(Temp_TCB->Event.Event_Queue,Temp_TCB)!=Error_OK)
 			{
 				while(1);
 			}
 		}
 
-		//½«×¼±¸ÔËÐÐµÄÈÎÎñ·Åµ½ ×¼±¸ÔËÐÐ¶ÓÁÐ
+		//å°†å‡†å¤‡è¿è¡Œçš„ä»»åŠ¡æ”¾åˆ° å‡†å¤‡è¿è¡Œé˜Ÿåˆ—
 		if(Queue_TCB_Add_Ready_Queue(Temp_TCB)!=Error_OK)
 		{
 			while(1);
@@ -353,10 +359,10 @@ void Scheduling_SysTick(void)
 	Temp_TCB=Null;
 
 
-	//ÕÒ³ö×¼±¸ÔËÐÐ¶ÓÁÐÖÐ ÓÅÏÈ¼¶×î¸ßµÄÈÎÎñ
+	//æ‰¾å‡ºå‡†å¤‡è¿è¡Œé˜Ÿåˆ—ä¸­ ä¼˜å…ˆçº§æœ€é«˜çš„ä»»åŠ¡
 	if(Queue_Read_Ready_Queue_First_TCB(&Temp_TCB)!=Error_OK)
 	{
-		//µ±Ç°×¼±¸¶ÓÁÐÖÐ Ã»ÓÐ×¼±¸ÔËÐÐµÄÈÎÎñ
+		//å½“å‰å‡†å¤‡é˜Ÿåˆ—ä¸­ æ²¡æœ‰å‡†å¤‡è¿è¡Œçš„ä»»åŠ¡
 		if(Scheduling_DATA.Current_TCB!=Null)
 		{
 			if(Scheduling_DATA.Current_TCB->Info.Time_Slice==0)
@@ -373,7 +379,7 @@ void Scheduling_SysTick(void)
 		while(1);
 	}
 
-	//µ±Ç°ÈÎÎñ±È×¼±¸ÔËÐÐ¶ÓÁÐÖÐÈÎÎñÓÅÏÈ¼¶´ó
+	//å½“å‰ä»»åŠ¡æ¯”å‡†å¤‡è¿è¡Œé˜Ÿåˆ—ä¸­ä»»åŠ¡ä¼˜å…ˆçº§å¤§
 	if(Scheduling_DATA.Current_TCB->Priority.Current<Temp_TCB->Priority.Current)
 	{
 		if(Scheduling_DATA.Current_TCB->Info.Time_Slice==0)
@@ -382,7 +388,7 @@ void Scheduling_SysTick(void)
 		}
 		return ;
 	}
-	//µ±Ç°ÈÎÎñºÍ×¼±¸ÔËÐÐÈÎÎñÓÅÏÈ¼¶Ò»ÖÂ
+	//å½“å‰ä»»åŠ¡å’Œå‡†å¤‡è¿è¡Œä»»åŠ¡ä¼˜å…ˆçº§ä¸€è‡´
 	else if(Scheduling_DATA.Current_TCB->Priority.Current==Temp_TCB->Priority.Current)
 	{
 		if(Scheduling_DATA.Current_TCB->Info.Time_Slice!=0)
@@ -390,18 +396,18 @@ void Scheduling_SysTick(void)
 			return ;
 		}
 	}
-	//µ±Ç°ÈÎÎñÓÅÏÈ¼¶±È×¼±¸ÔËÐÐÓÅÏÈ¼¶Ð¡
+	//å½“å‰ä»»åŠ¡ä¼˜å…ˆçº§æ¯”å‡†å¤‡è¿è¡Œä¼˜å…ˆçº§å°
 	else
 	{
 
 	}
-	//´Ó×¼±¸ÔËÐÐ¶ÓÁÐÖÐÌáÈ¡×¼±¸ÔËÐÐµÄÈÎÎñ
+	//ä»Žå‡†å¤‡è¿è¡Œé˜Ÿåˆ—ä¸­æå–å‡†å¤‡è¿è¡Œçš„ä»»åŠ¡
 	if(Queue_Delete_Ready_Queue_First_TCB(&Temp_TCB)!=Error_OK)
 	{
 		while(1);
 	}
 
-	//½«µ±Ç°ÈÎÎñ·Åµ½×¼±¸ÔËÐÐ¶ÓÁÐÖÐ
+	//å°†å½“å‰ä»»åŠ¡æ”¾åˆ°å‡†å¤‡è¿è¡Œé˜Ÿåˆ—ä¸­
 	if(Queue_TCB_Add_Ready_Queue(Scheduling_DATA.Current_TCB)!=Error_OK)
 	{
 		while(1);
@@ -414,7 +420,7 @@ void Scheduling_SysTick(void)
 	Scheduling_DATA.Last_TCB=Scheduling_DATA.Current_TCB;
 	Scheduling_DATA.Current_TCB=Temp_TCB;
 
-	//ÈÎÎñ½øÐÐÉÏÏÂÎÄÇÐ»»
+	//ä»»åŠ¡è¿›è¡Œä¸Šä¸‹æ–‡åˆ‡æ¢
 #ifdef __MPU__
 	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Scheduling_DATA.Last_TCB->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
 #else
@@ -428,7 +434,7 @@ void __Sys_Scheduling_Try_Context_Switch(void)
 {
 	__Sys_Scheduling_Task_TCB_Type *Temp_TCB=Null;
 
-	//ÕÒ³ö×¼±¸ÔËÐÐ¶ÓÁÐÖÐ ÓÅÏÈ¼¶×î¸ßµÄÈÎÎñ
+	//æ‰¾å‡ºå‡†å¤‡è¿è¡Œé˜Ÿåˆ—ä¸­ ä¼˜å…ˆçº§æœ€é«˜çš„ä»»åŠ¡
 	if(Queue_Read_Ready_Queue_First_TCB(&Temp_TCB)!=Error_OK)
 	{
 		return ;
@@ -563,21 +569,21 @@ int __Sys_Scheduling_MPU_Add_Stack(uint32_t Mode,uint32_t *Fault_SP,uint32_t Fau
 	//
 
 
-	//Õâ¸öµØ·½¼ì²éÁ½¸öÈÎÎñµÄÕ»£¬ÒòÎª¿ÉÄÜ·¢ÉúÔÚÈÎÎñÉÏÏÂÎÄÇÐ»»½×¶Î»òÕßÈÎÒâ½×¶Î£¬ËùÓÐ¶¼²»ÄÜÓÐÒÅÂ©
+	//è¿™ä¸ªåœ°æ–¹æ£€æŸ¥ä¸¤ä¸ªä»»åŠ¡çš„æ ˆï¼Œå› ä¸ºå¯èƒ½å‘ç”Ÿåœ¨ä»»åŠ¡ä¸Šä¸‹æ–‡åˆ‡æ¢é˜¶æ®µæˆ–è€…ä»»æ„é˜¶æ®µï¼Œæ‰€æœ‰éƒ½ä¸èƒ½æœ‰é—æ¼
 	if(Scheduling_DATA.Current_TCB!=Null)
 	{
-		//ÏÈ¼ì²éµ±Ç°ÈÎÎñµÄÕ»
-		//³ö´íµØÖ·ÔÚµ±Ç°ÈÎÎñµÄÓÃ»§Õ»ÖÐ
+		//å…ˆæ£€æŸ¥å½“å‰ä»»åŠ¡çš„æ ˆ
+		//å‡ºé”™åœ°å€åœ¨å½“å‰ä»»åŠ¡çš„ç”¨æˆ·æ ˆä¸­
 		if((uint32_t)Scheduling_DATA.Current_TCB->Stack_User.SP_Head<=Fault_Address
 		&& Fault_Address<=(uint32_t)Scheduling_DATA.Current_TCB->Stack_User.SP_End)
 		{
-			//ÔÚ¼ì²éÒ»´Îµ±Ç°SPÖ¸ÕëÊÇ·ñÔÚµ±Ç°ÈÎÎñÕ»ÖÐ
+			//åœ¨æ£€æŸ¥ä¸€æ¬¡å½“å‰SPæŒ‡é’ˆæ˜¯å¦åœ¨å½“å‰ä»»åŠ¡æ ˆä¸­
 			if((uint32_t)Scheduling_DATA.Current_TCB->Stack_User.SP_Head<=(uint32_t)Fault_SP
 			&& (uint32_t)Fault_SP<=(uint32_t)Scheduling_DATA.Current_TCB->Stack_User.SP_End)
 			{
-				//³õ²½È·ÈÏ³ö´íÎ»ÖÃ
+				//åˆæ­¥ç¡®è®¤å‡ºé”™ä½ç½®
 
-				//ÔÚ¼ì²éÒ»´ÎÊÇ·ñ³ö´íÎ»ÖÃÔÚ±£»¤ÇøÓò
+				//åœ¨æ£€æŸ¥ä¸€æ¬¡æ˜¯å¦å‡ºé”™ä½ç½®åœ¨ä¿æŠ¤åŒºåŸŸ
 				if((Fault_Address-(uint32_t)Scheduling_DATA.Current_TCB->Stack_User.SP_Head)<=Stack_Default_Protection_Size_Byte(Scheduling_DATA.Current_TCB->Stack_User.Protection_Size))
 				{
 					int Err;
@@ -602,17 +608,17 @@ int __Sys_Scheduling_MPU_Add_Stack(uint32_t Mode,uint32_t *Fault_SP,uint32_t Fau
 			}
 
 		}
-		//³ö´íÈÎÎñÔÚµ±Ç°ÈÎÎñµÄÄÚºËÕ»ÖÐ
+		//å‡ºé”™ä»»åŠ¡åœ¨å½“å‰ä»»åŠ¡çš„å†…æ ¸æ ˆä¸­
 		if((uint32_t)Scheduling_DATA.Current_TCB->Stack_System.SP_Head<=Fault_Address
 		&& Fault_Address<=(uint32_t)Scheduling_DATA.Current_TCB->Stack_System.SP_End)
 		{
-			//ÔÚ¼ì²éÒ»´Îµ±Ç°SPÖ¸ÕëÊÇ·ñÔÚµ±Ç°ÈÎÎñÕ»ÖÐ
+			//åœ¨æ£€æŸ¥ä¸€æ¬¡å½“å‰SPæŒ‡é’ˆæ˜¯å¦åœ¨å½“å‰ä»»åŠ¡æ ˆä¸­
 			if((uint32_t)Scheduling_DATA.Current_TCB->Stack_System.SP_Head<=(uint32_t)Fault_SP
 			&& (uint32_t)Fault_SP<=(uint32_t)Scheduling_DATA.Current_TCB->Stack_System.SP_End)
 			{
-				//³õ²½È·ÈÏ³ö´íÎ»ÖÃ
+				//åˆæ­¥ç¡®è®¤å‡ºé”™ä½ç½®
 
-				//ÔÚ¼ì²éÒ»´ÎÊÇ·ñ³ö´íÎ»ÖÃÔÚ±£»¤ÇøÓò
+				//åœ¨æ£€æŸ¥ä¸€æ¬¡æ˜¯å¦å‡ºé”™ä½ç½®åœ¨ä¿æŠ¤åŒºåŸŸ
 				if((Fault_Address-(uint32_t)Scheduling_DATA.Current_TCB->Stack_System.SP_Head)<=Stack_Default_Protection_Size_Byte(Scheduling_DATA.Current_TCB->Stack_System.Protection_Size))
 				{
 					//
@@ -630,20 +636,20 @@ int __Sys_Scheduling_MPU_Add_Stack(uint32_t Mode,uint32_t *Fault_SP,uint32_t Fau
 
 		}
 	}
-	//³ö´íÈÎÎñÔÚÉÏÒ»¸öÈÎÎñµÄÓÃ»§Õ»ÖÐ
+	//å‡ºé”™ä»»åŠ¡åœ¨ä¸Šä¸€ä¸ªä»»åŠ¡çš„ç”¨æˆ·æ ˆä¸­
 	if(Scheduling_DATA.Last_TCB!=Null)
 	{
-		//³ö´íµØÖ·ÔÚÉÏÒ»¸öÈÎÎñµÄÓÃ»§Õ»ÖÐ
+		//å‡ºé”™åœ°å€åœ¨ä¸Šä¸€ä¸ªä»»åŠ¡çš„ç”¨æˆ·æ ˆä¸­
 		if((uint32_t)Scheduling_DATA.Last_TCB->Stack_User.SP_Head<=Fault_Address
 		&& Fault_Address<=(uint32_t)Scheduling_DATA.Last_TCB->Stack_User.SP_End)
 		{
-			//ÔÚ¼ì²éÒ»´Îµ±Ç°SPÖ¸ÕëÊÇ·ñÔÚÉÏÒ»¸öÈÎÎñÕ»ÖÐ
+			//åœ¨æ£€æŸ¥ä¸€æ¬¡å½“å‰SPæŒ‡é’ˆæ˜¯å¦åœ¨ä¸Šä¸€ä¸ªä»»åŠ¡æ ˆä¸­
 			if((uint32_t)Scheduling_DATA.Last_TCB->Stack_User.SP_Head<=(uint32_t)Fault_SP
 			&& (uint32_t)Fault_SP<=(uint32_t)Scheduling_DATA.Last_TCB->Stack_User.SP_End)
 			{
-				//³õ²½È·ÈÏ³ö´íÎ»ÖÃ
+				//åˆæ­¥ç¡®è®¤å‡ºé”™ä½ç½®
 
-				//ÔÚ¼ì²éÒ»´ÎÊÇ·ñ³ö´íÎ»ÖÃÔÚ±£»¤ÇøÓò
+				//åœ¨æ£€æŸ¥ä¸€æ¬¡æ˜¯å¦å‡ºé”™ä½ç½®åœ¨ä¿æŠ¤åŒºåŸŸ
 				if((Fault_Address-(uint32_t)Scheduling_DATA.Last_TCB->Stack_User.SP_Head)<=Stack_Default_Protection_Size_Byte(Scheduling_DATA.Last_TCB->Stack_User.Protection_Size))
 				{
 					//
@@ -668,17 +674,17 @@ int __Sys_Scheduling_MPU_Add_Stack(uint32_t Mode,uint32_t *Fault_SP,uint32_t Fau
 			}
 
 		}
-		//³ö´íÈÎÎñÔÚÉÏÒ»¸öÈÎÎñµÄÄÚºËÕ»ÖÐ
+		//å‡ºé”™ä»»åŠ¡åœ¨ä¸Šä¸€ä¸ªä»»åŠ¡çš„å†…æ ¸æ ˆä¸­
 		if((uint32_t)Scheduling_DATA.Last_TCB->Stack_System.SP_Head<=Fault_Address
 		&& Fault_Address<=(uint32_t)Scheduling_DATA.Last_TCB->Stack_System.SP_End)
 		{
-			//ÔÚ¼ì²éÒ»´Îµ±Ç°SPÖ¸ÕëÊÇ·ñÔÚÉÏÒ»¸öÈÎÎñÕ»ÖÐ
+			//åœ¨æ£€æŸ¥ä¸€æ¬¡å½“å‰SPæŒ‡é’ˆæ˜¯å¦åœ¨ä¸Šä¸€ä¸ªä»»åŠ¡æ ˆä¸­
 			if((uint32_t)Scheduling_DATA.Last_TCB->Stack_System.SP_Head<=(uint32_t)Fault_SP
 			&& (uint32_t)Fault_SP<=(uint32_t)Scheduling_DATA.Last_TCB->Stack_System.SP_End)
 			{
-				//³õ²½È·ÈÏ³ö´íÎ»ÖÃ
+				//åˆæ­¥ç¡®è®¤å‡ºé”™ä½ç½®
 
-				//ÔÚ¼ì²éÒ»´ÎÊÇ·ñ³ö´íÎ»ÖÃÔÚ±£»¤ÇøÓò
+				//åœ¨æ£€æŸ¥ä¸€æ¬¡æ˜¯å¦å‡ºé”™ä½ç½®åœ¨ä¿æŠ¤åŒºåŸŸ
 				if((Fault_Address-(uint32_t)Scheduling_DATA.Last_TCB->Stack_System.SP_Head)<=Stack_Default_Protection_Size_Byte(Scheduling_DATA.Last_TCB->Stack_System.Protection_Size))
 				{
 					//
@@ -710,7 +716,7 @@ int __Sys_Scheduling_MPU_Add_Stack_Malloc(bool Sys_Memory,Scheduling_Task_TCB_St
 
 	uint32_t New_Stack_Size_4Byte=((uint32_t)P_TCB_Stack->SP_End-(uint32_t)P_TCB_Stack->SP_Head)/4;
 
-	//Õâ¸öµØ·½»¹ÒªÌØ±ð×¢ÒâÒ»¸ö¹Ø¼üÎÊÌâ£¬¾ÍÊÇÒç³öµÄ³¤¶ÈÐèÒª¼ÆËã³öÀ´£¬È»ºóÐÂµÄÇøÓò»¹±ØÐëÒª³¬¹ýÕâ¸öÇøÓò
+	//è¿™ä¸ªåœ°æ–¹è¿˜è¦ç‰¹åˆ«æ³¨æ„ä¸€ä¸ªå…³é”®é—®é¢˜ï¼Œå°±æ˜¯æº¢å‡ºçš„é•¿åº¦éœ€è¦è®¡ç®—å‡ºæ¥ï¼Œç„¶åŽæ–°çš„åŒºåŸŸè¿˜å¿…é¡»è¦è¶…è¿‡è¿™ä¸ªåŒºåŸŸ
 
 
 
@@ -733,7 +739,7 @@ int __Sys_Scheduling_MPU_Add_Stack_Malloc(bool Sys_Memory,Scheduling_Task_TCB_St
 
 	uint32_t *New_Stack=Null;
 
-	//ÉêÇëÒ»¸öÐÂµÄÕ»¿Õ¼ä
+	//ç”³è¯·ä¸€ä¸ªæ–°çš„æ ˆç©ºé—´
 	if(Sys_Memory==true)
 	{
 		New_Stack=__Sys_Memory_Malloc_Align(New_Stack_Size_4Byte*4,Protection_Size_Byte);
@@ -772,7 +778,7 @@ int __Sys_Scheduling_MPU_Add_Stack_Malloc(bool Sys_Memory,Scheduling_Task_TCB_St
 
 	uint32_t *Old_Stack_SP=P_TCB_Stack->SP_End;
 
-	//ÏÈ¹Ø±Õ±£»¤ÇøÓò£¬µÈ¸´ÖÆÍê³Éºó£¬ÖØÐÂÉèÖÃÐÂµÄ±£»¤µØÖ·
+	//å…ˆå…³é—­ä¿æŠ¤åŒºåŸŸï¼Œç­‰å¤åˆ¶å®ŒæˆåŽï¼Œé‡æ–°è®¾ç½®æ–°çš„ä¿æŠ¤åœ°å€
 	if(MPU_SET_Region_Disable()!=Error_OK)
 	{
 		while(1);
@@ -791,7 +797,7 @@ int __Sys_Scheduling_MPU_Add_Stack_Malloc(bool Sys_Memory,Scheduling_Task_TCB_St
 		Old_Stack_SP--;
 
 	}
-	//ÊÍ·ÅµôÒç³öµÄÕ»¿Õ¼ä
+	//é‡Šæ”¾æŽ‰æº¢å‡ºçš„æ ˆç©ºé—´
 	if(Sys_Memory==true)
 	{
 		__Sys_Memory_Free(P_TCB_Stack->SP_Head);
@@ -810,7 +816,7 @@ int __Sys_Scheduling_MPU_Add_Stack_Malloc(bool Sys_Memory,Scheduling_Task_TCB_St
 		P_TCB_Stack->Count++;
 	}
 
-	//ÉèÖÃCPUÒç³öµÄSPÖ¸Õë
+	//è®¾ç½®CPUæº¢å‡ºçš„SPæŒ‡é’ˆ
 	__Sys_SET_CPU_SP(Mode,P_TCB_Stack->SP);
 
 	//while(1);

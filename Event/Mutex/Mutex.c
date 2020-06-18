@@ -1,7 +1,7 @@
 /*
  * Mutex.c
  *
- *  Created on: 2019Äê4ÔÂ30ÈÕ
+ *  Created on: 2019å¹´4æœˆ30æ—¥
  *      Author: Master.HE
  */
 #include "Master.Stdint.h"
@@ -21,6 +21,7 @@
 
 #include "Scheduling/Scheduling.h"
 
+#ifdef Master_OS_Config_Mutex_Create
 int __Sys_Mutex_Create(
 		char *Name,
 		Event_Queue_Option_Type Option_Type)
@@ -54,7 +55,8 @@ int __Sys_Mutex_Create(
 	return Handle;
 
 }
-
+#endif
+#ifdef Master_OS_Config_Mutex_Delete
 int __Sys_Mutex_Delete(int Handle)
 {
 	if(Handle<Valid_Handle)return Error_Invalid_Handle;
@@ -74,7 +76,8 @@ int __Sys_Mutex_Delete(int Handle)
 	return Error_OK;
 
 }
-
+#endif
+#ifdef Master_OS_Config_Mutex_Find_Handle
 int __Sys_Mutex_Find_Handle(char *Name)
 {
 	if(Name==Null)
@@ -84,7 +87,8 @@ int __Sys_Mutex_Find_Handle(char *Name)
 
 	return Event_Node_Name_Find_Node(Name,Event_Pend_Mutex);
 }
-
+#endif
+#ifdef Master_OS_Config_Mutex_Wait
 int __Sys_Mutex_Wait(
 		int Handle,
 		int32_t Time_Out_MS)
@@ -119,8 +123,8 @@ int __Sys_Mutex_Wait(
 	if(Time_Out_MS==Event_Time_Out_Query)
 	{
 
-		if(Temp_DATA_Node->Mutex.Possess_TCB==Null			//µ±Ç°Î´±»Õ¼ÓÃ
-		|| Temp_DATA_Node->Mutex.Possess_TCB==Temp_TCB)	//µ±Ç°Õ¼ÓÃµÄÊÇ×Ô¼º
+		if(Temp_DATA_Node->Mutex.Possess_TCB==Null			//å½“å‰æœªè¢«å ç”¨
+		|| Temp_DATA_Node->Mutex.Possess_TCB==Temp_TCB)	//å½“å‰å ç”¨çš„æ˜¯è‡ªå·±
 		{
 			return Error_OK;
 		}
@@ -131,13 +135,13 @@ int __Sys_Mutex_Wait(
 	}
 	else if(Time_Out_MS==Event_Time_Out_Occupy_Return_Back)
 	{
-		if(Temp_DATA_Node->Mutex.Possess_TCB==Null			//µ±Ç°Î´±»Õ¼ÓÃ
-		|| Temp_DATA_Node->Mutex.Possess_TCB==Temp_TCB)	//µ±Ç°Õ¼ÓÃµÄÊÇ×Ô¼º
+		if(Temp_DATA_Node->Mutex.Possess_TCB==Null			//å½“å‰æœªè¢«å ç”¨
+		|| Temp_DATA_Node->Mutex.Possess_TCB==Temp_TCB)	//å½“å‰å ç”¨çš„æ˜¯è‡ªå·±
 		{
 
 			Temp_DATA_Node->Mutex.Possess_TCB=Temp_TCB;
 
-			//µ÷ÕûÓÅÏÈ¼¶
+			//è°ƒæ•´ä¼˜å…ˆçº§
 			Temp_TCB->Priority.Current=Priority_Task_Mutex;
 
 			return Error_OK;
@@ -149,13 +153,13 @@ int __Sys_Mutex_Wait(
 	}
 	else
 	{
-		if(Temp_DATA_Node->Mutex.Possess_TCB==Null			//µ±Ç°Î´±»Õ¼ÓÃ
-		|| Temp_DATA_Node->Mutex.Possess_TCB==Temp_TCB)	//µ±Ç°Õ¼ÓÃµÄÊÇ×Ô¼º
+		if(Temp_DATA_Node->Mutex.Possess_TCB==Null			//å½“å‰æœªè¢«å ç”¨
+		|| Temp_DATA_Node->Mutex.Possess_TCB==Temp_TCB)	//å½“å‰å ç”¨çš„æ˜¯è‡ªå·±
 		{
 
 			Temp_DATA_Node->Mutex.Possess_TCB=Temp_TCB;
 
-			//µ÷ÕûÓÅÏÈ¼¶
+			//è°ƒæ•´ä¼˜å…ˆçº§
 			Temp_TCB->Priority.Current=Priority_Task_Mutex;
 
 			return Error_OK;
@@ -163,7 +167,7 @@ int __Sys_Mutex_Wait(
 		else
 		{
 
-			//±»Õ¼ÓÃ ¹ÒÆðµ±Ç°ÈÎÎñ
+			//è¢«å ç”¨ æŒ‚èµ·å½“å‰ä»»åŠ¡
 			if((Err=Queue_TCB_Add_Event_Node_Queue(Temp_Pend_Task_Queue,Temp_TCB,Temp_DATA_Node->Mutex.Option))!=Error_OK)
 			{
 				return Err;
@@ -195,8 +199,8 @@ int __Sys_Mutex_Wait(
 
 
 }
-
-
+#endif
+#ifdef Master_OS_Config_Mutex_Release
 int __Sys_Mutex_Release(int Handle)
 {
 	if(Handle<Valid_Handle)
@@ -229,7 +233,7 @@ int __Sys_Mutex_Release(int Handle)
 	Temp_DATA_Node->Mutex.Possess_TCB=Null;
 
 
-	//»Ö¸´µ±Ç°ÓÅÏÈ¼¶
+	//æ¢å¤å½“å‰ä¼˜å…ˆçº§
 	Temp_TCB->Priority.Current=Temp_TCB->Priority.Default;
 
 	Temp_TCB=Null;
@@ -256,6 +260,6 @@ int __Sys_Mutex_Release(int Handle)
 
 	return Error_OK;
 }
-
+#endif
 
 

@@ -1,7 +1,7 @@
 /*
  * Message.Queue.c
  *
- *  Created on: 2019Äê4ÔÂ30ÈÕ
+ *  Created on: 2019å¹´4æœˆ30æ—¥
  *      Author: Master.HE
  */
 #include <string.h>
@@ -24,6 +24,7 @@
 #include "Scheduling/Scheduling.h"
 #include "Scheduling/Scheduling.Task.h"
 
+#ifdef Master_OS_Config_Message_Queue_Create
 int __Sys_Message_Queue_Create(
 		char *Name,
 		uint32_t Max_Message_Size,
@@ -85,6 +86,8 @@ Message_Queue_Create_Exit1:
 	return Err;
 
 }
+#endif
+#ifdef Master_OS_Config_Message_Queue_Delete
 int __Sys_Message_Queue_Delete(int Handle)
 {
 	if(Handle<Valid_Handle)return Error_Invalid_Handle;
@@ -111,6 +114,8 @@ int __Sys_Message_Queue_Delete(int Handle)
 	return Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_Message_Queue_Find_Handle
 int __Sys_Message_Queue_Find_Handle(char *Name)
 {
 	if(Name==Null)
@@ -120,6 +125,8 @@ int __Sys_Message_Queue_Find_Handle(char *Name)
 
 	return Event_Node_Name_Find_Node(Name,Event_Pend_Message_Queue);
 }
+#endif
+#ifdef Master_OS_Config_Message_Queue_Open
 int __Sys_Message_Queue_Open(int Handle)
 {
 	if(Handle<Valid_Handle)
@@ -177,6 +184,8 @@ int __Sys_Message_Queue_Open(int Handle)
 	return Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_Message_Queue_Close
 int __Sys_Message_Queue_Close(int Handle)
 {
 	if(Handle<Valid_Handle)
@@ -223,6 +232,8 @@ int __Sys_Message_Queue_Close(int Handle)
 	return Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_Message_Queue_Wait
 int __Sys_Message_Queue_Wait(
 		int Handle,
 		void *Read_Message_DATA,
@@ -261,7 +272,7 @@ int __Sys_Message_Queue_Wait(
 	{
 		return Err;
 	}
-	//¼ì²éµ±Ç°taskÊÇ·ñºÍµ±Ç°ÊÂ¼ş¹ØÁª£¬Èç¹û¹ØÁªÔòµ¼³ötask¹ØÓÚ´ËÊÂ¼ş²ÎÊı±í
+	//æ£€æŸ¥å½“å‰taskæ˜¯å¦å’Œå½“å‰äº‹ä»¶å…³è”ï¼Œå¦‚æœå…³è”åˆ™å¯¼å‡ºtaskå…³äºæ­¤äº‹ä»¶å‚æ•°è¡¨
 	Task_Event_DATA_Type *Temp_DATA=Null;
 	Err=Scheduling_Task_Event_List_Find_Node(Temp_TCB,Handle,&Temp_DATA);
 
@@ -282,7 +293,7 @@ int __Sys_Message_Queue_Wait(
 		return Error_Unknown;
 	}
 
-	//²éÑ¯
+	//æŸ¥è¯¢
 	if(Time_Out_MS==Event_Time_Out_Query)
 	{
 		if(Temp_DATA_Node->Message_Queue.Index_In==Temp_DATA->Message_Queue.Index_Out)
@@ -301,7 +312,7 @@ int __Sys_Message_Queue_Wait(
 		{
 			return Error_Invalid_Parameter;
 		}
-		//³¢ÊÔÕ¼ÓÃ²¢Á¢¼´·µ»Ø
+		//å°è¯•å ç”¨å¹¶ç«‹å³è¿”å›
 		if(Time_Out_MS==Event_Time_Out_Occupy_Return_Back)
 		{
 			if(Temp_DATA_Node->Message_Queue.Index_In==Temp_DATA->Message_Queue.Index_Out)
@@ -339,7 +350,7 @@ int __Sys_Message_Queue_Wait(
 				return	Error_OK;
 			}
 		}
-		else//ÎŞÏŞµÈ´ı»òÕßÉèÖÃ³¬Ê±
+		else//æ— é™ç­‰å¾…æˆ–è€…è®¾ç½®è¶…æ—¶
 		{
 			if(Temp_DATA_Node->Message_Queue.Index_In==Temp_DATA->Message_Queue.Index_Out)
 			{
@@ -429,6 +440,8 @@ int __Sys_Message_Queue_Wait(
 
 	}
 }
+#endif
+#ifdef Master_OS_Config_Message_Queue_Clear
 int __Sys_Message_Queue_Clear(int Handle)
 {
 	if(Handle<Valid_Handle)
@@ -453,7 +466,7 @@ int __Sys_Message_Queue_Clear(int Handle)
 	{
 		return Err;
 	}
-	//¼ì²éµ±Ç°taskÊÇ·ñºÍµ±Ç°ÊÂ¼ş¹ØÁª£¬Èç¹û¹ØÁªÔòµ¼³ötask¹ØÓÚ´ËÊÂ¼ş²ÎÊı±í
+	//æ£€æŸ¥å½“å‰taskæ˜¯å¦å’Œå½“å‰äº‹ä»¶å…³è”ï¼Œå¦‚æœå…³è”åˆ™å¯¼å‡ºtaskå…³äºæ­¤äº‹ä»¶å‚æ•°è¡¨
 	Task_Event_DATA_Type *Temp_DATA=Null;
 	Err=Scheduling_Task_Event_List_Find_Node(Temp_TCB,Handle,&Temp_DATA);
 
@@ -480,6 +493,8 @@ int __Sys_Message_Queue_Clear(int Handle)
 	return	Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_Message_Queue_Set
 int __Sys_Message_Queue_Set(
 		int Handle,
 		void *Set_Message_DATA,
@@ -516,7 +531,7 @@ int __Sys_Message_Queue_Set(
 	void *P_Message_Data=Message_Queue_Void_Add(Temp_DATA_Node->Message_Queue.Message_DATA,Temp_DATA_Node->Message_Queue.Max_Message_Size*Temp_DATA_Node->Message_Queue.Index_In);//&P_Node->P_Message[P_Node->Max_Message_Size*P_Node->Index_In];
 	Temp_DATA_Node->Message_Queue.Message_Size[Temp_DATA_Node->Message_Queue.Index_In]=Set_Message_Size;
 
-	//ÏûÏ¢¸´ÖÆ
+	//æ¶ˆæ¯å¤åˆ¶
 	memcpy(P_Message_Data,Set_Message_DATA,Set_Message_Size);
 
 	Temp_DATA_Node->Message_Queue.Index_In++;
@@ -526,7 +541,7 @@ int __Sys_Message_Queue_Set(
 		Temp_DATA_Node->Message_Queue.Index_In=0;
 	}
 
-	//Í¨ÖªËùÓĞ°ó¶¨µÄÈÎÎñ
+	//é€šçŸ¥æ‰€æœ‰ç»‘å®šçš„ä»»åŠ¡
 	Task_Queue_Type *TCB_Queue=Null;
 
 	Queue_Read_TCB_Queue(&TCB_Queue);
@@ -543,7 +558,7 @@ int __Sys_Message_Queue_Set(
 				return Error_Unknown;
 			}
 
-			//·¢ÉúÏûÏ¢Òç³ö
+			//å‘ç”Ÿæ¶ˆæ¯æº¢å‡º
 			if(Temp_DATA_Node->Message_Queue.Index_In==Temp_DATA->Message_Queue.Index_Out)
 			{
 				Temp_DATA->Message_Queue.Index_Out++;
@@ -560,7 +575,7 @@ int __Sys_Message_Queue_Set(
 
 	Temp_TCB=Null;
 	bool Try_Context_Switch=false;
-	//½«µÈ´ıµÄÈÎÎñ ·ÅÈë×¼±¸ÔËĞĞ¶ÓÁĞ
+	//å°†ç­‰å¾…çš„ä»»åŠ¡ æ”¾å…¥å‡†å¤‡è¿è¡Œé˜Ÿåˆ—
 	while(Queue_TCB_Delete_Event_Node_Queue_First_TCB(Temp_Pend_Task_Queue,&Temp_TCB)==Error_OK)
 	{
 		Queue_TCB_Delete_Suspended_Queue(Temp_TCB);
@@ -576,7 +591,7 @@ int __Sys_Message_Queue_Set(
 		__Sys_Scheduling_Try_Context_Switch();
 	}
 
-	//Ôö¼Ó¶îÍâµÄ¶ÓÁĞ--ÊÂ¼ş×é
+	//å¢åŠ é¢å¤–çš„é˜Ÿåˆ—--äº‹ä»¶ç»„
 
 //	Event_Group_Node_Type *Temp_Group_Node=Null;
 //
@@ -591,7 +606,7 @@ int __Sys_Message_Queue_Set(
 //			while((Temp_TCB=Task_Queue_Del_First_TCB_At_Task_FIFO_PRIO_Queue(&Temp_Group_Node->Pend_Task_Queue))!=Null)
 //			{
 //
-//				//ĞŞÕı·µ»ØÖµ
+//				//ä¿®æ­£è¿”å›å€¼
 //				if(Temp_TCB->Task_Queue.Pend.Return_State!=Null)
 //				{
 //					P_Return_State=(uint8_t*)Temp_TCB->Task_Queue.Pend.Return_State;
@@ -611,10 +626,10 @@ int __Sys_Message_Queue_Set(
 //					Temp_TCB->Task_Queue.Pend.Return_Event_Group_Event_Node=Null;
 //				}
 //				//Test1();
-//				//´Óµ±Ç°¶ÓÁĞÖĞÉ¾³ı
+//				//ä»å½“å‰é˜Ÿåˆ—ä¸­åˆ é™¤
 //				Task_Queue_Del_TCB_At_Task_Pend_Suspended_TimeOut_Queue(Pend_Suspended_TimeOut,Temp_TCB);
 //
-//				//¼ÓÈë×¼±¸ÔËĞĞ¶ÓÁĞ
+//				//åŠ å…¥å‡†å¤‡è¿è¡Œé˜Ÿåˆ—
 //				Task_Queue_Add_TCB_To_Task_Ready_Queue(Ready,Temp_TCB,true);
 //
 //
@@ -629,7 +644,7 @@ int __Sys_Message_Queue_Set(
 
 	return Error_OK;
 }
-
+#endif
 static void *Message_Queue_Void_Add(void* sou,uint32_t Index_Byte)
 {
 	uint8_t *P=(uint8_t*)sou;

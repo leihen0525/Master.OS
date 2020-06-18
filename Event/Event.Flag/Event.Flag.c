@@ -1,7 +1,7 @@
 /*
  * Event.Flag.c
  *
- *  Created on: 2019Äê4ÔÂ30ÈÕ
+ *  Created on: 2019å¹´4æœˆ30æ—¥
  *      Author: Master.HE
  */
 #include "Master.Stdint.h"
@@ -21,6 +21,7 @@
 
 #include "Scheduling/Scheduling.h"
 
+#ifdef Master_OS_Config_Event_Flag_Create
 int __Sys_Event_Flag_Create(
 		char *Name,
 		bool Init_Flag)
@@ -51,6 +52,8 @@ int __Sys_Event_Flag_Create(
 	return Handle;
 
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Delete
 int __Sys_Event_Flag_Delete(int Handle)
 {
 	if(Handle<Valid_Handle)return Error_Invalid_Handle;
@@ -70,6 +73,8 @@ int __Sys_Event_Flag_Delete(int Handle)
 	return Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Find_Handle
 int __Sys_Event_Flag_Find_Handle(char *Name)
 {
 	if(Name==Null)
@@ -79,6 +84,8 @@ int __Sys_Event_Flag_Find_Handle(char *Name)
 
 	return Event_Node_Name_Find_Node(Name,Event_Pend_Event_Flag);
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Wait
 int __Sys_Event_Flag_Wait(
 		int Handle,
 		int32_t Time_Out_MS)
@@ -162,6 +169,8 @@ int __Sys_Event_Flag_Wait(
 	}
 
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Clear
 int __Sys_Event_Flag_Clear(int Handle)
 {
 	if(Handle<Valid_Handle)
@@ -185,6 +194,8 @@ int __Sys_Event_Flag_Clear(int Handle)
 	return Error_OK;
 
 }
+#endif
+#ifdef Master_OS_Config_Event_Flag_Set
 int __Sys_Event_Flag_Set(int Handle)
 {
 	if(Handle<Valid_Handle)
@@ -209,7 +220,7 @@ int __Sys_Event_Flag_Set(int Handle)
 
 	bool Try_Context_Switch=false;
 
-	//½«µÈ´ýµÄÈÎÎñ ·ÅÈë×¼±¸ÔËÐÐ¶ÓÁÐ
+	//å°†ç­‰å¾…çš„ä»»åŠ¡ æ”¾å…¥å‡†å¤‡è¿è¡Œé˜Ÿåˆ—
 	while(Queue_TCB_Delete_Event_Node_Queue_First_TCB(Temp_Pend_Task_Queue,&Temp_TCB)==Error_OK)
 	{
 		Queue_TCB_Delete_Suspended_Queue(Temp_TCB);
@@ -229,3 +240,4 @@ int __Sys_Event_Flag_Set(int Handle)
 	return Error_OK;
 
 }
+#endif

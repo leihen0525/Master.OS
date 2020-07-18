@@ -10,6 +10,11 @@
 
 typedef enum
 {
+	Error_Write_Register_Fault			=-22,					//写入寄存器失败
+	Error_Read_Register_Fault			=-21,					//读取寄存器失败
+	Error_Clear_Register_Fault			=-20,					//清除寄存器失败
+
+	Error_Clock_Fault					=-19,					//时钟故障
 	Error_No_Find						=-18,					//未找到
 	Error_No_Start						=-17,					//没有开始
 	Error_No_Space						=-16,					//

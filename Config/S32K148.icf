@@ -36,6 +36,9 @@ define symbol __FlashConfig_end__   = 0x0000040f;
 define symbol __reservedRAM_start__ = 0x20007000;
 define symbol __reservedRAM_end__   = 0x20007FFF;
 
+define exported symbol __RAM_START             = __ICFEDIT_region_IRAM1_start__;
+define exported symbol __RAM_END               = __ICFEDIT_region_IRAM2_end__;
+
 define memory mem with size = 4G;
 
 define region IROM_region   =   mem:[from __ICFEDIT_region_IROM1_start__ to __ICFEDIT_region_IROM1_end__]

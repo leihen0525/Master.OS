@@ -13,6 +13,15 @@
 typedef enum
 {
 	SysCall_Table_Index_Null			=0,
+#ifdef Master_OS_Config_BSP_Wdog_Enable
+	SysCall_Table_Index_BSP_Wdog_Enable,
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Disable
+	SysCall_Table_Index_BSP_Wdog_Disable,
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Clear
+	SysCall_Table_Index_BSP_Wdog_Clear,
+#endif
 
 #ifdef Master_OS_Config_Memory_Size_Malloc
 	SysCall_Table_Memory_Size_Malloc,

@@ -10,6 +10,26 @@
 #include "SysCall.Table.h"
 #include "API.h"
 
+//BSP
+#ifdef Master_OS_Config_BSP_Wdog_Enable
+int BSP_Wdog_Enable(void)
+{
+	return SysCall(SysCall_Table_Index_BSP_Wdog_Enable);
+}
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Disable
+int BSP_Wdog_Disable(void)
+{
+	return SysCall(SysCall_Table_Index_BSP_Wdog_Disable);
+}
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Clear
+int BSP_Wdog_Clear(void)
+{
+	return SysCall(SysCall_Table_Index_BSP_Wdog_Clear);
+}
+#endif
+
 //Memory
 #ifdef Master_OS_Config_Memory_Size_Malloc
 uint32_t Memory_Size_Malloc(void)

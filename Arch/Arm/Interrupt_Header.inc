@@ -16,6 +16,7 @@ Exception_Entry MACRO
 	LOCAL Exception_Entry_Exit
 	
 	//cpsid i
+
 	cmp lr,#0xfffffffd
 	beq Exception_Entry_1
 

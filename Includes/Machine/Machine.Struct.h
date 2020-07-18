@@ -66,6 +66,10 @@ typedef struct
 {
 	int (*Init)(void);
 
+	const void *Clock_Source;
+	void *Clock_Tree;
+
+	int (*UpData_Clock_Tree)(void);
 }Machine_Desc_CPU_Type;
 //-------------------------------------------------------------------------
 #ifdef __MPU__

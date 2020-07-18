@@ -25,6 +25,21 @@ extern "C" {
 
 int __Sys_Apply_Handle(void);
 
+//BSP
+int __Sys_BSP_UpData_Clock_Tree(
+		void **Clock_Source,
+		void **Clock_Tree);
+
+#ifdef Master_OS_Config_BSP_Wdog_Enable
+int __Sys_BSP_Wdog_Enable(void);
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Disable
+int __Sys_BSP_Wdog_Disable(void);
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Clear
+int __Sys_BSP_Wdog_Clear(void);
+#endif
+
 //Memory
 #ifdef Master_OS_Config_Memory_Size_Malloc
 uint32_t __Sys_Memory_Size_Malloc(void);
@@ -97,11 +112,14 @@ uint32_t __Sys_Power_GET_External_Frequency(void);
 void __Sys_SET_CPU_SP(uint32_t Mode,uint32_t *SP);
 
 
+#ifdef __UsrSP_SysSP__
+void __Sys_Switch_To_Idle(uint32_t *Usr_SP_End,uint32_t *Usr_SP_Begin,Task_Enter_Function Task_Enter,uint32_t *Sys_SP_End);
+#else
 void __Sys_Switch_To_Idle(uint32_t *Usr_SP_End,uint32_t *Usr_SP_Begin,Task_Enter_Function Task_Enter);
+#endif
 
 
-
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 void __Sys_Switch_To(uint32_t **Cur_TCB_Sys_SP,uint32_t **NEXT_TCB_Sys_SP,uint32_t **Cur_TCB_Usr_SP,uint32_t **NEXT_TCB_Usr_SP);
 #else
 void __Sys_Switch_To(uint32_t **Cur_TCB_SP,uint32_t **NEXT_TCB_SP);

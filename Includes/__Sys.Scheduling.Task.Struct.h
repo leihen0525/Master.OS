@@ -64,7 +64,7 @@ typedef struct
 
 typedef struct Scheduling_Task_TCB
 {
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 
 	Scheduling_Task_TCB_Stack_Type Stack_User;
 	Scheduling_Task_TCB_Stack_Type Stack_System;

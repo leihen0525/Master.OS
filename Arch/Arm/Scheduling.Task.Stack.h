@@ -16,7 +16,7 @@ int Scheduling_Task_Stack_Init(
 		Task_Enter_Function Task_Enter,
 		void *Args,
 		Task_Exit_Function Task_Exit,
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 		uint32_t **Sys_SP,
 		uint32_t **Usr_SP,
 #else

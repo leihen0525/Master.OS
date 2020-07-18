@@ -387,7 +387,7 @@ int __Sys_Event_Flag_Group_Wait_And(
 		Err=Error_Dissatisfy;
 	}
 
-	if(Err==Error_Dissatisfy && Time_Out_MS>Event_Time_Out_Occupy_Return_Back)
+	if(Err==Error_Dissatisfy && (Time_Out_MS>Event_Time_Out_Occupy_Return_Back || Time_Out_MS==Event_Time_Out_Infinite))
 	{
 
 		Temp_DATA->Event_Flag_Group[0].Wait_Type=Event_Flag_Group_Wait_Type_And;
@@ -424,23 +424,17 @@ int __Sys_Event_Flag_Group_Wait_And(
 		{
 			Err=Error_Time_Out;
 		}
-		if(Event_Flag_Group_Operation_And(Temp_DATA->Event_Flag_Group,Event_Flag_Group_Mask,Event_Flag_Group_BIT,Temp_DATA_Node->Event_Flag_Group.Flag_Group_LEN)==true)
-		{
-			Err=Error_OK;
-		}
 		else
 		{
-			Err=Error_Dissatisfy;//????
+			if(Event_Flag_Group_Operation_And(Temp_DATA->Event_Flag_Group,Event_Flag_Group_Mask,Event_Flag_Group_BIT,Temp_DATA_Node->Event_Flag_Group.Flag_Group_LEN)==true)
+			{
+				Err=Error_OK;
+			}
+			else
+			{
+				Err=Error_Dissatisfy;//????
+			}
 		}
-	}
-	//清除
-	if(Clear_Type==Event_Flag_Group_Clear_Any_Read_Clear
-	||(Err==Error_OK && Clear_Type==Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_Dissatisfy_Retain)
-	||(Err==Error_Dissatisfy && Clear_Type==Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_Dissatisfy_Clear)
-	||(Err==Error_Time_Out))
-	{
-
-		Event_Flag_Group_Operation_Clear_BIT(Temp_DATA->Event_Flag_Group,Event_Flag_Group_Mask,Event_Flag_Group_Clear_BIT,Temp_DATA_Node->Event_Flag_Group.Flag_Group_LEN);
 	}
 
 	if(Read_Event_Flag_Group!=Null)
@@ -450,6 +444,19 @@ int __Sys_Event_Flag_Group_Wait_And(
 			Read_Event_Flag_Group[i]=Temp_DATA->Event_Flag_Group[i].DATA&Event_Flag_Group_Mask[i];
 		}
 	}
+
+
+	//清除
+	if(Clear_Type==Event_Flag_Group_Clear_Any_Read_Clear
+	||(Err==Error_OK && Clear_Type==Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_Dissatisfy_Retain)
+	||((Err==Error_Dissatisfy || Err==Error_Time_Out) && Clear_Type==Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_Dissatisfy_Clear)
+	)
+	{
+
+		Event_Flag_Group_Operation_Clear_BIT(Temp_DATA->Event_Flag_Group,Event_Flag_Group_Mask,Event_Flag_Group_Clear_BIT,Temp_DATA_Node->Event_Flag_Group.Flag_Group_LEN);
+	}
+
+
 
 	return Err;
 
@@ -528,10 +535,10 @@ int __Sys_Event_Flag_Group_Wait_Or(
 		Err=Error_Dissatisfy;
 	}
 
-	if(Err==Error_Dissatisfy && Time_Out_MS>Event_Time_Out_Occupy_Return_Back)
+	if(Err==Error_Dissatisfy && (Time_Out_MS>Event_Time_Out_Occupy_Return_Back || Time_Out_MS==Event_Time_Out_Infinite))
 	{
 
-		Temp_DATA->Event_Flag_Group[0].Wait_Type=Event_Flag_Group_Wait_Type_And;
+		Temp_DATA->Event_Flag_Group[0].Wait_Type=Event_Flag_Group_Wait_Type_Or;
 
 		for(int i=0;i<Temp_DATA_Node->Event_Flag_Group.Flag_Group_LEN;i++)
 		{
@@ -565,23 +572,17 @@ int __Sys_Event_Flag_Group_Wait_Or(
 		{
 			Err=Error_Time_Out;
 		}
-		if(Event_Flag_Group_Operation_Or(Temp_DATA->Event_Flag_Group,Event_Flag_Group_Mask,Event_Flag_Group_BIT,Temp_DATA_Node->Event_Flag_Group.Flag_Group_LEN)==true)
-		{
-			Err=Error_OK;
-		}
 		else
 		{
-			Err=Error_Dissatisfy;//????
+			if(Event_Flag_Group_Operation_Or(Temp_DATA->Event_Flag_Group,Event_Flag_Group_Mask,Event_Flag_Group_BIT,Temp_DATA_Node->Event_Flag_Group.Flag_Group_LEN)==true)
+			{
+				Err=Error_OK;
+			}
+			else
+			{
+				Err=Error_Dissatisfy;//????
+			}
 		}
-	}
-	//清除
-	if(Clear_Type==Event_Flag_Group_Clear_Any_Read_Clear
-	||(Err==Error_OK && Clear_Type==Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_Dissatisfy_Retain)
-	||(Err==Error_Dissatisfy && Clear_Type==Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_Dissatisfy_Clear)
-	||(Err==Error_Time_Out))
-	{
-
-		Event_Flag_Group_Operation_Clear_BIT(Temp_DATA->Event_Flag_Group,Event_Flag_Group_Mask,Event_Flag_Group_Clear_BIT,Temp_DATA_Node->Event_Flag_Group.Flag_Group_LEN);
 	}
 
 	if(Read_Event_Flag_Group!=Null)
@@ -590,6 +591,16 @@ int __Sys_Event_Flag_Group_Wait_Or(
 		{
 			Read_Event_Flag_Group[i]=Temp_DATA->Event_Flag_Group[i].DATA&Event_Flag_Group_Mask[i];
 		}
+	}
+
+	//清除
+	if(Clear_Type==Event_Flag_Group_Clear_Any_Read_Clear
+	||(Err==Error_OK && Clear_Type==Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_Dissatisfy_Retain)
+	||((Err==Error_Dissatisfy || Err==Error_Time_Out) && Clear_Type==Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_Dissatisfy_Clear)
+	)
+	{
+
+		Event_Flag_Group_Operation_Clear_BIT(Temp_DATA->Event_Flag_Group,Event_Flag_Group_Mask,Event_Flag_Group_Clear_BIT,Temp_DATA_Node->Event_Flag_Group.Flag_Group_LEN);
 	}
 
 	return Err;

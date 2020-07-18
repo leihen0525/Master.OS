@@ -24,6 +24,17 @@ extern "C" {
 #include "MPU.Define.h"
 #include "Memory.Struct.h"
 
+//BSP
+#ifdef Master_OS_Config_BSP_Wdog_Enable
+int BSP_Wdog_Enable(void);
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Disable
+int BSP_Wdog_Disable(void);
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Clear
+int BSP_Wdog_Clear(void);
+#endif
+
 //Memory
 #ifdef Master_OS_Config_Memory_Size_Malloc
 uint32_t Memory_Size_Malloc(void);

@@ -16,6 +16,7 @@
 #include "Scheduling/Scheduling.h"
 #include "Shell/Shell.h"
 #include "MPU/MPU.h"
+#include "BSP/BSP.h"
 
 #include "Init.Machine.h"
 #include "Init.Main.h"
@@ -32,10 +33,15 @@ Machine_Desc_Type *Machine_Desc=Null;
 
 void Start_Kernel(void)
 {
-	
+
+	//初始化BSP设备树
+	if(Machine_Init(&Machine_Desc)!=Error_OK)
+	{
+		while(1);
+	}
 
 	//初始化BSP
-	if(Machine_Init(&Machine_Desc)!=Error_OK)
+	if(BSP_Init(&Machine_Desc->Wdog,&Machine_Desc->CPU)!=Error_OK)
 	{
 		while(1);
 	}
@@ -49,13 +55,19 @@ void Start_Kernel(void)
 #endif
 
 	//关闭看门狗
-	if(Machine_Wdog_Disable(&Machine_Desc->Wdog)!=Error_OK)
+	if(__Sys_BSP_Wdog_Disable()!=Error_OK)
 	{
 		while(1);
 	}
 
 	//初始化芯片
-	if(Machine_Init_CPU(&Machine_Desc->CPU)!=Error_OK)
+	if(BSP_Init_CPU()!=Error_OK)
+	{
+		while(1);
+	}
+
+	//更新时钟树
+	if(__Sys_BSP_UpData_Clock_Tree(Null,Null)!=Error_OK)
 	{
 		while(1);
 	}

@@ -29,7 +29,32 @@ __Invalid_Entry
 	PUBLIC __SVC_Entry
 __SVC_Entry
 
+#ifdef __UsrSP_SysSP__
 
+	push {lr}
+
+	sub sp,sp,#0x10
+
+	str r7,[sp,#0xC]
+	str r6,[sp,#0x8]
+	str r5,[sp,#0x4]
+	str r4,[sp]
+
+	ldr r6,=__Sys_Call_Table
+	mov r7,r8
+	lsls r7,r7,#2
+	ldr r7,[r6,r7]
+	blx r7
+
+	add sp,sp,#0x10
+
+	MRS R7, PSP
+
+	str r0,[r7]
+
+	pop {pc}
+
+#else
 	Exception_Entry
 
 
@@ -55,6 +80,9 @@ __SVC_Entry
 	Exception_Slow_Exit
 
 	bx lr
+#endif
+
+
 
 	//B __SVC_Entry
 /*
@@ -97,7 +125,14 @@ __SysTick_Entry
 	PUBLIC __Interrupt_Entry
 __Interrupt_Entry
 
+#ifdef __UsrSP_SysSP__
+	push {lr}
 
+	ldr r1,=__IRQ_Entry
+	blx r1
+
+	pop {pc}
+#else
 	Exception_Entry
 
 
@@ -106,7 +141,7 @@ __Interrupt_Entry
 
 
 	Exception_Fast_Exit
-
+#endif
 	bx lr
 
 

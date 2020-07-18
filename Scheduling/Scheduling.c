@@ -159,7 +159,7 @@ int __Sys_Scheduling_Release_Task(int Handle)
 
 		Scheduling_Task_Release(P_Task_TCB);
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 		__Sys_Switch_To(Null,&Scheduling_DATA.Current_TCB->Stack_System.SP,Null,&Scheduling_DATA.Current_TCB->Stack_User.SP);
 #else
 		__Sys_Switch_To(Null,&Scheduling_DATA.Current_TCB->Stack.SP);
@@ -243,14 +243,15 @@ int Scheduling_Create_Task_Idle(
 	P_Task_TCB->Info.Time_Slice=Task_Time_Slice_MS;
 	P_Task_TCB->Info.TimeOut=-1;
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 
 	uint32_t Stack_System_Size_4Byte=Stack_System_Default_Size_4Byte+8;
-
+	uint32_t Sys_Stack_Alignment_Byte=Stack_Alignment_Byte;
+#ifdef __MPU__
 	P_Task_TCB->Stack_System.Protection_Size=Stack_Default_Protection_Size;
 
-	uint32_t Sys_Stack_Alignment_Byte=Stack_Default_Protection_Size_Byte(Stack_Default_Protection_Size);
-
+	Sys_Stack_Alignment_Byte=Stack_Default_Protection_Size_Byte(Stack_Default_Protection_Size);
+#endif
 	Stack_System_Size_4Byte=Stack_System_Size_4Byte+Sys_Stack_Alignment_Byte/4;
 
 
@@ -274,14 +275,19 @@ int Scheduling_Create_Task_Idle(
 
 	P_Task_TCB->Stack_System.SP=P_Task_TCB->Stack_System.SP_End;
 
+#ifdef __MPU__
 	P_Task_TCB->Stack_System.Count=0;
+#endif
 
 #pragma section="CSTACK"
 	P_Task_TCB->Stack_User.SP_Head=__section_begin("CSTACK");
 	P_Task_TCB->Stack_User.SP_End=__section_end("CSTACK");
 
+#ifdef __MPU__
 	P_Task_TCB->Stack_User.Protection_Size=Stack_Default_Protection_Size;
 	P_Task_TCB->Stack_User.Count=0;
+#endif
+
 
 #else
 
@@ -296,7 +302,7 @@ int Scheduling_Create_Task_Idle(
 
 	return P_Task_TCB->Info.Handle;
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 Exit2:
 	__Sys_Memory_Free(P_Task_TCB->Stack_System.SP_Head);
 #endif
@@ -308,8 +314,8 @@ Exit1:
 
 void Scheduling_Switch_To_Idle(void)
 {
-#ifdef __MPU__
-	__Sys_Switch_To_Idle(Scheduling_DATA.Current_TCB->Stack_User.SP_End,Scheduling_DATA.Current_TCB->Stack_User.SP_Head,Task_Idle);
+#ifdef __UsrSP_SysSP__
+	__Sys_Switch_To_Idle(Scheduling_DATA.Current_TCB->Stack_User.SP_End,Scheduling_DATA.Current_TCB->Stack_User.SP_Head,Task_Idle,Scheduling_DATA.Current_TCB->Stack_System.SP_End);
 #else
 	__Sys_Switch_To_Idle(Scheduling_DATA.Current_TCB->Stack.SP_End,Scheduling_DATA.Current_TCB->Stack.SP_Head,Task_Idle);
 #endif
@@ -421,7 +427,7 @@ void Scheduling_SysTick(void)
 	Scheduling_DATA.Current_TCB=Temp_TCB;
 
 	//任务进行上下文切换
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Scheduling_DATA.Last_TCB->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
 #else
 	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack.SP,&Scheduling_DATA.Current_TCB->Stack.SP);
@@ -467,7 +473,7 @@ void __Sys_Scheduling_Try_Context_Switch(void)
 	Scheduling_DATA.Last_TCB=Scheduling_DATA.Current_TCB;
 	Scheduling_DATA.Current_TCB=Temp_TCB;
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Scheduling_DATA.Last_TCB->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
 #else
 	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack.SP,&Scheduling_DATA.Current_TCB->Stack.SP);
@@ -501,7 +507,7 @@ int __Sys_Scheduling_Context_Switch(Task_State_Type CS_Task_State,int32_t TimeOu
 	Scheduling_DATA.Last_TCB=Scheduling_DATA.Current_TCB;
 	Scheduling_DATA.Current_TCB=Temp_TCB;
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack_System.SP,&Scheduling_DATA.Current_TCB->Stack_System.SP,&Scheduling_DATA.Last_TCB->Stack_User.SP,&Scheduling_DATA.Current_TCB->Stack_User.SP);
 #else
 	__Sys_Switch_To(&Scheduling_DATA.Last_TCB->Stack.SP,&Scheduling_DATA.Current_TCB->Stack.SP);
@@ -527,7 +533,7 @@ int __Sys_Scheduling_GET_Current_TCB(__Sys_Scheduling_Task_TCB_Type **Current_TC
 
 	return Error_OK;
 }
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 
 uint32_t **__Sys_Scheduling_GET_System_SP_End(void)
 {
@@ -537,6 +543,8 @@ uint32_t **__Sys_Scheduling_GET_User_SP(void)
 {
 	return &Scheduling_DATA.Current_TCB->Stack_User.SP;
 }
+#endif
+#ifdef __MPU__
 void __Sys_Scheduling_MPU_SET_Current_Task(void)
 {
 	if(MPU_SET(

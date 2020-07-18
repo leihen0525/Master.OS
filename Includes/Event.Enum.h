@@ -38,9 +38,9 @@ typedef enum
 
 	//Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_NoOK_Retain,	//结果OK保留 NoOK保留
 
-	Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_Dissatisfy_Clear,//结果OK保留 Dissatisfy清除
+	Event_Flag_Group_Clear_Any_Read_Result_OK_Retain_Dissatisfy_Clear,//结果OK保留 Dissatisfy OR TimeOut清除
 
-	Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_Dissatisfy_Retain,//结果OK清除 Dissatisfy保留
+	Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_Dissatisfy_Retain,//结果OK清除 Dissatisfy OR TimeOut保留
 
 	//Event_Flag_Group_Clear_Any_Read_Result_OK_Clear_NoOK_Clear,		//结果OK清除 NoOK清除
 

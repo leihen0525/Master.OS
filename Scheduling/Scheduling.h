@@ -54,9 +54,11 @@ int __Sys_Scheduling_Context_Switch(Task_State_Type CS_Task_State,int32_t TimeOu
 
 int __Sys_Scheduling_GET_Current_TCB(__Sys_Scheduling_Task_TCB_Type **Current_TCB);
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 uint32_t **__Sys_Scheduling_GET_System_SP_End(void);
 uint32_t **__Sys_Scheduling_GET_User_SP(void);
+#endif
+#ifdef __MPU__
 void __Sys_Scheduling_MPU_SET_Current_Task(void);
 void __Sys_Scheduling_MPU_SET_LAST_Task(void);
 int __Sys_Scheduling_MPU_Add_Stack(uint32_t Mode,uint32_t *Fault_SP,uint32_t Fault_Address);

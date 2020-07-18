@@ -1,0 +1,133 @@
+/*
+ * BSP.c
+ *
+ *  Created on: 2020年7月9日
+ *      Author: Master.HE
+ */
+
+
+#include "Error.h"
+
+#include "BSP.Struct.h"
+#include "BSP.h"
+
+BSP_DATA_Type BSP_DATA;
+
+int BSP_Init(
+		Machine_Desc_Wdog_Type *P_Wdog,
+		Machine_Desc_CPU_Type *P_CPU)
+{
+	if(P_Wdog==Null || P_CPU==Null)
+	{
+		return Error_Invalid_Parameter;
+	}
+	BSP_DATA.Wdog=P_Wdog;
+	BSP_DATA.CPU=P_CPU;
+
+	if(BSP_DATA.Wdog->Enable==Null
+	|| BSP_DATA.Wdog->Clear==Null
+	|| BSP_DATA.Wdog->Disable==Null)
+	{
+		return Error_Undefined;
+	}
+	if(BSP_DATA.CPU->Init==Null
+	|| BSP_DATA.CPU->UpData_Clock_Tree==Null
+	|| BSP_DATA.CPU->Clock_Source==Null
+	|| BSP_DATA.CPU->Clock_Tree==Null)
+	{
+		return Error_Undefined;
+	}
+
+	return Error_OK;
+}
+
+int BSP_Init_CPU(void)
+{
+	if(BSP_DATA.CPU==Null)
+	{
+		return Error_Unknown;
+	}
+
+	if(BSP_DATA.CPU->Init==Null)
+	{
+		return Error_Undefined;
+	}
+	return BSP_DATA.CPU->Init();
+}
+
+int __Sys_BSP_UpData_Clock_Tree(
+		void **Clock_Source,
+		void **Clock_Tree)
+{
+	int Err;
+	if(BSP_DATA.CPU==Null)
+	{
+		return Error_Unknown;
+	}
+	if(BSP_DATA.CPU->UpData_Clock_Tree==Null)
+	{
+		return Error_Undefined;
+	}
+	if((Err=BSP_DATA.CPU->UpData_Clock_Tree())!=Error_OK)
+	{
+		return Err;
+	}
+	if(Clock_Source!=Null)
+	{
+		*Clock_Source=(void *)BSP_DATA.CPU->Clock_Source;
+	}
+	if(Clock_Tree!=Null)
+	{
+		*Clock_Tree=BSP_DATA.CPU->Clock_Tree;
+	}
+	return Error_OK;
+}
+#ifdef Master_OS_Config_BSP_Wdog_Enable
+int __Sys_BSP_Wdog_Enable(void)
+{
+	if(BSP_DATA.Wdog==Null)
+	{
+		return Error_Unknown;
+	}
+
+	if(BSP_DATA.Wdog->Enable==Null)
+	{
+		return Error_Undefined;
+	}
+
+	return BSP_DATA.Wdog->Enable();
+}
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Disable
+int __Sys_BSP_Wdog_Disable(void)
+{
+	if(BSP_DATA.Wdog==Null)
+	{
+		return Error_Unknown;
+	}
+
+	if(BSP_DATA.Wdog->Disable==Null)
+	{
+		return Error_Undefined;
+	}
+
+	return BSP_DATA.Wdog->Disable();
+}
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Clear
+int __Sys_BSP_Wdog_Clear(void)
+{
+	if(BSP_DATA.Wdog==Null)
+	{
+		return Error_Unknown;
+	}
+
+	if(BSP_DATA.Wdog->Clear==Null)
+	{
+		return Error_Undefined;
+	}
+
+	return BSP_DATA.Wdog->Clear();
+}
+#endif
+

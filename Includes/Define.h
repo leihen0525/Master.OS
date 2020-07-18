@@ -47,5 +47,8 @@
 #define Event_Flag_Group_Max_Len					(12)
 #define Timer_FIFO_Queue_Max_Length					(16)
 
+#define Error_NoArgs_Return(Err,Args)				if((Err=Args)!=Error_OK){return Err;}
+#define Error_Args_Return(Err,Args)					if((Err=Args)<Error_OK){return Err;}
+
 
 #endif /* DEFINE_H_ */

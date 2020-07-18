@@ -73,7 +73,7 @@ int Scheduling_Task_Create(
 
 #endif
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 
 	//初始化内核栈
 	uint32_t Stack_Size_Sys_4Byte;
@@ -90,10 +90,12 @@ int Scheduling_Task_Create(
 	}
 
 	//设置栈保护区域大小
+	uint32_t Sys_Stack_Alignment_Byte=Stack_Alignment_Byte;
+#ifdef __MPU__
 	Temp_Task_TCB->Stack_System.Protection_Size=Stack_Default_Protection_Size;
 
-	uint32_t Sys_Stack_Alignment_Byte=Stack_Default_Protection_Size_Byte(Stack_Default_Protection_Size);
-
+	Sys_Stack_Alignment_Byte=Stack_Default_Protection_Size_Byte(Stack_Default_Protection_Size);
+#endif
 	Stack_Size_Sys_4Byte=Stack_Size_Sys_4Byte+8+Sys_Stack_Alignment_Byte/4;
 
 	Temp_Task_TCB->Stack_System.SP_Head=__Sys_Memory_Malloc_Align(Stack_Size_Sys_4Byte*4+VFP_Nb,Sys_Stack_Alignment_Byte);
@@ -116,11 +118,13 @@ int Scheduling_Task_Create(
 
 	Temp_Task_TCB->Stack_System.SP=Temp_Task_TCB->Stack_System.SP_End;
 
-	Temp_Task_TCB->Stack_System.Count=0;
+
 
 	//初始化用户栈
 	Stack_Size_4Byte=Scheduling_Task_Stack_Usr_Size_4Byte(Stack_Size_4Byte);
-
+	uint32_t Usr_Stack_Alignment_Byte=Stack_Alignment_Byte;
+#ifdef __MPU__
+	Temp_Task_TCB->Stack_System.Count=0;
 	//设置栈保护区域大小
 	Temp_Task_TCB->Stack_User.Protection_Size=Scheduling_Task_Option_GET_Usr_Stack_Protection_Size(Temp_Task_TCB->Info.Option);
 	if(Temp_Task_TCB->Stack_User.Protection_Size==0)
@@ -128,7 +132,8 @@ int Scheduling_Task_Create(
 		//没有设置保护大小，则默认大小
 		Temp_Task_TCB->Stack_User.Protection_Size=Stack_Default_Protection_Size;
 	}
-	uint32_t Usr_Stack_Alignment_Byte=Stack_Default_Protection_Size_Byte(Temp_Task_TCB->Stack_User.Protection_Size);
+	Usr_Stack_Alignment_Byte=Stack_Default_Protection_Size_Byte(Temp_Task_TCB->Stack_User.Protection_Size);
+#endif
 	if(Stack==Null)
 	{
 		Stack_Size_4Byte=Stack_Size_4Byte+8+Usr_Stack_Alignment_Byte/4;
@@ -172,9 +177,9 @@ int Scheduling_Task_Create(
 	memset(Temp_Task_TCB->Stack_User.SP_Head,0xEF,Stack_Size_4Byte*4);
 
 	Temp_Task_TCB->Stack_User.SP=Temp_Task_TCB->Stack_User.SP_End;
-
+#ifdef __MPU__
 	Temp_Task_TCB->Stack_User.Count=0;
-
+#endif
 	if((Err=Scheduling_Task_Stack_Init(Task_Enter,Args,Task_Exit,&Temp_Task_TCB->Stack_System.SP,&Temp_Task_TCB->Stack_User.SP,Option))!=Error_OK)
 	{
 		goto Task_Create_Exit_5;
@@ -219,7 +224,7 @@ int Scheduling_Task_Create(
 	return Error_OK;
 
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 
 
 Task_Create_Exit_5:
@@ -261,7 +266,7 @@ int Scheduling_Task_Release(__Sys_Scheduling_Task_TCB_Type *P_Task_TCB)
 	{
 		return Error_Invalid_Parameter;
 	}
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 
 	__Sys_Memory_Free(P_Task_TCB->Stack_System.SP_Head);
 

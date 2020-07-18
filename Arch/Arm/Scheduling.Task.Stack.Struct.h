@@ -12,6 +12,56 @@
 
 
 #if ((__ARM_ARCH == 6) || (__ARM_ARCH == 7)) && (__ARM_ARCH_PROFILE == 'M')
+
+#ifdef __UsrSP_SysSP__
+
+typedef struct
+{
+#if (__ARM_ARCH == 6)
+
+	uint32_t MSP_R12;
+
+	uint32_t MSP_R8;
+	uint32_t MSP_R9;
+	uint32_t MSP_R10;
+	uint32_t MSP_R11;
+
+	uint32_t MSP_R4;
+	uint32_t MSP_R5;
+	uint32_t MSP_R6;
+	uint32_t MSP_R7;
+
+	uint32_t MSP_LR;
+
+#endif
+#if (__ARM_ARCH == 7)
+	uint32_t MSP_R4;
+	uint32_t MSP_R5;
+	uint32_t MSP_R6;
+	uint32_t MSP_R7;
+	uint32_t MSP_R8;
+	uint32_t MSP_R9;
+	uint32_t MSP_R10;
+	uint32_t MSP_R11;
+	uint32_t MSP_R12;
+	uint32_t MSP_LR;
+#endif
+}Scheduling_Task_Stack_CPU_MSP_Type;
+
+typedef struct
+{
+	uint32_t PSP_R0;
+	uint32_t PSP_R1;
+	uint32_t PSP_R2;
+	uint32_t PSP_R3;
+	uint32_t PSP_R12;
+	uint32_t PSP_LR;
+	uint32_t PSP_PC;
+	uint32_t xPSR;
+
+}Scheduling_Task_Stack_CPU_PSP_Type;
+
+#else
 typedef struct
 {
 	uint32_t MSP_R4;
@@ -24,7 +74,7 @@ typedef struct
 	uint32_t MSP_R11;
 
 	uint32_t MSP_LR;
-	
+
 
 
 	uint32_t PSP;
@@ -40,6 +90,7 @@ typedef struct
 	uint32_t xPSR;
 
 }Scheduling_Task_Stack_CPU_Type;
+#endif
 
 #ifdef __ARMVFP__
 

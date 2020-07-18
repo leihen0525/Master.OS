@@ -9,7 +9,7 @@
 #include "Memory.Define.h"
 #include "Memory.h"
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 Memory_DATA_Type __Sys_Memory_DATA;
 #endif
 
@@ -20,7 +20,7 @@ int __Sys_Memory_Init(void)
 {
 	int Err;
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 #pragma section="__Sys_HEAP"
 	if((Err=__Memory_Init(
 			&__Sys_Memory_DATA,
@@ -44,7 +44,7 @@ int __Sys_Memory_Init(void)
 #ifdef Master_OS_Config_Memory_Size_Malloc
 uint32_t __Sys_Memory_Size_Malloc(void)
 {
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	return __Memory_Size_Malloc(&__Sys_Memory_DATA);
 #else
 	return __Memory_Size_Malloc(&__Usr_Memory_DATA);
@@ -54,7 +54,7 @@ uint32_t __Sys_Memory_Size_Malloc(void)
 #ifdef Master_OS_Config_Memory_Size_Free
 uint32_t __Sys_Memory_Size_Free(void)
 {
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	return __Memory_Size_Free(&__Sys_Memory_DATA);
 #else
 	return __Memory_Size_Free(&__Usr_Memory_DATA);
@@ -64,7 +64,7 @@ uint32_t __Sys_Memory_Size_Free(void)
 #ifdef Master_OS_Config_Memory_Malloc_Align
 void *__Sys_Memory_Malloc_Align(uint32_t Size,uint32_t Align)
 {
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	return __Memory_Malloc(&__Sys_Memory_DATA,Size,Align);
 #else
 	return __Memory_Malloc(&__Usr_Memory_DATA,Size,Align);
@@ -74,7 +74,7 @@ void *__Sys_Memory_Malloc_Align(uint32_t Size,uint32_t Align)
 #ifdef Master_OS_Config_Memory_Malloc
 void *__Sys_Memory_Malloc(uint32_t Size)
 {
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	return __Memory_Malloc(&__Sys_Memory_DATA,Size,4);
 #else
 	return __Memory_Malloc(&__Usr_Memory_DATA,Size,4);
@@ -84,7 +84,7 @@ void *__Sys_Memory_Malloc(uint32_t Size)
 #ifdef Master_OS_Config_Memory_Free
 void __Sys_Memory_Free(void *ap)
 {
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	__Memory_Free(&__Sys_Memory_DATA,ap);
 #else
 	__Memory_Free(&__Usr_Memory_DATA,ap);

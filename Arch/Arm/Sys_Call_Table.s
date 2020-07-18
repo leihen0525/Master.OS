@@ -10,6 +10,16 @@
 
 	SECTION .text:CODE:NOROOT(2)
 
+#ifdef Master_OS_Config_BSP_Wdog_Enable
+	EXTERN __Sys_BSP_Wdog_Enable
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Disable
+	EXTERN __Sys_BSP_Wdog_Disable
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Clear
+	EXTERN __Sys_BSP_Wdog_Clear
+#endif
+
 #ifdef Master_OS_Config_Memory_Size_Malloc
 	EXTERN __Usr_Memory_Size_Malloc
 #endif
@@ -284,6 +294,16 @@
 
 __Sys_Call_Table
 	DCD 0
+
+#ifdef Master_OS_Config_BSP_Wdog_Enable
+	DCD __Sys_BSP_Wdog_Enable
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Disable
+	DCD __Sys_BSP_Wdog_Disable
+#endif
+#ifdef Master_OS_Config_BSP_Wdog_Clear
+	DCD __Sys_BSP_Wdog_Clear
+#endif
 
 #ifdef Master_OS_Config_Memory_Size_Malloc
 	DCD __Usr_Memory_Size_Malloc

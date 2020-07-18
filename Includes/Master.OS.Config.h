@@ -8,10 +8,16 @@
 #ifndef MASTER_OS_CONFIG_H_
 #define MASTER_OS_CONFIG_H_
 
+//BSP
+#define Master_OS_Config_BSP_Wdog_Enable
+#define Master_OS_Config_BSP_Wdog_Disable
+#define Master_OS_Config_BSP_Wdog_Clear
+
+
 //Memory
 //#define Master_OS_Config_Memory_Size_Malloc
 //#define Master_OS_Config_Memory_Size_Free
-//#define Master_OS_Config_Memory_Malloc_Align
+#define Master_OS_Config_Memory_Malloc_Align
 #define Master_OS_Config_Memory_Malloc
 #define Master_OS_Config_Memory_Free
 //#define Master_OS_Config_UGC_Memory_Init
@@ -23,9 +29,9 @@
 
 //Device
 #define Master_OS_Config_Device_Open
-//#define Master_OS_Config_Device_Close
-//#define Master_OS_Config_Device_Read
-//#define Master_OS_Config_Device_Write
+#define Master_OS_Config_Device_Close
+#define Master_OS_Config_Device_Read
+#define Master_OS_Config_Device_Write
 #define Master_OS_Config_Device_Control
 //#define Master_OS_Config_Device_Info
 
@@ -50,34 +56,34 @@
 
 
 //Event-Event_Flag
-//#define Master_OS_Config_Event_Flag_Create
+#define Master_OS_Config_Event_Flag_Create
 //#define Master_OS_Config_Event_Flag_Delete
 //#define Master_OS_Config_Event_Flag_Find_Handle
-//#define Master_OS_Config_Event_Flag_Wait
-//#define Master_OS_Config_Event_Flag_Clear
-//#define Master_OS_Config_Event_Flag_Set
+#define Master_OS_Config_Event_Flag_Wait
+#define Master_OS_Config_Event_Flag_Clear
+#define Master_OS_Config_Event_Flag_Set
 
 
 //Event-Event_Flag_Group
 //#define Master_OS_Config_Event_Flag_Group_Create
 //#define Master_OS_Config_Event_Flag_Group_Create_8bit
-//#define Master_OS_Config_Event_Flag_Group_Create_16bit
+#define Master_OS_Config_Event_Flag_Group_Create_16bit
 //#define Master_OS_Config_Event_Flag_Group_Create_32bit
 //#define Master_OS_Config_Event_Flag_Group_Delete
 //#define Master_OS_Config_Event_Flag_Group_Find_Handle
-//#define Master_OS_Config_Event_Flag_Group_Open
-//#define Master_OS_Config_Event_Flag_Group_Close
+#define Master_OS_Config_Event_Flag_Group_Open
+#define Master_OS_Config_Event_Flag_Group_Close
 //#define Master_OS_Config_Event_Flag_Group_Wait_And
 //#define Master_OS_Config_Event_Flag_Group_Wait_And_8bit
 //#define Master_OS_Config_Event_Flag_Group_Wait_And_16bit
 //#define Master_OS_Config_Event_Flag_Group_Wait_And_32bit
 //#define Master_OS_Config_Event_Flag_Group_Wait_Or
 //#define Master_OS_Config_Event_Flag_Group_Wait_Or_8bit
-//#define Master_OS_Config_Event_Flag_Group_Wait_Or_16bit
+#define Master_OS_Config_Event_Flag_Group_Wait_Or_16bit
 //#define Master_OS_Config_Event_Flag_Group_Wait_Or_32bit
 //#define Master_OS_Config_Event_Flag_Group_Set
 //#define Master_OS_Config_Event_Flag_Group_Set_8bit
-//#define Master_OS_Config_Event_Flag_Group_Set_16bit
+#define Master_OS_Config_Event_Flag_Group_Set_16bit
 //#define Master_OS_Config_Event_Flag_Group_Set_32bit
 
 

@@ -10,7 +10,7 @@
 
 #define Scheduling_Task_Option_Null									(0<<0)
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 #define Scheduling_Task_Stack_Usr_Size_4Byte(x)						(x&0xFFFF)
 #define Scheduling_Task_Stack_SET_Sys_Size_4Byte(x)					((x<<16)&0xFFFF0000)
 #define Scheduling_Task_Stack_GET_Sys_Size_4Byte(x)					((x>>16)&0xFFFF)

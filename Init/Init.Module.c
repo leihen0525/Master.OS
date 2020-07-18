@@ -4,6 +4,7 @@
  *  Created on: 2019年9月17日
  *      Author: Master.HE
  */
+#include "Define.h"
 #include "Error.h"
 
 #include "Module/Module.Struct.h"
@@ -27,7 +28,7 @@ int Module_Init_Task(void)
 		{
 			return Error_Unknown;
 		}
-		if((Err=__Sys_Scheduling_Create_Task(
+		Error_Args_Return(Err,__Sys_Scheduling_Create_Task(
 										Index->Name,
 										Index->Task_Enter,
 										Index->Args,
@@ -35,10 +36,7 @@ int Module_Init_Task(void)
 										Index->Priority,
 										Index->Stack,
 										Index->Stack_Size_4Byte,
-										Index->Option))<Error_OK)
-		{
-			return Err;
-		}
+										Index->Option));
 	}
 	return Error_OK;
 }
@@ -49,20 +47,21 @@ int Module_Init_Sys_Device(void)
 
 #pragma section=".Module.Init.Sys.Device"
 
+	int Err;
 	for(Index=__section_begin(".Module.Init.Sys.Device");Index < __section_end(".Module.Init.Sys.Device");Index++)
 	{
 		if(Index==Null)
 		{
 			return Error_Unknown;
 		}
-		(*Index)();
+		Error_NoArgs_Return(Err,(*Index)());
 	}
 	return Error_OK;
 }
 int Module_Init_Sys_Com(void)
 {
 	Module_Init_Fun *Index;
-
+	int Err;
 #pragma section=".Module.Init.Sys.Com"
 
 	for(Index=__section_begin(".Module.Init.Sys.Com");Index < __section_end(".Module.Init.Sys.Com");Index++)
@@ -71,7 +70,7 @@ int Module_Init_Sys_Com(void)
 		{
 			return Error_Unknown;
 		}
-		(*Index)();
+		Error_NoArgs_Return(Err,(*Index)());
 	}
 	return Error_OK;
 }
@@ -79,7 +78,7 @@ int Module_Init_Sys_Com(void)
 int Module_Init_Com(void)
 {
 	Module_Init_Fun *Index;
-
+	int Err;
 #pragma section=".Module.Init.Com"
 
 	for(Index=__section_begin(".Module.Init.Com");Index < __section_end(".Module.Init.Com");Index++)
@@ -88,7 +87,7 @@ int Module_Init_Com(void)
 		{
 			return Error_Unknown;
 		}
-		(*Index)();
+		Error_NoArgs_Return(Err,(*Index)());
 	}
 	return Error_OK;
 }
@@ -96,7 +95,7 @@ int Module_Init_Com(void)
 int Module_Init_Application(void)
 {
 	Module_Init_Fun *Index;
-
+	int Err;
 #pragma section=".Module.Init.Application"
 
 	for(Index=__section_begin(".Module.Init.Application");Index < __section_end(".Module.Init.Application");Index++)
@@ -105,7 +104,7 @@ int Module_Init_Application(void)
 		{
 			return Error_Unknown;
 		}
-		(*Index)();
+		Error_NoArgs_Return(Err,(*Index)());
 	}
 	return Error_OK;
 }

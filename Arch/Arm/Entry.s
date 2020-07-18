@@ -48,7 +48,7 @@ __vector_table
 /* External Interrupts*/
 #if (__ARM_ARCH == 6)
 
-	REPT 16
+	REPT 32
 	DCD __Interrupt_Entry
 	ENDR
 
@@ -68,13 +68,14 @@ __vector_table
 	EXTWEAK __iar_data_init3
 	EXTWEAK __iar_init_core
 	EXTWEAK __iar_init_vfp
+	EXTWEAK __iar_data_init_done
 
 	THUMB
-	SECTION .text:CODE:REORDER(1)
+	SECTION .text:CODE:NOROOT(2)
 
 __iar_program_start:
 
-	BL BSP_Init_Core
+	BL BSP_Core_Init
 
 	//FUNCALL __iar_program_start, __iar_init_core
 	BL      __iar_init_core
@@ -85,14 +86,16 @@ __iar_program_start:
 	//BL      __cmain
 	bl      __iar_data_init3
 
+	BL      __iar_data_init_done
+
 	bl Start_Kernel
 	
 	REQUIRE __vector_table
 
 
-	PUBWEAK BSP_Init_Core
+	PUBWEAK BSP_Core_Init
 	SECTION .text:CODE:REORDER:NOROOT(1)
-BSP_Init_Core
+BSP_Core_Init
 	bx lr
 
 

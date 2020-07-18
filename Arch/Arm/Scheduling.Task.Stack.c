@@ -15,7 +15,7 @@ int Scheduling_Task_Stack_Init(
 		Task_Enter_Function Task_Enter,
 		void *Args,
 		Task_Exit_Function Task_Exit,
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 		uint32_t **Sys_SP,
 		uint32_t **Usr_SP,
 #else
@@ -23,11 +23,11 @@ int Scheduling_Task_Stack_Init(
 #endif
 		int Option)
 {
-	Scheduling_Task_Stack_CPU_Type *P_Task_Stack_CPU;
+
 
 	if(Task_Enter==Null
 	|| Task_Exit==Null
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	|| Sys_SP==Null
 	|| Usr_SP==Null
 #else
@@ -40,8 +40,46 @@ int Scheduling_Task_Stack_Init(
 
 #if ((__ARM_ARCH == 6) || (__ARM_ARCH == 7)) && (__ARM_ARCH_PROFILE == 'M')
 
+#ifdef __UsrSP_SysSP__
+	Scheduling_Task_Stack_CPU_PSP_Type *P_Task_Stack_CPU_PSP;
+	*Usr_SP=(uint32_t*)((uint32_t)(*Usr_SP)-sizeof(Scheduling_Task_Stack_CPU_PSP_Type)+4);
+	P_Task_Stack_CPU_PSP=(Scheduling_Task_Stack_CPU_PSP_Type *)*Usr_SP;
+
+	Scheduling_Task_Stack_CPU_MSP_Type *P_Task_Stack_CPU_MSP;
+	*Sys_SP=(uint32_t*)((uint32_t)(*Sys_SP)-sizeof(Scheduling_Task_Stack_CPU_MSP_Type)+4);
+	P_Task_Stack_CPU_MSP=(Scheduling_Task_Stack_CPU_MSP_Type *)*Sys_SP;
+
+
+	P_Task_Stack_CPU_MSP->MSP_R4=0x44444444;
+	P_Task_Stack_CPU_MSP->MSP_R5=0x55555555;
+	P_Task_Stack_CPU_MSP->MSP_R6=0x66666666;
+	P_Task_Stack_CPU_MSP->MSP_R7=0x77777777;
+	P_Task_Stack_CPU_MSP->MSP_R8=0x88888888;
+	P_Task_Stack_CPU_MSP->MSP_R9=0x99999999;
+	P_Task_Stack_CPU_MSP->MSP_R10=0xAAAAAAAA;
+	P_Task_Stack_CPU_MSP->MSP_R11=0xBBBBBBBB;
+	P_Task_Stack_CPU_MSP->MSP_R12=0xCCCCCCCC;
+
+	P_Task_Stack_CPU_MSP->MSP_LR=0xfffffffd;
+
+
+	P_Task_Stack_CPU_PSP->PSP_R0=(uint32_t)Args;
+	P_Task_Stack_CPU_PSP->PSP_R1=0x11111111;
+	P_Task_Stack_CPU_PSP->PSP_R2=0x22222222;
+	P_Task_Stack_CPU_PSP->PSP_R3=0x33333333;
+	P_Task_Stack_CPU_PSP->PSP_R12=0xCCCCCCCC;
+	P_Task_Stack_CPU_PSP->PSP_LR=(uint32_t)Task_Exit;
+	P_Task_Stack_CPU_PSP->PSP_PC=(uint32_t)Task_Enter;
+	P_Task_Stack_CPU_PSP->xPSR=0x01000000;
+
+
+
+
+#else
+	Scheduling_Task_Stack_CPU_Type *P_Task_Stack_CPU;
 	*SP=(uint32_t*)((uint32_t)(*SP)-sizeof(Scheduling_Task_Stack_CPU_Type)+4);
 	P_Task_Stack_CPU=(Scheduling_Task_Stack_CPU_Type *)*SP;
+
 
 	P_Task_Stack_CPU->MSP_R4=0x04;
 	P_Task_Stack_CPU->MSP_R5=0x05;
@@ -66,7 +104,7 @@ int Scheduling_Task_Stack_Init(
 	P_Task_Stack_CPU->PSP_PC=(uint32_t)Task_Enter;
 	P_Task_Stack_CPU->xPSR=0x01000000;
 
-
+#endif
 
 	return Error_OK;
 
@@ -85,13 +123,13 @@ int Scheduling_Task_Stack_Init(
 	}
 #endif
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 
 #else
 
 #endif
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	*Sys_SP=(uint32_t*)((uint32_t)(*Sys_SP)-sizeof(Scheduling_Task_Stack_CPU_Type)-sizeof(Scheduling_Task_Stack_CPU_CPSR_Type)-VFP_Nb+4);
 	*Usr_SP=(uint32_t*)((uint32_t)(*Usr_SP)-sizeof(Scheduling_Task_Stack_CPU_Type)+4);
 #else
@@ -102,7 +140,7 @@ int Scheduling_Task_Stack_Init(
 
 	Scheduling_Task_Stack_VFP_Type *P_Task_Stack_VFP;
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	P_Task_Stack_VFP=(Scheduling_Task_Stack_VFP_Type *)*Sys_SP;
 #else
 	P_Task_Stack_VFP=(Scheduling_Task_Stack_VFP_Type *)*SP;
@@ -128,7 +166,7 @@ int Scheduling_Task_Stack_Init(
 
 	Scheduling_Task_Stack_CPU_CPSR_Type *P_CPU_CPSR;
 
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	P_CPU_CPSR=(Scheduling_Task_Stack_CPU_CPSR_Type *)((uint32_t)(*Sys_SP)+VFP_Nb);
 #else
 	P_CPU_CPSR=(Scheduling_Task_Stack_CPU_CPSR_Type *)((uint32_t)(*SP)+VFP_Nb);
@@ -153,7 +191,7 @@ int Scheduling_Task_Stack_Init(
 	{
 		P_CPU_CPSR->T=0;
 	}
-#ifdef __MPU__
+#ifdef __UsrSP_SysSP__
 	P_Task_Stack_CPU=(Scheduling_Task_Stack_CPU_Type *)((uint32_t)(*Usr_SP));
 #else
 	P_Task_Stack_CPU=(Scheduling_Task_Stack_CPU_Type *)((uint32_t)(*SP)+VFP_Nb+sizeof(Scheduling_Task_Stack_CPU_CPSR_Type));

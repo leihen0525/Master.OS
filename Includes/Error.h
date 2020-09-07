@@ -10,6 +10,13 @@
 
 typedef enum
 {
+	Error_Not_Responding				=-26,					//未响应
+	Error_No_Enable						=-25,					//未使能
+
+	Error_Config						=-24,					//配置错误
+
+	Error_No_Clock_Config				=-23,					//时钟未配置
+
 	Error_Write_Register_Fault			=-22,					//写入寄存器失败
 	Error_Read_Register_Fault			=-21,					//读取寄存器失败
 	Error_Clear_Register_Fault			=-20,					//清除寄存器失败

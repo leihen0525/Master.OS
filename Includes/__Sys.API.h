@@ -88,10 +88,10 @@ int __Sys_Device_Open(const char *Device_Name,int Mode);
 int __Sys_Device_Close(int Handle);
 #endif
 #ifdef Master_OS_Config_Device_Read
-int __Sys_Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,int TimeOut);
+int __Sys_Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,long TimeOut);
 #endif
 #ifdef Master_OS_Config_Device_Write
-int __Sys_Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,int TimeOut);
+int __Sys_Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,long TimeOut);
 #endif
 #ifdef Master_OS_Config_Device_Control
 int __Sys_Device_Control(int Handle,int Cmd, unsigned long Args);

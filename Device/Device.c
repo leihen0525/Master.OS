@@ -200,7 +200,7 @@ int __Sys_Device_Close(int Handle)
 }
 #endif
 #ifdef Master_OS_Config_Device_Read
-int __Sys_Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,int TimeOut)
+int __Sys_Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,long TimeOut)
 {
 	Device_Node_Type *Temp_Node=Null;
 	int Re=Device_Find_Node_To_Handle(Handle,&Temp_Node);
@@ -228,7 +228,7 @@ int __Sys_Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Si
 }
 #endif
 #ifdef Master_OS_Config_Device_Write
-int __Sys_Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,int TimeOut)
+int __Sys_Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,long TimeOut)
 {
 	Device_Node_Type *Temp_Node=Null;
 	int Re=Device_Find_Node_To_Handle(Handle,&Temp_Node);

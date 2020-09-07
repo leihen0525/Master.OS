@@ -120,11 +120,11 @@
 
 
 //Event-Semaphore
-//#define Master_OS_Config_Semaphore_Create
+#define Master_OS_Config_Semaphore_Create
 //#define Master_OS_Config_Semaphore_Delete
 //#define Master_OS_Config_Semaphore_Find_Handle
-//#define Master_OS_Config_Semaphore_Wait
-//#define Master_OS_Config_Semaphore_Release
+#define Master_OS_Config_Semaphore_Wait
+#define Master_OS_Config_Semaphore_Release
 
 
 //Event-Semaphore-Group
@@ -138,13 +138,13 @@
 //Timer
 #define Master_OS_Config_Timer_Enable
 //#define Master_OS_Config_Timer_Disable
-//#define Master_OS_Config_Timer_Register
+#define Master_OS_Config_Timer_Register
 //#define Master_OS_Config_Timer_Delete
-//#define Master_OS_Config_Timer_Start
-//#define Master_OS_Config_Timer_Stop
+#define Master_OS_Config_Timer_Start
+#define Master_OS_Config_Timer_Stop
 //#define Master_OS_Config_Timer_Suspend
 //#define Master_OS_Config_Timer_Resume
-//#define Master_OS_Config_Timer_Reset
+#define Master_OS_Config_Timer_Reset
 //#define Master_OS_Config_Timer_Enabled
 
 

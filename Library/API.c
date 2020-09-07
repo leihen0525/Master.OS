@@ -10,6 +10,11 @@
 #include "SysCall.Table.h"
 #include "API.h"
 
+int Apply_Handle(void)
+{
+	return SysCall(SysCall_Table_Index_Apply_Handle);
+}
+
 //BSP
 #ifdef Master_OS_Config_BSP_Wdog_Enable
 int BSP_Wdog_Enable(void)
@@ -109,13 +114,13 @@ int Device_Close(int Handle)
 }
 #endif
 #ifdef Master_OS_Config_Device_Read
-int Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,int TimeOut)
+int Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,long TimeOut)
 {
 	return SysCall(SysCall_Table_Index_Device_Read,Handle,OffSet_Pos,Buffer,Size,TimeOut);
 }
 #endif
 #ifdef Master_OS_Config_Device_Write
-int Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,int TimeOut)
+int Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,long TimeOut)
 {
 	return SysCall(SysCall_Table_Index_Device_Write,Handle,OffSet_Pos,Buffer,Size,TimeOut);
 }

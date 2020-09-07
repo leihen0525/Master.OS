@@ -10,6 +10,8 @@
 
 	SECTION .text:CODE:NOROOT(2)
 
+	EXTERN __Sys_Apply_Handle
+
 #ifdef Master_OS_Config_BSP_Wdog_Enable
 	EXTERN __Sys_BSP_Wdog_Enable
 #endif
@@ -294,6 +296,8 @@
 
 __Sys_Call_Table
 	DCD 0
+
+	DCD __Sys_Apply_Handle
 
 #ifdef Master_OS_Config_BSP_Wdog_Enable
 	DCD __Sys_BSP_Wdog_Enable

@@ -38,8 +38,8 @@
 
 //
 #define Stack_Add_Size_4Byte						(16)
-#define Stack_System_Default_Size_4Byte				(100)
-#define Stack_Task_Task_4Byte						(150)
+#define Stack_System_Default_Size_4Byte				(80)
+#define Stack_Task_Task_4Byte						(128)
 
 
 
@@ -50,5 +50,7 @@
 #define Error_NoArgs_Return(Err,Args)				if((Err=Args)!=Error_OK){return Err;}
 #define Error_Args_Return(Err,Args)					if((Err=Args)<Error_OK){return Err;}
 
+#define Error_NoArgs(Err,Args)						if((Err=Args)!=Error_OK)
+#define Error_Args(Err,Args)						if((Err=Args)<Error_OK)
 
 #endif /* DEFINE_H_ */

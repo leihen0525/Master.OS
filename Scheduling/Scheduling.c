@@ -340,10 +340,14 @@ void Scheduling_SysTick(void)
 		}
 	}
 
+	bool Sub=true;
 
+Find_Next_Suspended_Ready_TCB:
 	//检查Suspended队列是否有需要准备运行的任务
-	if(Queue_TimeOut_1MS_AT_Suspended_Queue(&Temp_TCB)==Error_OK)
+	if(Queue_TimeOut_1MS_AT_Suspended_Queue(&Temp_TCB,Sub)==Error_OK)
 	{
+		Sub=false;
+
 		//当前任务在事件队列中
 		if(Temp_TCB->Event.Event_Queue!=Null)
 		{
@@ -359,7 +363,8 @@ void Scheduling_SysTick(void)
 		{
 			while(1);
 		}
-
+		Temp_TCB=Null;
+		goto Find_Next_Suspended_Ready_TCB;
 	}
 
 	Temp_TCB=Null;

@@ -24,6 +24,8 @@ extern "C" {
 #include "MPU.Define.h"
 #include "Memory.Struct.h"
 
+int Apply_Handle(void);//申请一个未使用的句柄
+
 //BSP
 #ifdef Master_OS_Config_BSP_Wdog_Enable
 int BSP_Wdog_Enable(void);
@@ -78,10 +80,10 @@ int Device_Open(const char *Device_Name,int Mode);
 int Device_Close(int Handle);
 #endif
 #ifdef Master_OS_Config_Device_Read
-int Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,int TimeOut);
+int Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,long TimeOut);
 #endif
 #ifdef Master_OS_Config_Device_Write
-int Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,int TimeOut);
+int Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,long TimeOut);
 #endif
 #ifdef Master_OS_Config_Device_Control
 int Device_Control(int Handle,int Cmd,...);

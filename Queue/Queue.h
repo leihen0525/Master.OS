@@ -36,7 +36,7 @@ int Queue_TCB_Add_Suspended_Queue(
 
 int Queue_TCB_Delete_Suspended_Queue(__Sys_Scheduling_Task_TCB_Type *Delete_TCB);
 
-int Queue_TimeOut_1MS_AT_Suspended_Queue(__Sys_Scheduling_Task_TCB_Type **TimeOut_TCB);
+int Queue_TimeOut_1MS_AT_Suspended_Queue(__Sys_Scheduling_Task_TCB_Type **TimeOut_TCB,bool Sub);
 
 int Queue_Read_Ready_Queue_First_TCB(__Sys_Scheduling_Task_TCB_Type **First_Ready_TCB);
 

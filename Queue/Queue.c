@@ -450,6 +450,7 @@ int Queue_TCB_Add_Suspended_Queue(
 			}
 		}
 	}
+
 	return Error_OK;
 }
 //将一个任务从Suspended_Queue队列删除
@@ -535,9 +536,9 @@ int Queue_TCB_Delete_Suspended_Queue(__Sys_Scheduling_Task_TCB_Type *Delete_TCB)
 
 	return Error_Invalid_Parameter;
 }
-int Queue_TimeOut_1MS_AT_Suspended_Queue(__Sys_Scheduling_Task_TCB_Type **TimeOut_TCB)
+int Queue_TimeOut_1MS_AT_Suspended_Queue(__Sys_Scheduling_Task_TCB_Type **TimeOut_TCB,bool Sub)
 {
-	if(TimeOut_TCB==Null)
+	if(TimeOut_TCB==Null || Sub>=bool_End)
 	{
 		return Error_Invalid_Parameter;
 	}
@@ -553,9 +554,12 @@ int Queue_TimeOut_1MS_AT_Suspended_Queue(__Sys_Scheduling_Task_TCB_Type **TimeOu
 	}
 	else
 	{
-		if(Queue_DATA.Suspended_Queue.Begin->Info.TimeOut>0)
+		if(Sub==true)
 		{
-			Queue_DATA.Suspended_Queue.Begin->Info.TimeOut--;
+			if(Queue_DATA.Suspended_Queue.Begin->Info.TimeOut>0)
+			{
+				Queue_DATA.Suspended_Queue.Begin->Info.TimeOut--;
+			}
 		}
 		if(Queue_DATA.Suspended_Queue.Begin->Info.TimeOut==0)
 		{

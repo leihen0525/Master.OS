@@ -13,6 +13,9 @@
 typedef enum
 {
 	SysCall_Table_Index_Null			=0,
+
+	SysCall_Table_Index_Apply_Handle,
+
 #ifdef Master_OS_Config_BSP_Wdog_Enable
 	SysCall_Table_Index_BSP_Wdog_Enable,
 #endif

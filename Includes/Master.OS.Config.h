@@ -57,7 +57,7 @@
 
 //Event-Event_Flag
 #define Master_OS_Config_Event_Flag_Create
-//#define Master_OS_Config_Event_Flag_Delete
+#define Master_OS_Config_Event_Flag_Delete
 //#define Master_OS_Config_Event_Flag_Find_Handle
 #define Master_OS_Config_Event_Flag_Wait
 #define Master_OS_Config_Event_Flag_Clear

@@ -10,6 +10,8 @@
 
 typedef enum
 {
+	Error_No_Init						=-27,					//未初始化
+
 	Error_Not_Responding				=-26,					//未响应
 	Error_No_Enable						=-25,					//未使能
 

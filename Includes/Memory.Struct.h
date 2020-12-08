@@ -11,7 +11,7 @@
 #include "Master.Stdint.h"
 
 
-#pragma pack(1)
+#pragma pack(4)
 typedef struct Memory_Node
 {
 	uint32_t Size_Byte	:30;

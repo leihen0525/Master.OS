@@ -105,10 +105,14 @@ int Event_Node_Add_Node(
 Event_Add_Node_Exit2:
 	if(Temp_Node->Name!=Null)
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(Temp_Node->Name);
+#endif
 	}
 Event_Add_Node_Exit1:
+#ifdef Master_OS_Config_Memory_Free
 	__Sys_Memory_Free(Temp_Node);
+#endif
 	return Err;
 }
 int Event_Node_Delete_Node(
@@ -147,7 +151,9 @@ int Event_Node_Delete_Node(
 
 			if(Temp_Node->Name!=Null)
 			{
+#ifdef Master_OS_Config_Memory_Free
 				__Sys_Memory_Free(Temp_Node->Name);
+#endif
 			}
 
 			if(DATA_Node!=Null)
@@ -167,9 +173,9 @@ int Event_Node_Delete_Node(
 
 				Try_Context_Switch=true;
 			}
-
+#ifdef Master_OS_Config_Memory_Free
 			__Sys_Memory_Free(Temp_Node);
-
+#endif
 			if(Try_Context_Switch==true)
 			{
 				__Sys_Scheduling_Try_Context_Switch();
@@ -274,8 +280,9 @@ int Event_Node_Delete_Task_Event_DATA(int Handle)
 			{
 				return Error_Unknown;
 			}
-
+#ifdef Master_OS_Config_Memory_Free
 			__Sys_Memory_Free(DATA);
+#endif
 			DATA=Null;
 		}
 		Temp_TCB=Temp_TCB->Queue.TCB_NEXT;

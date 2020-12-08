@@ -4,6 +4,8 @@
  *  Created on: 2019年9月17日
  *      Author: Master.HE
  */
+//#include "Master.OS.Config.h"
+
 #include "Error.h"
 #include "Define.h"
 
@@ -41,7 +43,7 @@ void Start_Kernel(void)
 	}
 
 	//初始化BSP
-	if(BSP_Init(&Machine_Desc->Wdog,&Machine_Desc->CPU)!=Error_OK)
+	if(BSP_Init(Machine_Desc->System_Reset,&Machine_Desc->Wdog,&Machine_Desc->CPU)!=Error_OK)
 	{
 		while(1);
 	}
@@ -54,12 +56,13 @@ void Start_Kernel(void)
 	}
 #endif
 
+#ifdef Master_OS_Config_BSP_Wdog_Disable
 	//关闭看门狗
 	if(__Sys_BSP_Wdog_Disable()!=Error_OK)
 	{
 		while(1);
 	}
-
+#endif
 	//初始化芯片
 	if(BSP_Init_CPU()!=Error_OK)
 	{
@@ -122,11 +125,13 @@ void Start_Kernel(void)
 		while(1);
 	}
 
+#ifdef Master_OS_Config_Shell
 	//初始化Shell
 	if(Shell_Init(&Machine_Desc->UART)!=Error_OK)
 	{
 		;
 	}
+#endif
 
 	//创建一个空闲任务
 	if(Scheduling_Create_Task_Idle("Idle",Priority_Task_Idle)<Error_OK)

@@ -33,6 +33,10 @@ uint32_t *P_Temp_Stack;
 
 int Scheduling_Init(void)
 {
+	Scheduling_DATA.Count=0;
+	Scheduling_DATA.Count_Task_Idle=0;
+	Scheduling_DATA.CPU_Load=0;
+
 	Scheduling_DATA.Last_TCB=Null;
 	Scheduling_DATA.Current_TCB=Null;
 
@@ -49,7 +53,9 @@ int __Sys_Scheduling_Create_Task(
 		char *Name,
 		Task_Enter_Function Task_Enter,
 		void *Args,
+
 		Task_Exit_Function Task_Exit,
+
 		uint8_t Priority,
 		uint32_t *Stack,
 		uint32_t Stack_Size_4Byte,
@@ -59,7 +65,9 @@ int __Sys_Scheduling_Create_Task(
 	int Err;
 
 	if(Task_Enter==Null
+
 	|| Task_Exit==Null
+
 	|| Stack_Size_4Byte==0)
 	{
 		return Error_Invalid_Parameter;
@@ -67,7 +75,18 @@ int __Sys_Scheduling_Create_Task(
 
 	__Sys_Scheduling_Task_TCB_Type *P_Task_TCB;
 
-	if((Err=Scheduling_Task_Create(&P_Task_TCB,Name,Task_Enter,Args,Task_Exit,Priority,Stack,Stack_Size_4Byte,Option))!=Error_OK)
+	if((Err=Scheduling_Task_Create(
+			&P_Task_TCB,
+			Name,
+			Task_Enter,
+			Args,
+#ifdef Master_OS_Config_Scheduling_Exit_Task
+			Task_Exit,
+#endif
+			Priority,
+			Stack,
+			Stack_Size_4Byte,
+			Option))!=Error_OK)
 	{
 		return Err;
 	}
@@ -304,7 +323,9 @@ int Scheduling_Create_Task_Idle(
 
 #ifdef __UsrSP_SysSP__
 Exit2:
+#ifdef Master_OS_Config_Memory_Free
 	__Sys_Memory_Free(P_Task_TCB->Stack_System.SP_Head);
+#endif
 #endif
 
 Exit1:
@@ -323,6 +344,9 @@ void Scheduling_Switch_To_Idle(void)
 
 void Scheduling_SysTick(void)
 {
+	Scheduling_DATA.Count++;
+
+
 	__Sys_Scheduling_Task_TCB_Type *Temp_TCB=Null;
 
 	//当前任务时间片减一
@@ -338,7 +362,18 @@ void Scheduling_SysTick(void)
 		{
 			;
 		}
+		if(Scheduling_DATA.Current_TCB->Info.Handle==0)
+		{
+			Scheduling_DATA.Count_Task_Idle++;
+		}
 	}
+	if(Scheduling_DATA.Count>=1000)
+	{
+		Scheduling_DATA.Count=0;
+		Scheduling_DATA.CPU_Load=1000-Scheduling_DATA.Count_Task_Idle;
+		Scheduling_DATA.Count_Task_Idle=0;
+	}
+
 
 	bool Sub=true;
 

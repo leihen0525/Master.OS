@@ -8,7 +8,7 @@
 #ifndef EVENT_FLAG_GROUP_H_
 #define EVENT_FLAG_GROUP_H_
 
-#include "Master.OS.Config.h"
+//#include "Master.OS.Config.h"
 
 #include "__Sys.Scheduling.Task.Struct.h"
 

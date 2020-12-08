@@ -110,13 +110,14 @@ void *__Usr_Memory_Malloc(uint32_t Size)
 {
 	return __Memory_Malloc(&__Usr_Memory_DATA,Size,4);
 }
-
+#ifdef Master_OS_Config_Memory_Free
 void __Usr_Memory_Free(void *ap)
 {
 	__Memory_Free(&__Usr_Memory_DATA,ap);
 }
-
+#endif
 //-----------------------------------------------------------------------------------------
+#ifdef __Memory_TEST__
 int __Memory_Test_List(Memory_Node_List_Type *P_List_DATA)
 {
 	if(P_List_DATA==Null)
@@ -142,6 +143,7 @@ int __Memory_Test_List(Memory_Node_List_Type *P_List_DATA)
 		return Error_Dissatisfy;
 	}
 }
+#endif
 int __Memory_Init(
 		Memory_DATA_Type *P_Memory_DATA,
 		uint8_t *HEAP,
@@ -445,7 +447,7 @@ void *__Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Ali
 
 
 }
-
+#ifdef Master_OS_Config_Memory_Free
 void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 {
 	if(P_Memory_DATA==Null || ap==Null)
@@ -816,6 +818,7 @@ void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 
 
 }
+#endif
 int __Memory_Calculate_Node_Verify(Memory_Node_Type *P_Node_DATA,uint32_t Size_Byte,Memory_Node_Type *P_Node_NEXT)
 {
 	if(P_Node_DATA==Null || Size_Byte>0x3FFFFFFF)

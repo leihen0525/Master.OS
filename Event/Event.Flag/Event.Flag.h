@@ -8,6 +8,6 @@
 #ifndef EVENT_FLAG_H_
 #define EVENT_FLAG_H_
 
-#include "Master.OS.Config.h"
+//#include "Master.OS.Config.h"
 
 #endif /* EVENT_FLAG_H_ */

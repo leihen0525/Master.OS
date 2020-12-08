@@ -14,18 +14,20 @@
 BSP_DATA_Type BSP_DATA;
 
 int BSP_Init(
+		int (*System_Reset)(void),
 		Machine_Desc_Wdog_Type *P_Wdog,
 		Machine_Desc_CPU_Type *P_CPU)
 {
-	if(P_Wdog==Null || P_CPU==Null)
+	if(System_Reset==Null || P_Wdog==Null || P_CPU==Null)
 	{
 		return Error_Invalid_Parameter;
 	}
+	BSP_DATA.System_Reset=System_Reset;
 	BSP_DATA.Wdog=P_Wdog;
 	BSP_DATA.CPU=P_CPU;
 
 	if(BSP_DATA.Wdog->Enable==Null
-	|| BSP_DATA.Wdog->Clear==Null
+	|| BSP_DATA.Wdog->Refresh==Null
 	|| BSP_DATA.Wdog->Disable==Null)
 	{
 		return Error_Undefined;
@@ -82,6 +84,16 @@ int __Sys_BSP_UpData_Clock_Tree(
 	}
 	return Error_OK;
 }
+#ifdef Master_OS_Config_BSP_System_Reset
+int __Sys_BSP_System_Reset(void)
+{
+	if(BSP_DATA.System_Reset==Null)
+	{
+		return Error_Unknown;
+	}
+	return BSP_DATA.System_Reset();
+}
+#endif
 #ifdef Master_OS_Config_BSP_Wdog_Enable
 int __Sys_BSP_Wdog_Enable(void)
 {
@@ -114,20 +126,20 @@ int __Sys_BSP_Wdog_Disable(void)
 	return BSP_DATA.Wdog->Disable();
 }
 #endif
-#ifdef Master_OS_Config_BSP_Wdog_Clear
-int __Sys_BSP_Wdog_Clear(void)
+#ifdef Master_OS_Config_BSP_Wdog_Refresh
+int __Sys_BSP_Wdog_Refresh(void)
 {
 	if(BSP_DATA.Wdog==Null)
 	{
 		return Error_Unknown;
 	}
 
-	if(BSP_DATA.Wdog->Clear==Null)
+	if(BSP_DATA.Wdog->Refresh==Null)
 	{
 		return Error_Undefined;
 	}
 
-	return BSP_DATA.Wdog->Clear();
+	return BSP_DATA.Wdog->Refresh();
 }
 #endif
 

@@ -79,6 +79,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Includes}&quot;"/>
 								</option>
 								<option id="iar.arm.toolchain.compiler.option.requirePrototypes.v8.0.0.727378912" name="Require prototypes" superClass="iar.arm.toolchain.compiler.option.requirePrototypes.v8.0.0" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.preincludeFile.v8.0.0.305142994" name="Preinclude file:" superClass="iar.arm.toolchain.compiler.option.preincludeFile.v8.0.0" useByScannerDiscovery="false" valueType="includeFiles">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Config/Master.OS.Config.Default.h}&quot;"/>
+								</option>
 								<inputType id="iar.arm.toolchain.compiler.inputType.c.v8.0.0.1136028957" name="IAR C/C++ Compiler Input Type" superClass="iar.arm.toolchain.compiler.inputType.c.v8.0.0"/>
 							</tool>
 							<tool id="iar.arm.toolchain.assembler.v8.0.0.1663152864" name="IAR Assembler for ARM" superClass="iar.arm.toolchain.assembler.v8.0.0">
@@ -1042,7 +1045,7 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782" moduleId="org.eclipse.cdt.core.settings" name="Release.ARM.V6.M0Plus">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782" moduleId="org.eclipse.cdt.core.settings" name="Release.ARM.V6.M0Plus.BootLoader">
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Master.OS"/>
@@ -1056,7 +1059,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="${ProjName}.ARM.V6.M0Plus" buildArtefactType="com.iar.cdt.buildArtefactType.lib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=com.iar.cdt.buildArtefactType.lib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" description="" id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782" name="Release.ARM.V6.M0Plus" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0">
+				<configuration artifactExtension="a" artifactName="${ProjName}.ARM.V6.M0Plus.BootLoader" buildArtefactType="com.iar.cdt.buildArtefactType.lib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=com.iar.cdt.buildArtefactType.lib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" description="" id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782" name="Release.ARM.V6.M0Plus.BootLoader" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0">
 					<folderInfo id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782." name="/" resourcePath="">
 						<toolChain id="iar.arm.toolchain.project.exe.configuration.debug.toolchain.v8.0.0.118566558" name="IAR Toolchain for ARM - (8.x)" superClass="iar.arm.toolchain.project.exe.configuration.debug.toolchain.v8.0.0">
 							<option id="iar.arm.toolchain.option.OGProcessor::descriptor.v8.0.0.1696968059" name="Processor core:" superClass="iar.arm.toolchain.option.OGProcessor::descriptor.v8.0.0" value="iar.arm.toolchain.option.OGProcessor::descriptor.OGProcessor::Cores::kCortexM0P.v8.0.0" valueType="enumerated"/>
@@ -1104,14 +1107,14 @@
 							<builder buildPath="${workspace_loc:/Master.OS}/Debug" id="iar.arm.toolchain.builder.v8.0.0.1289938465" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="iar.arm.toolchain.builder.v8.0.0"/>
 							<tool id="iar.arm.toolchain.compiler.v8.0.0.1882626784" name="IAR C/C++ Compiler for ARM" superClass="iar.arm.toolchain.compiler.v8.0.0">
 								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.debugInfo.v8.0.0.646256329" name="Generate debug information" superClass="iar.arm.toolchain.compiler.option.debugInfo.v8.0.0" valueType="boolean"/>
-								<option defaultValue="iar.arm.toolchain.compiler.option.optLevel.none.v8.0.0" id="iar.arm.toolchain.compiler.option.optLevel.v8.0.0.1005979137" name="Optimization level:" superClass="iar.arm.toolchain.compiler.option.optLevel.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.optLevel.medium.v8.0.0" valueType="enumerated"/>
+								<option defaultValue="iar.arm.toolchain.compiler.option.optLevel.none.v8.0.0" id="iar.arm.toolchain.compiler.option.optLevel.v8.0.0.1005979137" name="Optimization level:" superClass="iar.arm.toolchain.compiler.option.optLevel.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.optLevel.highBalance.v8.0.0" valueType="enumerated"/>
 								<option id="iar.arm.toolchain.compiler.option.optCSE.v8.0.0.166337455" name="Disable common subexpression elimination" superClass="iar.arm.toolchain.compiler.option.optCSE.v8.0.0" useByScannerDiscovery="false"/>
-								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.optUnroll.v8.0.0.500604770" name="Disable loop unrolling" superClass="iar.arm.toolchain.compiler.option.optUnroll.v8.0.0" useByScannerDiscovery="false" valueType="boolean"/>
-								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.optInline.v8.0.0.420292013" name="Disable function inlining" superClass="iar.arm.toolchain.compiler.option.optInline.v8.0.0" useByScannerDiscovery="false" valueType="boolean"/>
+								<option id="iar.arm.toolchain.compiler.option.optUnroll.v8.0.0.500604770" name="Disable loop unrolling" superClass="iar.arm.toolchain.compiler.option.optUnroll.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optInline.v8.0.0.420292013" name="Disable function inlining" superClass="iar.arm.toolchain.compiler.option.optInline.v8.0.0" useByScannerDiscovery="false"/>
 								<option id="iar.arm.toolchain.compiler.option.optCodeMotion.v8.0.0.1899000571" name="Disable code motion" superClass="iar.arm.toolchain.compiler.option.optCodeMotion.v8.0.0" useByScannerDiscovery="false"/>
-								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.optAliasAnalysis.v8.0.0.1185951221" name="Disable type-based alias analysis" superClass="iar.arm.toolchain.compiler.option.optAliasAnalysis.v8.0.0" useByScannerDiscovery="false" valueType="boolean"/>
+								<option id="iar.arm.toolchain.compiler.option.optAliasAnalysis.v8.0.0.1185951221" name="Disable type-based alias analysis" superClass="iar.arm.toolchain.compiler.option.optAliasAnalysis.v8.0.0" useByScannerDiscovery="false"/>
 								<option id="iar.arm.toolchain.compiler.option.optStaticClustering.v8.0.0.1204496804" name="Disable static clustering" superClass="iar.arm.toolchain.compiler.option.optStaticClustering.v8.0.0" useByScannerDiscovery="false"/>
-								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.optScheduling.v8.0.0.1961593767" name="Disable instruction scheduling" superClass="iar.arm.toolchain.compiler.option.optScheduling.v8.0.0" useByScannerDiscovery="false" valueType="boolean"/>
+								<option id="iar.arm.toolchain.compiler.option.optScheduling.v8.0.0.1961593767" name="Disable instruction scheduling" superClass="iar.arm.toolchain.compiler.option.optScheduling.v8.0.0" useByScannerDiscovery="false"/>
 								<option id="iar.arm.toolchain.compiler.option.cpuMode.v8.0.0.351443629" name="Processor mode:" superClass="iar.arm.toolchain.compiler.option.cpuMode.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.cpuMode.thumb.v8.0.0" valueType="enumerated"/>
 								<option id="iar.arm.toolchain.compiler.option.language.v8.0.0.430804098" name="Language" superClass="iar.arm.toolchain.compiler.option.language.v8.0.0" useByScannerDiscovery="false"/>
 								<option id="iar.arm.toolchain.compiler.option.charIs.v8.0.0.2122200880" name="Plain 'char' is:" superClass="iar.arm.toolchain.compiler.option.charIs.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.charIs.signed.v8.0.0" valueType="enumerated"/>
@@ -1122,6 +1125,7 @@
 								<option id="iar.arm.toolchain.compiler.option.requirePrototypes.v8.0.0.738024992" name="Require prototypes" superClass="iar.arm.toolchain.compiler.option.requirePrototypes.v8.0.0" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.defines.v8.0.0.789376137" name="Defined Symbols:" superClass="iar.arm.toolchain.compiler.option.defines.v8.0.0" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__UsrSP_SysSP__"/>
+									<listOptionValue builtIn="false" value="Master_OS_Use_BootLoader"/>
 								</option>
 								<option id="iar.arm.toolchain.compiler.option.additionalUserOptions.v8.0.0.2045721029" name="Use command line options" superClass="iar.arm.toolchain.compiler.option.additionalUserOptions.v8.0.0" useByScannerDiscovery="false" value="--section .data=.Master.OS.DATA --section .bss=.Master.OS.DATA" valueType="string"/>
 								<inputType id="iar.arm.toolchain.compiler.inputType.c.v8.0.0.822923196" name="IAR C/C++ Compiler Input Type" superClass="iar.arm.toolchain.compiler.inputType.c.v8.0.0"/>
@@ -1134,6 +1138,7 @@
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.assembler.option.definedSymbols.v8.0.0.2003496053" name="Defined symbols:" superClass="iar.arm.toolchain.assembler.option.definedSymbols.v8.0.0" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__UsrSP_SysSP__"/>
+									<listOptionValue builtIn="false" value="Master_OS_Use_BootLoader"/>
 								</option>
 								<inputType id="iar.arm.toolchain.assembler.inputType.asmFile.v8.0.0.790482104" name="IAR Assembler input type for ARM (asm, s)" superClass="iar.arm.toolchain.assembler.inputType.asmFile.v8.0.0"/>
 							</tool>
@@ -1153,6 +1158,509 @@
 								</inputType>
 							</tool>
 							<tool commandLinePattern="${COMMAND} ${INPUTS} --create ${OUTPUT_FLAG} ..\Release.Library\${OUTPUT_PREFIX}${OUTPUT} ${FLAGS}" id="iar.arm.toolchain.archive.v8.0.0.1669029325" name="IAR Library Builder for ARM" superClass="iar.arm.toolchain.archive.v8.0.0"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="Shell/Shell.PrintK.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.364837323">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.364837323" moduleId="org.eclipse.cdt.core.settings" name="Release.ARM.V6.M0Plus.Application">
+				<externalSettings>
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Master.OS"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Master.OS/Release.ARM.V7.M4"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Master.OS" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="com.iar.cdt.errorParser.com.iar.cdt.errorParser.ErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="a" artifactName="${ProjName}.ARM.V6.M0Plus.Application" buildArtefactType="com.iar.cdt.buildArtefactType.lib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=com.iar.cdt.buildArtefactType.lib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" description="" id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.364837323" name="Release.ARM.V6.M0Plus.Application" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0">
+					<folderInfo id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.364837323." name="/" resourcePath="">
+						<toolChain id="iar.arm.toolchain.project.exe.configuration.debug.toolchain.v8.0.0.371488244" name="IAR Toolchain for ARM - (8.x)" superClass="iar.arm.toolchain.project.exe.configuration.debug.toolchain.v8.0.0">
+							<option id="iar.arm.toolchain.option.OGProcessor::descriptor.v8.0.0.1950647934" name="Processor core:" superClass="iar.arm.toolchain.option.OGProcessor::descriptor.v8.0.0" value="iar.arm.toolchain.option.OGProcessor::descriptor.OGProcessor::Cores::kCortexM0P.v8.0.0" valueType="enumerated"/>
+							<option id="iar.arm.toolchain.option.endianMode.v8.0.0.138504086" name="Endian mode:" superClass="iar.arm.toolchain.option.endianMode.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.bigEndianFormat.v8.0.0.833272178" name="Big-endian format:" superClass="iar.arm.toolchain.option.bigEndianFormat.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.bufferedOutput.v8.0.0.1249229886" name="Buffered terminal output" superClass="iar.arm.toolchain.option.bufferedOutput.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.mfc.v8.0.0.996924589" name="Enable multi-file compilation" superClass="iar.arm.toolchain.option.mfc.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.libraryConfig.v8.0.0.202624235" name="Library:" superClass="iar.arm.toolchain.option.libraryConfig.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.deviceInfo.v8.0.0.441677630" name="Device info storage option" superClass="iar.arm.toolchain.option.deviceInfo.v8.0.0" value="config/devices/default.menu" valueType="string"/>
+							<option id="iar.arm.toolchain.option.deviceName.v8.0.0.1635699394" name="Device (change with Project &gt; Select Device...)" superClass="iar.arm.toolchain.option.deviceName.v8.0.0" value="None" valueType="string"/>
+							<option id="iar.arm.toolchain.option.deviceTag.v8.0.0.1355608408" name="Device tag storage option" superClass="iar.arm.toolchain.option.deviceTag.v8.0.0" value="Default" valueType="string"/>
+							<option id="iar.arm.toolchain.option.OGFpuProcessor::descriptor.v8.0.0.1890989678" name="FPU" superClass="iar.arm.toolchain.option.OGFpuProcessor::descriptor.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.OGFpuProcessor::descriptor2.v8.0.0.1446368968" name="D registers" superClass="iar.arm.toolchain.option.OGFpuProcessor::descriptor2.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.OGFpuProcessor::useNEON.v8.0.0.1372949156" name="Advanced SIMD (NEON)" superClass="iar.arm.toolchain.option.OGFpuProcessor::useNEON.v8.0.0" value="false" valueType="boolean"/>
+							<option id="iar.arm.toolchain.option.useTrustZone.v8.0.0.1659363602" name="Use TrustZone" superClass="iar.arm.toolchain.option.useTrustZone.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.trustZoneMode.v8.0.0.934036965" name="TrustZone Mode:" superClass="iar.arm.toolchain.option.trustZoneMode.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.misra-c.enable.v8.0.0.2080107416" name="Enable MISRA-C" superClass="iar.arm.toolchain.option.misra-c.enable.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcEnable.v8.0.0.1989219975" name="Enable" superClass="iar.arm.toolchain.option.AgatonSax::rtcEnable.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcEnableBounds.v8.0.0.1426099540" name="Enable bounds checking" superClass="iar.arm.toolchain.option.AgatonSax::rtcEnableBounds.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcTrackPtrBounds.v8.0.0.1147340604" name="Track pointer bounds" superClass="iar.arm.toolchain.option.AgatonSax::rtcTrackPtrBounds.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcCheckAccesses.v8.0.0.2068129982" name="Check accesses" superClass="iar.arm.toolchain.option.AgatonSax::rtcCheckAccesses.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcGenerateEntries.v8.0.0.296872924" name="Generate functions callable from non-instrumented code" superClass="iar.arm.toolchain.option.AgatonSax::rtcGenerateEntries.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers_icc.v8.0.0.186863084" name="Check pointers from non-&#10;instrumented functions" superClass="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers_icc.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcIntOverflow.v8.0.0.1454056379" name="Integer overflow" superClass="iar.arm.toolchain.option.AgatonSax::rtcIntOverflow.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcInclUnsigned.v8.0.0.261092929" name="Including unsigned" superClass="iar.arm.toolchain.option.AgatonSax::rtcInclUnsigned.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcIntConversion.v8.0.0.1273119775" name="Integer conversion" superClass="iar.arm.toolchain.option.AgatonSax::rtcIntConversion.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcInclExplicit.v8.0.0.388190070" name="Including explicit casts" superClass="iar.arm.toolchain.option.AgatonSax::rtcInclExplicit.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcIntShiftOverflow.v8.0.0.20540293" name="Integer shift overflow" superClass="iar.arm.toolchain.option.AgatonSax::rtcIntShiftOverflow.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcInclUnsignedShiftOverflow.v8.0.0.788368932" name="Including unsigned shifts" superClass="iar.arm.toolchain.option.AgatonSax::rtcInclUnsignedShiftOverflow.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcUnhandledCase.v8.0.0.1267516512" name="Unhandled switch case" superClass="iar.arm.toolchain.option.AgatonSax::rtcUnhandledCase.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcDivByZero.v8.0.0.1324010261" name="Division by zero" superClass="iar.arm.toolchain.option.AgatonSax::rtcDivByZero.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.semihosted.v8.0.0.2138736662" name="Include semihosting interface" superClass="iar.arm.toolchain.option.semihosted.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.lowLevelInterface.v8.0.0.303543807" name="Library low-level&#10;interface implementation:" superClass="iar.arm.toolchain.option.lowLevelInterface.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.printfFormatter.v8.0.0.12147934" name="Printf formatter:" superClass="iar.arm.toolchain.option.printfFormatter.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.printfFormatterMultibyte.v8.0.0.2043955265" name="Enable multibyte support" superClass="iar.arm.toolchain.option.printfFormatterMultibyte.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.scanfFormatter.v8.0.0.1670549603" name="Scanf formatter:" superClass="iar.arm.toolchain.option.scanfFormatter.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.scanfFormatterMultibyte.v8.0.0.578266030" name="Enable multibyte support" superClass="iar.arm.toolchain.option.scanfFormatterMultibyte.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcDebugHeap.v8.0.0.1918307978" name="Use checked heap" superClass="iar.arm.toolchain.option.AgatonSax::rtcDebugHeap.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers.v8.0.0.1842273524" name="Check pointers from non-&#10;instrumented memory" superClass="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcNrTrackedPointers.v8.0.0.618371378" name="Number of entries:" superClass="iar.arm.toolchain.option.AgatonSax::rtcNrTrackedPointers.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.OGLibraryOptions2::heapSelection.v8.0.0.2050626425" name="Heap selection" superClass="iar.arm.toolchain.option.OGLibraryOptions2::heapSelection.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.lowLevelInterfaceCortex.v8.0.0.204094853" name="Library low-level&#10;interface implementation&#10;(Cortex-M cores):" superClass="iar.arm.toolchain.option.lowLevelInterfaceCortex.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.useCMSIS.v8.0.0.280148509" name="Use CMSIS" superClass="iar.arm.toolchain.option.useCMSIS.v8.0.0"/>
+							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF" id="iar.arm.toolchain.targetPlatform.v8.0.0.115598219" isAbstract="false" name="IAR Target platform for ARM (ELF)" osList="win32,linux" superClass="iar.arm.toolchain.targetPlatform.v8.0.0"/>
+							<builder buildPath="${workspace_loc:/Master.OS}/Debug" id="iar.arm.toolchain.builder.v8.0.0.227382394" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="iar.arm.toolchain.builder.v8.0.0"/>
+							<tool id="iar.arm.toolchain.compiler.v8.0.0.1920137960" name="IAR C/C++ Compiler for ARM" superClass="iar.arm.toolchain.compiler.v8.0.0">
+								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.debugInfo.v8.0.0.353141133" name="Generate debug information" superClass="iar.arm.toolchain.compiler.option.debugInfo.v8.0.0" valueType="boolean"/>
+								<option defaultValue="iar.arm.toolchain.compiler.option.optLevel.none.v8.0.0" id="iar.arm.toolchain.compiler.option.optLevel.v8.0.0.362866572" name="Optimization level:" superClass="iar.arm.toolchain.compiler.option.optLevel.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.optLevel.medium.v8.0.0" valueType="enumerated"/>
+								<option id="iar.arm.toolchain.compiler.option.optCSE.v8.0.0.1533437737" name="Disable common subexpression elimination" superClass="iar.arm.toolchain.compiler.option.optCSE.v8.0.0" useByScannerDiscovery="false"/>
+								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.optUnroll.v8.0.0.1848932630" name="Disable loop unrolling" superClass="iar.arm.toolchain.compiler.option.optUnroll.v8.0.0" useByScannerDiscovery="false" valueType="boolean"/>
+								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.optInline.v8.0.0.1481393976" name="Disable function inlining" superClass="iar.arm.toolchain.compiler.option.optInline.v8.0.0" useByScannerDiscovery="false" valueType="boolean"/>
+								<option id="iar.arm.toolchain.compiler.option.optCodeMotion.v8.0.0.1666066673" name="Disable code motion" superClass="iar.arm.toolchain.compiler.option.optCodeMotion.v8.0.0" useByScannerDiscovery="false"/>
+								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.optAliasAnalysis.v8.0.0.1459443085" name="Disable type-based alias analysis" superClass="iar.arm.toolchain.compiler.option.optAliasAnalysis.v8.0.0" useByScannerDiscovery="false" valueType="boolean"/>
+								<option id="iar.arm.toolchain.compiler.option.optStaticClustering.v8.0.0.519294419" name="Disable static clustering" superClass="iar.arm.toolchain.compiler.option.optStaticClustering.v8.0.0" useByScannerDiscovery="false"/>
+								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.optScheduling.v8.0.0.1659625269" name="Disable instruction scheduling" superClass="iar.arm.toolchain.compiler.option.optScheduling.v8.0.0" useByScannerDiscovery="false" valueType="boolean"/>
+								<option id="iar.arm.toolchain.compiler.option.cpuMode.v8.0.0.408306487" name="Processor mode:" superClass="iar.arm.toolchain.compiler.option.cpuMode.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.cpuMode.thumb.v8.0.0" valueType="enumerated"/>
+								<option id="iar.arm.toolchain.compiler.option.language.v8.0.0.40997548" name="Language" superClass="iar.arm.toolchain.compiler.option.language.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.charIs.v8.0.0.1878683262" name="Plain 'char' is:" superClass="iar.arm.toolchain.compiler.option.charIs.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.charIs.signed.v8.0.0" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.incPaths.v8.0.0.1089755147" name="Additional include directories" superClass="iar.arm.toolchain.compiler.option.incPaths.v8.0.0" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Includes}&quot;"/>
+								</option>
+								<option id="iar.arm.toolchain.compiler.option.requirePrototypes.v8.0.0.2017036164" name="Require prototypes" superClass="iar.arm.toolchain.compiler.option.requirePrototypes.v8.0.0" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.defines.v8.0.0.199919862" name="Defined Symbols:" superClass="iar.arm.toolchain.compiler.option.defines.v8.0.0" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__UsrSP_SysSP__"/>
+									<listOptionValue builtIn="false" value="Master_OS_Use_Application"/>
+								</option>
+								<option id="iar.arm.toolchain.compiler.option.additionalUserOptions.v8.0.0.1978203656" name="Use command line options" superClass="iar.arm.toolchain.compiler.option.additionalUserOptions.v8.0.0" useByScannerDiscovery="false" value="--section .data=.Master.OS.DATA --section .bss=.Master.OS.DATA" valueType="string"/>
+								<inputType id="iar.arm.toolchain.compiler.inputType.c.v8.0.0.1908917183" name="IAR C/C++ Compiler Input Type" superClass="iar.arm.toolchain.compiler.inputType.c.v8.0.0"/>
+							</tool>
+							<tool id="iar.arm.toolchain.assembler.v8.0.0.895324859" name="IAR Assembler for ARM" superClass="iar.arm.toolchain.assembler.v8.0.0">
+								<option defaultValue="true" id="iar.arm.toolchain.assembler.option.debugInfo.v8.0.0.1621655878" name="Generate debug information" superClass="iar.arm.toolchain.assembler.option.debugInfo.v8.0.0" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.assembler.option.includePaths.v8.0.0.1604913621" name="Additional include directories:" superClass="iar.arm.toolchain.assembler.option.includePaths.v8.0.0" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Includes}&quot;"/>
+								</option>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.assembler.option.definedSymbols.v8.0.0.1813526283" name="Defined symbols:" superClass="iar.arm.toolchain.assembler.option.definedSymbols.v8.0.0" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__UsrSP_SysSP__"/>
+									<listOptionValue builtIn="false" value="Master_OS_Use_Application"/>
+								</option>
+								<inputType id="iar.arm.toolchain.assembler.inputType.asmFile.v8.0.0.113226534" name="IAR Assembler input type for ARM (asm, s)" superClass="iar.arm.toolchain.assembler.inputType.asmFile.v8.0.0"/>
+							</tool>
+							<tool id="iar.arm.toolchain.linker.v8.0.0.134534274" name="IAR Linker for ARM" superClass="iar.arm.toolchain.linker.v8.0.0">
+								<option id="iar.arm.toolchain.linker.option.icfFile.v8.0.0.831300070" name="Linker configuration file:" superClass="iar.arm.toolchain.linker.option.icfFile.v8.0.0" useByScannerDiscovery="false" value="" valueType="string"/>
+								<option id="iar.arm.toolchain.linker.option.devicePostProcess.v8.0.0.1964146050" name="IElfToolPostProcess" superClass="iar.arm.toolchain.linker.option.devicePostProcess.v8.0.0"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::file.v8.4.0.201342865" name="Raw binary image file:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::file.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::symbol.v8.4.0.1770141787" name="Symbol:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::symbol.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::segment.v8.4.0.2060697055" name="Section:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::segment.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::alignment.v8.4.0.2146601452" name="Align:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::alignment.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.imageInput.v8.0.0.657103787" name="Raw binary image (LEGACY):" superClass="iar.arm.toolchain.linker.option.imageInput.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.performVFE.v8.0.0.787904138" name="Perform C++ Virtual Function Elimination" superClass="iar.arm.toolchain.linker.option.performVFE.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.forceVFE.v8.0.0.79240307" name="Even if some modules are missing VFE information" superClass="iar.arm.toolchain.linker.option.forceVFE.v8.0.0" useByScannerDiscovery="false"/>
+								<inputType id="iar.arm.toolchain.linker.inputType.object.v8.0.0.1966951752" name="IAR Linker Input Type for ARM (o)" superClass="iar.arm.toolchain.linker.inputType.object.v8.0.0">
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+								</inputType>
+							</tool>
+							<tool commandLinePattern="${COMMAND} ${INPUTS} --create ${OUTPUT_FLAG} ..\Release.Library\${OUTPUT_PREFIX}${OUTPUT} ${FLAGS}" id="iar.arm.toolchain.archive.v8.0.0.215685133" name="IAR Library Builder for ARM" superClass="iar.arm.toolchain.archive.v8.0.0"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="Shell/Shell.PrintK.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.364837323.1678560366">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.364837323.1678560366" moduleId="org.eclipse.cdt.core.settings" name="Release.Geely.HX11.Application">
+				<externalSettings>
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Master.OS"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Master.OS/Release.ARM.V7.M4"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Master.OS" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="com.iar.cdt.errorParser.com.iar.cdt.errorParser.ErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="a" artifactName="${ProjName}.Geely.HX11.Application" buildArtefactType="com.iar.cdt.buildArtefactType.lib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=com.iar.cdt.buildArtefactType.lib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" description="" id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.364837323.1678560366" name="Release.Geely.HX11.Application" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0">
+					<folderInfo id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.364837323.1678560366." name="/" resourcePath="">
+						<toolChain id="iar.arm.toolchain.project.exe.configuration.debug.toolchain.v8.0.0.792239955" name="IAR Toolchain for ARM - (8.x)" superClass="iar.arm.toolchain.project.exe.configuration.debug.toolchain.v8.0.0">
+							<option id="iar.arm.toolchain.option.OGProcessor::descriptor.v8.0.0.1229137378" name="Processor core:" superClass="iar.arm.toolchain.option.OGProcessor::descriptor.v8.0.0" value="iar.arm.toolchain.option.OGProcessor::descriptor.OGProcessor::Cores::kCortexM0P.v8.0.0" valueType="enumerated"/>
+							<option id="iar.arm.toolchain.option.endianMode.v8.0.0.758373535" name="Endian mode:" superClass="iar.arm.toolchain.option.endianMode.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.bigEndianFormat.v8.0.0.2143217130" name="Big-endian format:" superClass="iar.arm.toolchain.option.bigEndianFormat.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.bufferedOutput.v8.0.0.1094327579" name="Buffered terminal output" superClass="iar.arm.toolchain.option.bufferedOutput.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.mfc.v8.0.0.1190772871" name="Enable multi-file compilation" superClass="iar.arm.toolchain.option.mfc.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.libraryConfig.v8.0.0.568389890" name="Library:" superClass="iar.arm.toolchain.option.libraryConfig.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.deviceInfo.v8.0.0.1119293378" name="Device info storage option" superClass="iar.arm.toolchain.option.deviceInfo.v8.0.0" value="config/devices/default.menu" valueType="string"/>
+							<option id="iar.arm.toolchain.option.deviceName.v8.0.0.2116082717" name="Device (change with Project &gt; Select Device...)" superClass="iar.arm.toolchain.option.deviceName.v8.0.0" value="None" valueType="string"/>
+							<option id="iar.arm.toolchain.option.deviceTag.v8.0.0.1107668670" name="Device tag storage option" superClass="iar.arm.toolchain.option.deviceTag.v8.0.0" value="Default" valueType="string"/>
+							<option id="iar.arm.toolchain.option.OGFpuProcessor::descriptor.v8.0.0.1836416867" name="FPU" superClass="iar.arm.toolchain.option.OGFpuProcessor::descriptor.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.OGFpuProcessor::descriptor2.v8.0.0.2094513950" name="D registers" superClass="iar.arm.toolchain.option.OGFpuProcessor::descriptor2.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.OGFpuProcessor::useNEON.v8.0.0.307983778" name="Advanced SIMD (NEON)" superClass="iar.arm.toolchain.option.OGFpuProcessor::useNEON.v8.0.0" value="false" valueType="boolean"/>
+							<option id="iar.arm.toolchain.option.useTrustZone.v8.0.0.1522213443" name="Use TrustZone" superClass="iar.arm.toolchain.option.useTrustZone.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.trustZoneMode.v8.0.0.358479917" name="TrustZone Mode:" superClass="iar.arm.toolchain.option.trustZoneMode.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.misra-c.enable.v8.0.0.140985284" name="Enable MISRA-C" superClass="iar.arm.toolchain.option.misra-c.enable.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcEnable.v8.0.0.1106769050" name="Enable" superClass="iar.arm.toolchain.option.AgatonSax::rtcEnable.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcEnableBounds.v8.0.0.704699967" name="Enable bounds checking" superClass="iar.arm.toolchain.option.AgatonSax::rtcEnableBounds.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcTrackPtrBounds.v8.0.0.746173312" name="Track pointer bounds" superClass="iar.arm.toolchain.option.AgatonSax::rtcTrackPtrBounds.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcCheckAccesses.v8.0.0.1303877417" name="Check accesses" superClass="iar.arm.toolchain.option.AgatonSax::rtcCheckAccesses.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcGenerateEntries.v8.0.0.680163224" name="Generate functions callable from non-instrumented code" superClass="iar.arm.toolchain.option.AgatonSax::rtcGenerateEntries.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers_icc.v8.0.0.821960645" name="Check pointers from non-&#10;instrumented functions" superClass="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers_icc.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcIntOverflow.v8.0.0.1323703408" name="Integer overflow" superClass="iar.arm.toolchain.option.AgatonSax::rtcIntOverflow.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcInclUnsigned.v8.0.0.1793722906" name="Including unsigned" superClass="iar.arm.toolchain.option.AgatonSax::rtcInclUnsigned.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcIntConversion.v8.0.0.2011176569" name="Integer conversion" superClass="iar.arm.toolchain.option.AgatonSax::rtcIntConversion.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcInclExplicit.v8.0.0.1365812122" name="Including explicit casts" superClass="iar.arm.toolchain.option.AgatonSax::rtcInclExplicit.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcIntShiftOverflow.v8.0.0.1413504770" name="Integer shift overflow" superClass="iar.arm.toolchain.option.AgatonSax::rtcIntShiftOverflow.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcInclUnsignedShiftOverflow.v8.0.0.1953911787" name="Including unsigned shifts" superClass="iar.arm.toolchain.option.AgatonSax::rtcInclUnsignedShiftOverflow.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcUnhandledCase.v8.0.0.1143346448" name="Unhandled switch case" superClass="iar.arm.toolchain.option.AgatonSax::rtcUnhandledCase.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcDivByZero.v8.0.0.1621128539" name="Division by zero" superClass="iar.arm.toolchain.option.AgatonSax::rtcDivByZero.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.semihosted.v8.0.0.870776253" name="Include semihosting interface" superClass="iar.arm.toolchain.option.semihosted.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.lowLevelInterface.v8.0.0.1873510438" name="Library low-level&#10;interface implementation:" superClass="iar.arm.toolchain.option.lowLevelInterface.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.printfFormatter.v8.0.0.1766612601" name="Printf formatter:" superClass="iar.arm.toolchain.option.printfFormatter.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.printfFormatterMultibyte.v8.0.0.1906373562" name="Enable multibyte support" superClass="iar.arm.toolchain.option.printfFormatterMultibyte.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.scanfFormatter.v8.0.0.102675313" name="Scanf formatter:" superClass="iar.arm.toolchain.option.scanfFormatter.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.scanfFormatterMultibyte.v8.0.0.1433453892" name="Enable multibyte support" superClass="iar.arm.toolchain.option.scanfFormatterMultibyte.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcDebugHeap.v8.0.0.1746323741" name="Use checked heap" superClass="iar.arm.toolchain.option.AgatonSax::rtcDebugHeap.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers.v8.0.0.1241520826" name="Check pointers from non-&#10;instrumented memory" superClass="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcNrTrackedPointers.v8.0.0.101312270" name="Number of entries:" superClass="iar.arm.toolchain.option.AgatonSax::rtcNrTrackedPointers.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.OGLibraryOptions2::heapSelection.v8.0.0.1155189111" name="Heap selection" superClass="iar.arm.toolchain.option.OGLibraryOptions2::heapSelection.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.lowLevelInterfaceCortex.v8.0.0.145706315" name="Library low-level&#10;interface implementation&#10;(Cortex-M cores):" superClass="iar.arm.toolchain.option.lowLevelInterfaceCortex.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.useCMSIS.v8.0.0.248831419" name="Use CMSIS" superClass="iar.arm.toolchain.option.useCMSIS.v8.0.0"/>
+							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF" id="iar.arm.toolchain.targetPlatform.v8.0.0.322440512" isAbstract="false" name="IAR Target platform for ARM (ELF)" osList="win32,linux" superClass="iar.arm.toolchain.targetPlatform.v8.0.0"/>
+							<builder buildPath="${workspace_loc:/Master.OS}/Debug" id="iar.arm.toolchain.builder.v8.0.0.328990294" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="iar.arm.toolchain.builder.v8.0.0"/>
+							<tool id="iar.arm.toolchain.compiler.v8.0.0.624395883" name="IAR C/C++ Compiler for ARM" superClass="iar.arm.toolchain.compiler.v8.0.0">
+								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.debugInfo.v8.0.0.1830290393" name="Generate debug information" superClass="iar.arm.toolchain.compiler.option.debugInfo.v8.0.0" valueType="boolean"/>
+								<option defaultValue="iar.arm.toolchain.compiler.option.optLevel.none.v8.0.0" id="iar.arm.toolchain.compiler.option.optLevel.v8.0.0.630578766" name="Optimization level:" superClass="iar.arm.toolchain.compiler.option.optLevel.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.optLevel.medium.v8.0.0" valueType="enumerated"/>
+								<option id="iar.arm.toolchain.compiler.option.optCSE.v8.0.0.1743043045" name="Disable common subexpression elimination" superClass="iar.arm.toolchain.compiler.option.optCSE.v8.0.0" useByScannerDiscovery="false"/>
+								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.optUnroll.v8.0.0.1849797972" name="Disable loop unrolling" superClass="iar.arm.toolchain.compiler.option.optUnroll.v8.0.0" useByScannerDiscovery="false" valueType="boolean"/>
+								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.optInline.v8.0.0.408085777" name="Disable function inlining" superClass="iar.arm.toolchain.compiler.option.optInline.v8.0.0" useByScannerDiscovery="false" valueType="boolean"/>
+								<option id="iar.arm.toolchain.compiler.option.optCodeMotion.v8.0.0.2106703408" name="Disable code motion" superClass="iar.arm.toolchain.compiler.option.optCodeMotion.v8.0.0" useByScannerDiscovery="false"/>
+								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.optAliasAnalysis.v8.0.0.2057837287" name="Disable type-based alias analysis" superClass="iar.arm.toolchain.compiler.option.optAliasAnalysis.v8.0.0" useByScannerDiscovery="false" valueType="boolean"/>
+								<option id="iar.arm.toolchain.compiler.option.optStaticClustering.v8.0.0.117898438" name="Disable static clustering" superClass="iar.arm.toolchain.compiler.option.optStaticClustering.v8.0.0" useByScannerDiscovery="false"/>
+								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.optScheduling.v8.0.0.1155295115" name="Disable instruction scheduling" superClass="iar.arm.toolchain.compiler.option.optScheduling.v8.0.0" useByScannerDiscovery="false" valueType="boolean"/>
+								<option id="iar.arm.toolchain.compiler.option.cpuMode.v8.0.0.596428298" name="Processor mode:" superClass="iar.arm.toolchain.compiler.option.cpuMode.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.cpuMode.thumb.v8.0.0" valueType="enumerated"/>
+								<option id="iar.arm.toolchain.compiler.option.language.v8.0.0.459288174" name="Language" superClass="iar.arm.toolchain.compiler.option.language.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.charIs.v8.0.0.258144847" name="Plain 'char' is:" superClass="iar.arm.toolchain.compiler.option.charIs.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.charIs.signed.v8.0.0" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.incPaths.v8.0.0.735045079" name="Additional include directories" superClass="iar.arm.toolchain.compiler.option.incPaths.v8.0.0" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Includes}&quot;"/>
+								</option>
+								<option id="iar.arm.toolchain.compiler.option.requirePrototypes.v8.0.0.1077406683" name="Require prototypes" superClass="iar.arm.toolchain.compiler.option.requirePrototypes.v8.0.0" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.defines.v8.0.0.892215218" name="Defined Symbols:" superClass="iar.arm.toolchain.compiler.option.defines.v8.0.0" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__UsrSP_SysSP__"/>
+									<listOptionValue builtIn="false" value="Master_OS_Use_Application"/>
+								</option>
+								<option id="iar.arm.toolchain.compiler.option.additionalUserOptions.v8.0.0.1446905351" name="Use command line options" superClass="iar.arm.toolchain.compiler.option.additionalUserOptions.v8.0.0" useByScannerDiscovery="false" value="--section .data=.Master.OS.DATA --section .bss=.Master.OS.DATA" valueType="string"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.preincludeFile.v8.0.0.1249965497" name="Preinclude file:" superClass="iar.arm.toolchain.compiler.option.preincludeFile.v8.0.0" useByScannerDiscovery="false" valueType="includeFiles">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Config/Master.OS.Config.Geely.HX11.h}&quot;"/>
+								</option>
+								<inputType id="iar.arm.toolchain.compiler.inputType.c.v8.0.0.200504068" name="IAR C/C++ Compiler Input Type" superClass="iar.arm.toolchain.compiler.inputType.c.v8.0.0"/>
+							</tool>
+							<tool id="iar.arm.toolchain.assembler.v8.0.0.241456015" name="IAR Assembler for ARM" superClass="iar.arm.toolchain.assembler.v8.0.0">
+								<option defaultValue="true" id="iar.arm.toolchain.assembler.option.debugInfo.v8.0.0.494692555" name="Generate debug information" superClass="iar.arm.toolchain.assembler.option.debugInfo.v8.0.0" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.assembler.option.includePaths.v8.0.0.1864605831" name="Additional include directories:" superClass="iar.arm.toolchain.assembler.option.includePaths.v8.0.0" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Includes}&quot;"/>
+								</option>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.assembler.option.definedSymbols.v8.0.0.950540875" name="Defined symbols:" superClass="iar.arm.toolchain.assembler.option.definedSymbols.v8.0.0" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__UsrSP_SysSP__"/>
+									<listOptionValue builtIn="false" value="__Config__=&quot;Master.OS.Config.Geely.HX11.h&quot;"/>
+									<listOptionValue builtIn="false" value="Master_OS_Use_Application"/>
+								</option>
+								<option id="iar.arm.toolchain.assembler.option.extraOptions.v8.0.0.1939306389" name="Use command line options:" superClass="iar.arm.toolchain.assembler.option.extraOptions.v8.0.0" useByScannerDiscovery="false" value="" valueType="string"/>
+								<inputType id="iar.arm.toolchain.assembler.inputType.asmFile.v8.0.0.1870200256" name="IAR Assembler input type for ARM (asm, s)" superClass="iar.arm.toolchain.assembler.inputType.asmFile.v8.0.0"/>
+							</tool>
+							<tool id="iar.arm.toolchain.linker.v8.0.0.1916417509" name="IAR Linker for ARM" superClass="iar.arm.toolchain.linker.v8.0.0">
+								<option id="iar.arm.toolchain.linker.option.icfFile.v8.0.0.367759541" name="Linker configuration file:" superClass="iar.arm.toolchain.linker.option.icfFile.v8.0.0" useByScannerDiscovery="false" value="" valueType="string"/>
+								<option id="iar.arm.toolchain.linker.option.devicePostProcess.v8.0.0.876245373" name="IElfToolPostProcess" superClass="iar.arm.toolchain.linker.option.devicePostProcess.v8.0.0"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::file.v8.4.0.472773421" name="Raw binary image file:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::file.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::symbol.v8.4.0.79473002" name="Symbol:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::symbol.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::segment.v8.4.0.1391614651" name="Section:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::segment.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::alignment.v8.4.0.2125014165" name="Align:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::alignment.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.imageInput.v8.0.0.1216987090" name="Raw binary image (LEGACY):" superClass="iar.arm.toolchain.linker.option.imageInput.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.performVFE.v8.0.0.823101842" name="Perform C++ Virtual Function Elimination" superClass="iar.arm.toolchain.linker.option.performVFE.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.forceVFE.v8.0.0.288048069" name="Even if some modules are missing VFE information" superClass="iar.arm.toolchain.linker.option.forceVFE.v8.0.0" useByScannerDiscovery="false"/>
+								<inputType id="iar.arm.toolchain.linker.inputType.object.v8.0.0.1883551077" name="IAR Linker Input Type for ARM (o)" superClass="iar.arm.toolchain.linker.inputType.object.v8.0.0">
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+								</inputType>
+							</tool>
+							<tool commandLinePattern="${COMMAND} ${INPUTS} --create ${OUTPUT_FLAG} ..\Release.Library\${OUTPUT_PREFIX}${OUTPUT} ${FLAGS}" id="iar.arm.toolchain.archive.v8.0.0.1756937992" name="IAR Library Builder for ARM" superClass="iar.arm.toolchain.archive.v8.0.0"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="Shell/Shell.PrintK.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.1986908397">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.1986908397" moduleId="org.eclipse.cdt.core.settings" name="Release.Geely.HX11.BootLoader">
+				<externalSettings>
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Master.OS"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Master.OS/Release.ARM.V7.M4"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Master.OS" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="com.iar.cdt.errorParser.com.iar.cdt.errorParser.ErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="a" artifactName="${ProjName}.Geely.HX11..BootLoader" buildArtefactType="com.iar.cdt.buildArtefactType.lib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=com.iar.cdt.buildArtefactType.lib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" description="" id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.1986908397" name="Release.Geely.HX11.BootLoader" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0">
+					<folderInfo id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.1986908397." name="/" resourcePath="">
+						<toolChain id="iar.arm.toolchain.project.exe.configuration.debug.toolchain.v8.0.0.623010010" name="IAR Toolchain for ARM - (8.x)" superClass="iar.arm.toolchain.project.exe.configuration.debug.toolchain.v8.0.0">
+							<option id="iar.arm.toolchain.option.OGProcessor::descriptor.v8.0.0.659344484" name="Processor core:" superClass="iar.arm.toolchain.option.OGProcessor::descriptor.v8.0.0" value="iar.arm.toolchain.option.OGProcessor::descriptor.OGProcessor::Cores::kCortexM0P.v8.0.0" valueType="enumerated"/>
+							<option id="iar.arm.toolchain.option.endianMode.v8.0.0.1754960362" name="Endian mode:" superClass="iar.arm.toolchain.option.endianMode.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.bigEndianFormat.v8.0.0.1675223313" name="Big-endian format:" superClass="iar.arm.toolchain.option.bigEndianFormat.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.bufferedOutput.v8.0.0.845353100" name="Buffered terminal output" superClass="iar.arm.toolchain.option.bufferedOutput.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.mfc.v8.0.0.1684435218" name="Enable multi-file compilation" superClass="iar.arm.toolchain.option.mfc.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.libraryConfig.v8.0.0.1488311701" name="Library:" superClass="iar.arm.toolchain.option.libraryConfig.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.deviceInfo.v8.0.0.1885567188" name="Device info storage option" superClass="iar.arm.toolchain.option.deviceInfo.v8.0.0" value="config/devices/default.menu" valueType="string"/>
+							<option id="iar.arm.toolchain.option.deviceName.v8.0.0.518134391" name="Device (change with Project &gt; Select Device...)" superClass="iar.arm.toolchain.option.deviceName.v8.0.0" value="None" valueType="string"/>
+							<option id="iar.arm.toolchain.option.deviceTag.v8.0.0.558670440" name="Device tag storage option" superClass="iar.arm.toolchain.option.deviceTag.v8.0.0" value="Default" valueType="string"/>
+							<option id="iar.arm.toolchain.option.OGFpuProcessor::descriptor.v8.0.0.534300996" name="FPU" superClass="iar.arm.toolchain.option.OGFpuProcessor::descriptor.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.OGFpuProcessor::descriptor2.v8.0.0.1472415549" name="D registers" superClass="iar.arm.toolchain.option.OGFpuProcessor::descriptor2.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.OGFpuProcessor::useNEON.v8.0.0.817663253" name="Advanced SIMD (NEON)" superClass="iar.arm.toolchain.option.OGFpuProcessor::useNEON.v8.0.0" value="false" valueType="boolean"/>
+							<option id="iar.arm.toolchain.option.useTrustZone.v8.0.0.1302236654" name="Use TrustZone" superClass="iar.arm.toolchain.option.useTrustZone.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.trustZoneMode.v8.0.0.1173173267" name="TrustZone Mode:" superClass="iar.arm.toolchain.option.trustZoneMode.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.misra-c.enable.v8.0.0.242008952" name="Enable MISRA-C" superClass="iar.arm.toolchain.option.misra-c.enable.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcEnable.v8.0.0.1168941263" name="Enable" superClass="iar.arm.toolchain.option.AgatonSax::rtcEnable.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcEnableBounds.v8.0.0.546211733" name="Enable bounds checking" superClass="iar.arm.toolchain.option.AgatonSax::rtcEnableBounds.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcTrackPtrBounds.v8.0.0.2143433193" name="Track pointer bounds" superClass="iar.arm.toolchain.option.AgatonSax::rtcTrackPtrBounds.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcCheckAccesses.v8.0.0.885204078" name="Check accesses" superClass="iar.arm.toolchain.option.AgatonSax::rtcCheckAccesses.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcGenerateEntries.v8.0.0.1305936225" name="Generate functions callable from non-instrumented code" superClass="iar.arm.toolchain.option.AgatonSax::rtcGenerateEntries.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers_icc.v8.0.0.69028345" name="Check pointers from non-&#10;instrumented functions" superClass="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers_icc.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcIntOverflow.v8.0.0.1197633511" name="Integer overflow" superClass="iar.arm.toolchain.option.AgatonSax::rtcIntOverflow.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcInclUnsigned.v8.0.0.1148424137" name="Including unsigned" superClass="iar.arm.toolchain.option.AgatonSax::rtcInclUnsigned.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcIntConversion.v8.0.0.646592497" name="Integer conversion" superClass="iar.arm.toolchain.option.AgatonSax::rtcIntConversion.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcInclExplicit.v8.0.0.1593268747" name="Including explicit casts" superClass="iar.arm.toolchain.option.AgatonSax::rtcInclExplicit.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcIntShiftOverflow.v8.0.0.199392989" name="Integer shift overflow" superClass="iar.arm.toolchain.option.AgatonSax::rtcIntShiftOverflow.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcInclUnsignedShiftOverflow.v8.0.0.1547624842" name="Including unsigned shifts" superClass="iar.arm.toolchain.option.AgatonSax::rtcInclUnsignedShiftOverflow.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcUnhandledCase.v8.0.0.497100690" name="Unhandled switch case" superClass="iar.arm.toolchain.option.AgatonSax::rtcUnhandledCase.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcDivByZero.v8.0.0.588281591" name="Division by zero" superClass="iar.arm.toolchain.option.AgatonSax::rtcDivByZero.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.semihosted.v8.0.0.1622082344" name="Include semihosting interface" superClass="iar.arm.toolchain.option.semihosted.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.lowLevelInterface.v8.0.0.1814124400" name="Library low-level&#10;interface implementation:" superClass="iar.arm.toolchain.option.lowLevelInterface.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.printfFormatter.v8.0.0.732626750" name="Printf formatter:" superClass="iar.arm.toolchain.option.printfFormatter.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.printfFormatterMultibyte.v8.0.0.1051928667" name="Enable multibyte support" superClass="iar.arm.toolchain.option.printfFormatterMultibyte.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.scanfFormatter.v8.0.0.1498058483" name="Scanf formatter:" superClass="iar.arm.toolchain.option.scanfFormatter.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.scanfFormatterMultibyte.v8.0.0.208674299" name="Enable multibyte support" superClass="iar.arm.toolchain.option.scanfFormatterMultibyte.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcDebugHeap.v8.0.0.1985967610" name="Use checked heap" superClass="iar.arm.toolchain.option.AgatonSax::rtcDebugHeap.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers.v8.0.0.636675895" name="Check pointers from non-&#10;instrumented memory" superClass="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcNrTrackedPointers.v8.0.0.1367787528" name="Number of entries:" superClass="iar.arm.toolchain.option.AgatonSax::rtcNrTrackedPointers.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.OGLibraryOptions2::heapSelection.v8.0.0.497884537" name="Heap selection" superClass="iar.arm.toolchain.option.OGLibraryOptions2::heapSelection.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.lowLevelInterfaceCortex.v8.0.0.949479579" name="Library low-level&#10;interface implementation&#10;(Cortex-M cores):" superClass="iar.arm.toolchain.option.lowLevelInterfaceCortex.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.useCMSIS.v8.0.0.515319414" name="Use CMSIS" superClass="iar.arm.toolchain.option.useCMSIS.v8.0.0"/>
+							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF" id="iar.arm.toolchain.targetPlatform.v8.0.0.275110249" isAbstract="false" name="IAR Target platform for ARM (ELF)" osList="win32,linux" superClass="iar.arm.toolchain.targetPlatform.v8.0.0"/>
+							<builder buildPath="${workspace_loc:/Master.OS}/Debug" id="iar.arm.toolchain.builder.v8.0.0.67602295" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="iar.arm.toolchain.builder.v8.0.0"/>
+							<tool id="iar.arm.toolchain.compiler.v8.0.0.2120288106" name="IAR C/C++ Compiler for ARM" superClass="iar.arm.toolchain.compiler.v8.0.0">
+								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.debugInfo.v8.0.0.910516091" name="Generate debug information" superClass="iar.arm.toolchain.compiler.option.debugInfo.v8.0.0" valueType="boolean"/>
+								<option defaultValue="iar.arm.toolchain.compiler.option.optLevel.none.v8.0.0" id="iar.arm.toolchain.compiler.option.optLevel.v8.0.0.561116363" name="Optimization level:" superClass="iar.arm.toolchain.compiler.option.optLevel.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.optLevel.highBalance.v8.0.0" valueType="enumerated"/>
+								<option id="iar.arm.toolchain.compiler.option.optCSE.v8.0.0.1187218541" name="Disable common subexpression elimination" superClass="iar.arm.toolchain.compiler.option.optCSE.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optUnroll.v8.0.0.316415267" name="Disable loop unrolling" superClass="iar.arm.toolchain.compiler.option.optUnroll.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optInline.v8.0.0.2055347492" name="Disable function inlining" superClass="iar.arm.toolchain.compiler.option.optInline.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optCodeMotion.v8.0.0.730698445" name="Disable code motion" superClass="iar.arm.toolchain.compiler.option.optCodeMotion.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optAliasAnalysis.v8.0.0.477617813" name="Disable type-based alias analysis" superClass="iar.arm.toolchain.compiler.option.optAliasAnalysis.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optStaticClustering.v8.0.0.1340482931" name="Disable static clustering" superClass="iar.arm.toolchain.compiler.option.optStaticClustering.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optScheduling.v8.0.0.1116407348" name="Disable instruction scheduling" superClass="iar.arm.toolchain.compiler.option.optScheduling.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.cpuMode.v8.0.0.834109197" name="Processor mode:" superClass="iar.arm.toolchain.compiler.option.cpuMode.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.cpuMode.thumb.v8.0.0" valueType="enumerated"/>
+								<option id="iar.arm.toolchain.compiler.option.language.v8.0.0.1418881580" name="Language" superClass="iar.arm.toolchain.compiler.option.language.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.charIs.v8.0.0.739620648" name="Plain 'char' is:" superClass="iar.arm.toolchain.compiler.option.charIs.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.charIs.signed.v8.0.0" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.incPaths.v8.0.0.479468486" name="Additional include directories" superClass="iar.arm.toolchain.compiler.option.incPaths.v8.0.0" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Includes}&quot;"/>
+								</option>
+								<option id="iar.arm.toolchain.compiler.option.requirePrototypes.v8.0.0.900410586" name="Require prototypes" superClass="iar.arm.toolchain.compiler.option.requirePrototypes.v8.0.0" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.defines.v8.0.0.902957983" name="Defined Symbols:" superClass="iar.arm.toolchain.compiler.option.defines.v8.0.0" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__UsrSP_SysSP__"/>
+									<listOptionValue builtIn="false" value="Master_OS_Use_BootLoader"/>
+								</option>
+								<option id="iar.arm.toolchain.compiler.option.additionalUserOptions.v8.0.0.2064883635" name="Use command line options" superClass="iar.arm.toolchain.compiler.option.additionalUserOptions.v8.0.0" useByScannerDiscovery="false" value="--section .data=.Master.OS.DATA --section .bss=.Master.OS.DATA" valueType="string"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.preincludeFile.v8.0.0.727860856" superClass="iar.arm.toolchain.compiler.option.preincludeFile.v8.0.0" useByScannerDiscovery="false" valueType="includeFiles">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Config/Master.OS.Config.Geely.HX11.h}&quot;"/>
+								</option>
+								<inputType id="iar.arm.toolchain.compiler.inputType.c.v8.0.0.670845712" name="IAR C/C++ Compiler Input Type" superClass="iar.arm.toolchain.compiler.inputType.c.v8.0.0"/>
+							</tool>
+							<tool id="iar.arm.toolchain.assembler.v8.0.0.671598007" name="IAR Assembler for ARM" superClass="iar.arm.toolchain.assembler.v8.0.0">
+								<option defaultValue="true" id="iar.arm.toolchain.assembler.option.debugInfo.v8.0.0.1788224109" name="Generate debug information" superClass="iar.arm.toolchain.assembler.option.debugInfo.v8.0.0" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.assembler.option.includePaths.v8.0.0.1988940987" name="Additional include directories:" superClass="iar.arm.toolchain.assembler.option.includePaths.v8.0.0" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Includes}&quot;"/>
+								</option>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.assembler.option.definedSymbols.v8.0.0.887492801" name="Defined symbols:" superClass="iar.arm.toolchain.assembler.option.definedSymbols.v8.0.0" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__UsrSP_SysSP__"/>
+									<listOptionValue builtIn="false" value="Master_OS_Use_BootLoader"/>
+								</option>
+								<inputType id="iar.arm.toolchain.assembler.inputType.asmFile.v8.0.0.1148658301" name="IAR Assembler input type for ARM (asm, s)" superClass="iar.arm.toolchain.assembler.inputType.asmFile.v8.0.0"/>
+							</tool>
+							<tool id="iar.arm.toolchain.linker.v8.0.0.1128930112" name="IAR Linker for ARM" superClass="iar.arm.toolchain.linker.v8.0.0">
+								<option id="iar.arm.toolchain.linker.option.icfFile.v8.0.0.1752370698" name="Linker configuration file:" superClass="iar.arm.toolchain.linker.option.icfFile.v8.0.0" useByScannerDiscovery="false" value="" valueType="string"/>
+								<option id="iar.arm.toolchain.linker.option.devicePostProcess.v8.0.0.78097801" name="IElfToolPostProcess" superClass="iar.arm.toolchain.linker.option.devicePostProcess.v8.0.0"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::file.v8.4.0.1316463947" name="Raw binary image file:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::file.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::symbol.v8.4.0.411781900" name="Symbol:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::symbol.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::segment.v8.4.0.365145141" name="Section:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::segment.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::alignment.v8.4.0.769841667" name="Align:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::alignment.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.imageInput.v8.0.0.1687502522" name="Raw binary image (LEGACY):" superClass="iar.arm.toolchain.linker.option.imageInput.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.performVFE.v8.0.0.1546475863" name="Perform C++ Virtual Function Elimination" superClass="iar.arm.toolchain.linker.option.performVFE.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.forceVFE.v8.0.0.375404738" name="Even if some modules are missing VFE information" superClass="iar.arm.toolchain.linker.option.forceVFE.v8.0.0" useByScannerDiscovery="false"/>
+								<inputType id="iar.arm.toolchain.linker.inputType.object.v8.0.0.2027400947" name="IAR Linker Input Type for ARM (o)" superClass="iar.arm.toolchain.linker.inputType.object.v8.0.0">
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+								</inputType>
+							</tool>
+							<tool commandLinePattern="${COMMAND} ${INPUTS} --create ${OUTPUT_FLAG} ..\Release.Library\${OUTPUT_PREFIX}${OUTPUT} ${FLAGS}" id="iar.arm.toolchain.archive.v8.0.0.1091637845" name="IAR Library Builder for ARM" superClass="iar.arm.toolchain.archive.v8.0.0"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="Shell/Shell.PrintK.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.1881594311">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.1881594311" moduleId="org.eclipse.cdt.core.settings" name="Release.XPeng.E28.BootLoader">
+				<externalSettings>
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Master.OS"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Master.OS/Release.ARM.V7.M4"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Master.OS" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="com.iar.cdt.errorParser.com.iar.cdt.errorParser.ErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="a" artifactName="${ProjName}.XPeng.E28.BootLoader" buildArtefactType="com.iar.cdt.buildArtefactType.lib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=com.iar.cdt.buildArtefactType.lib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" description="" id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.1881594311" name="Release.XPeng.E28.BootLoader" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0">
+					<folderInfo id="iar.arm.toolchain.project.exe.configuration.debug.v8.0.0.677995660.1439244782.1881594311." name="/" resourcePath="">
+						<toolChain id="iar.arm.toolchain.project.exe.configuration.debug.toolchain.v8.0.0.184370666" name="IAR Toolchain for ARM - (8.x)" superClass="iar.arm.toolchain.project.exe.configuration.debug.toolchain.v8.0.0">
+							<option id="iar.arm.toolchain.option.OGProcessor::descriptor.v8.0.0.1171363476" name="Processor core:" superClass="iar.arm.toolchain.option.OGProcessor::descriptor.v8.0.0" value="iar.arm.toolchain.option.OGProcessor::descriptor.OGProcessor::Cores::kCortexM0P.v8.0.0" valueType="enumerated"/>
+							<option id="iar.arm.toolchain.option.endianMode.v8.0.0.1190990257" name="Endian mode:" superClass="iar.arm.toolchain.option.endianMode.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.bigEndianFormat.v8.0.0.586197122" name="Big-endian format:" superClass="iar.arm.toolchain.option.bigEndianFormat.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.bufferedOutput.v8.0.0.1779692829" name="Buffered terminal output" superClass="iar.arm.toolchain.option.bufferedOutput.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.mfc.v8.0.0.2025457300" name="Enable multi-file compilation" superClass="iar.arm.toolchain.option.mfc.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.libraryConfig.v8.0.0.1189603695" name="Library:" superClass="iar.arm.toolchain.option.libraryConfig.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.deviceInfo.v8.0.0.533865731" name="Device info storage option" superClass="iar.arm.toolchain.option.deviceInfo.v8.0.0" value="config/devices/default.menu" valueType="string"/>
+							<option id="iar.arm.toolchain.option.deviceName.v8.0.0.1317687351" name="Device (change with Project &gt; Select Device...)" superClass="iar.arm.toolchain.option.deviceName.v8.0.0" value="None" valueType="string"/>
+							<option id="iar.arm.toolchain.option.deviceTag.v8.0.0.1226231936" name="Device tag storage option" superClass="iar.arm.toolchain.option.deviceTag.v8.0.0" value="Default" valueType="string"/>
+							<option id="iar.arm.toolchain.option.OGFpuProcessor::descriptor.v8.0.0.1330116143" name="FPU" superClass="iar.arm.toolchain.option.OGFpuProcessor::descriptor.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.OGFpuProcessor::descriptor2.v8.0.0.1085272415" name="D registers" superClass="iar.arm.toolchain.option.OGFpuProcessor::descriptor2.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.OGFpuProcessor::useNEON.v8.0.0.239884213" name="Advanced SIMD (NEON)" superClass="iar.arm.toolchain.option.OGFpuProcessor::useNEON.v8.0.0" value="false" valueType="boolean"/>
+							<option id="iar.arm.toolchain.option.useTrustZone.v8.0.0.1453082407" name="Use TrustZone" superClass="iar.arm.toolchain.option.useTrustZone.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.trustZoneMode.v8.0.0.1106890313" name="TrustZone Mode:" superClass="iar.arm.toolchain.option.trustZoneMode.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.misra-c.enable.v8.0.0.825536832" name="Enable MISRA-C" superClass="iar.arm.toolchain.option.misra-c.enable.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcEnable.v8.0.0.1082145022" name="Enable" superClass="iar.arm.toolchain.option.AgatonSax::rtcEnable.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcEnableBounds.v8.0.0.823636145" name="Enable bounds checking" superClass="iar.arm.toolchain.option.AgatonSax::rtcEnableBounds.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcTrackPtrBounds.v8.0.0.1123055421" name="Track pointer bounds" superClass="iar.arm.toolchain.option.AgatonSax::rtcTrackPtrBounds.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcCheckAccesses.v8.0.0.1609868110" name="Check accesses" superClass="iar.arm.toolchain.option.AgatonSax::rtcCheckAccesses.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcGenerateEntries.v8.0.0.269147770" name="Generate functions callable from non-instrumented code" superClass="iar.arm.toolchain.option.AgatonSax::rtcGenerateEntries.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers_icc.v8.0.0.619314361" name="Check pointers from non-&#10;instrumented functions" superClass="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers_icc.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcIntOverflow.v8.0.0.490231961" name="Integer overflow" superClass="iar.arm.toolchain.option.AgatonSax::rtcIntOverflow.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcInclUnsigned.v8.0.0.1154740264" name="Including unsigned" superClass="iar.arm.toolchain.option.AgatonSax::rtcInclUnsigned.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcIntConversion.v8.0.0.816324087" name="Integer conversion" superClass="iar.arm.toolchain.option.AgatonSax::rtcIntConversion.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcInclExplicit.v8.0.0.1322168446" name="Including explicit casts" superClass="iar.arm.toolchain.option.AgatonSax::rtcInclExplicit.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcIntShiftOverflow.v8.0.0.1294873383" name="Integer shift overflow" superClass="iar.arm.toolchain.option.AgatonSax::rtcIntShiftOverflow.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcInclUnsignedShiftOverflow.v8.0.0.983509222" name="Including unsigned shifts" superClass="iar.arm.toolchain.option.AgatonSax::rtcInclUnsignedShiftOverflow.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcUnhandledCase.v8.0.0.1711595269" name="Unhandled switch case" superClass="iar.arm.toolchain.option.AgatonSax::rtcUnhandledCase.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcDivByZero.v8.0.0.567029868" name="Division by zero" superClass="iar.arm.toolchain.option.AgatonSax::rtcDivByZero.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.semihosted.v8.0.0.413821375" name="Include semihosting interface" superClass="iar.arm.toolchain.option.semihosted.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.lowLevelInterface.v8.0.0.1072388042" name="Library low-level&#10;interface implementation:" superClass="iar.arm.toolchain.option.lowLevelInterface.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.printfFormatter.v8.0.0.1830491590" name="Printf formatter:" superClass="iar.arm.toolchain.option.printfFormatter.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.printfFormatterMultibyte.v8.0.0.1935928889" name="Enable multibyte support" superClass="iar.arm.toolchain.option.printfFormatterMultibyte.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.scanfFormatter.v8.0.0.1486423954" name="Scanf formatter:" superClass="iar.arm.toolchain.option.scanfFormatter.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.scanfFormatterMultibyte.v8.0.0.1082202978" name="Enable multibyte support" superClass="iar.arm.toolchain.option.scanfFormatterMultibyte.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcDebugHeap.v8.0.0.1762935786" name="Use checked heap" superClass="iar.arm.toolchain.option.AgatonSax::rtcDebugHeap.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers.v8.0.0.548556891" name="Check pointers from non-&#10;instrumented memory" superClass="iar.arm.toolchain.option.AgatonSax::rtcCheckNonInstrumentedPointers.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.AgatonSax::rtcNrTrackedPointers.v8.0.0.839682066" name="Number of entries:" superClass="iar.arm.toolchain.option.AgatonSax::rtcNrTrackedPointers.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.OGLibraryOptions2::heapSelection.v8.0.0.418874796" name="Heap selection" superClass="iar.arm.toolchain.option.OGLibraryOptions2::heapSelection.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.lowLevelInterfaceCortex.v8.0.0.204322066" name="Library low-level&#10;interface implementation&#10;(Cortex-M cores):" superClass="iar.arm.toolchain.option.lowLevelInterfaceCortex.v8.0.0"/>
+							<option id="iar.arm.toolchain.option.useCMSIS.v8.0.0.586108295" name="Use CMSIS" superClass="iar.arm.toolchain.option.useCMSIS.v8.0.0"/>
+							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF" id="iar.arm.toolchain.targetPlatform.v8.0.0.979792143" isAbstract="false" name="IAR Target platform for ARM (ELF)" osList="win32,linux" superClass="iar.arm.toolchain.targetPlatform.v8.0.0"/>
+							<builder buildPath="${workspace_loc:/Master.OS}/Debug" id="iar.arm.toolchain.builder.v8.0.0.1145426999" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="iar.arm.toolchain.builder.v8.0.0"/>
+							<tool id="iar.arm.toolchain.compiler.v8.0.0.2025069043" name="IAR C/C++ Compiler for ARM" superClass="iar.arm.toolchain.compiler.v8.0.0">
+								<option defaultValue="true" id="iar.arm.toolchain.compiler.option.debugInfo.v8.0.0.745012460" name="Generate debug information" superClass="iar.arm.toolchain.compiler.option.debugInfo.v8.0.0" valueType="boolean"/>
+								<option defaultValue="iar.arm.toolchain.compiler.option.optLevel.none.v8.0.0" id="iar.arm.toolchain.compiler.option.optLevel.v8.0.0.540437082" name="Optimization level:" superClass="iar.arm.toolchain.compiler.option.optLevel.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.optLevel.highBalance.v8.0.0" valueType="enumerated"/>
+								<option id="iar.arm.toolchain.compiler.option.optCSE.v8.0.0.1401209755" name="Disable common subexpression elimination" superClass="iar.arm.toolchain.compiler.option.optCSE.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optUnroll.v8.0.0.1569922516" name="Disable loop unrolling" superClass="iar.arm.toolchain.compiler.option.optUnroll.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optInline.v8.0.0.253881869" name="Disable function inlining" superClass="iar.arm.toolchain.compiler.option.optInline.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optCodeMotion.v8.0.0.628106949" name="Disable code motion" superClass="iar.arm.toolchain.compiler.option.optCodeMotion.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optAliasAnalysis.v8.0.0.500315947" name="Disable type-based alias analysis" superClass="iar.arm.toolchain.compiler.option.optAliasAnalysis.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optStaticClustering.v8.0.0.387672945" name="Disable static clustering" superClass="iar.arm.toolchain.compiler.option.optStaticClustering.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.optScheduling.v8.0.0.917420003" name="Disable instruction scheduling" superClass="iar.arm.toolchain.compiler.option.optScheduling.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.cpuMode.v8.0.0.350458022" name="Processor mode:" superClass="iar.arm.toolchain.compiler.option.cpuMode.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.cpuMode.thumb.v8.0.0" valueType="enumerated"/>
+								<option id="iar.arm.toolchain.compiler.option.language.v8.0.0.1667310524" name="Language" superClass="iar.arm.toolchain.compiler.option.language.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.compiler.option.charIs.v8.0.0.285592384" name="Plain 'char' is:" superClass="iar.arm.toolchain.compiler.option.charIs.v8.0.0" useByScannerDiscovery="false" value="iar.arm.toolchain.compiler.option.charIs.signed.v8.0.0" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.incPaths.v8.0.0.662741460" name="Additional include directories" superClass="iar.arm.toolchain.compiler.option.incPaths.v8.0.0" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Includes}&quot;"/>
+								</option>
+								<option id="iar.arm.toolchain.compiler.option.requirePrototypes.v8.0.0.852803610" name="Require prototypes" superClass="iar.arm.toolchain.compiler.option.requirePrototypes.v8.0.0" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.defines.v8.0.0.1259753288" name="Defined Symbols:" superClass="iar.arm.toolchain.compiler.option.defines.v8.0.0" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__UsrSP_SysSP__"/>
+									<listOptionValue builtIn="false" value="Master_OS_Use_BootLoader"/>
+								</option>
+								<option id="iar.arm.toolchain.compiler.option.additionalUserOptions.v8.0.0.1599740269" name="Use command line options" superClass="iar.arm.toolchain.compiler.option.additionalUserOptions.v8.0.0" useByScannerDiscovery="false" value="--section .data=.Master.OS.DATA --section .bss=.Master.OS.DATA" valueType="string"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.compiler.option.preincludeFile.v8.0.0.1678864262" name="Preinclude file:" superClass="iar.arm.toolchain.compiler.option.preincludeFile.v8.0.0" useByScannerDiscovery="false" valueType="includeFiles">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Config/Master.OS.Config.Xpeng.E28.h}&quot;"/>
+								</option>
+								<inputType id="iar.arm.toolchain.compiler.inputType.c.v8.0.0.2010989799" name="IAR C/C++ Compiler Input Type" superClass="iar.arm.toolchain.compiler.inputType.c.v8.0.0"/>
+							</tool>
+							<tool id="iar.arm.toolchain.assembler.v8.0.0.1610179227" name="IAR Assembler for ARM" superClass="iar.arm.toolchain.assembler.v8.0.0">
+								<option defaultValue="true" id="iar.arm.toolchain.assembler.option.debugInfo.v8.0.0.1360019549" name="Generate debug information" superClass="iar.arm.toolchain.assembler.option.debugInfo.v8.0.0" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.assembler.option.includePaths.v8.0.0.597224227" name="Additional include directories:" superClass="iar.arm.toolchain.assembler.option.includePaths.v8.0.0" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Includes}&quot;"/>
+								</option>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="iar.arm.toolchain.assembler.option.definedSymbols.v8.0.0.1749103150" name="Defined symbols:" superClass="iar.arm.toolchain.assembler.option.definedSymbols.v8.0.0" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__UsrSP_SysSP__"/>
+									<listOptionValue builtIn="false" value="Master_OS_Use_BootLoader"/>
+								</option>
+								<inputType id="iar.arm.toolchain.assembler.inputType.asmFile.v8.0.0.1645283646" name="IAR Assembler input type for ARM (asm, s)" superClass="iar.arm.toolchain.assembler.inputType.asmFile.v8.0.0"/>
+							</tool>
+							<tool id="iar.arm.toolchain.linker.v8.0.0.1190907517" name="IAR Linker for ARM" superClass="iar.arm.toolchain.linker.v8.0.0">
+								<option id="iar.arm.toolchain.linker.option.icfFile.v8.0.0.1248144462" name="Linker configuration file:" superClass="iar.arm.toolchain.linker.option.icfFile.v8.0.0" useByScannerDiscovery="false" value="" valueType="string"/>
+								<option id="iar.arm.toolchain.linker.option.devicePostProcess.v8.0.0.1112387250" name="IElfToolPostProcess" superClass="iar.arm.toolchain.linker.option.devicePostProcess.v8.0.0"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::file.v8.4.0.818803353" name="Raw binary image file:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::file.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::symbol.v8.4.0.1377057834" name="Symbol:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::symbol.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::segment.v8.4.0.141133380" name="Section:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::segment.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::alignment.v8.4.0.183327594" name="Align:" superClass="iar.arm.toolchain.linker.option.OhIlinkCom::OIlinkRawBinaryImage::alignment.v8.4.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.imageInput.v8.0.0.175272837" name="Raw binary image (LEGACY):" superClass="iar.arm.toolchain.linker.option.imageInput.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.performVFE.v8.0.0.1911479376" name="Perform C++ Virtual Function Elimination" superClass="iar.arm.toolchain.linker.option.performVFE.v8.0.0" useByScannerDiscovery="false"/>
+								<option id="iar.arm.toolchain.linker.option.forceVFE.v8.0.0.870354950" name="Even if some modules are missing VFE information" superClass="iar.arm.toolchain.linker.option.forceVFE.v8.0.0" useByScannerDiscovery="false"/>
+								<inputType id="iar.arm.toolchain.linker.inputType.object.v8.0.0.9235498" name="IAR Linker Input Type for ARM (o)" superClass="iar.arm.toolchain.linker.inputType.object.v8.0.0">
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+								</inputType>
+							</tool>
+							<tool commandLinePattern="${COMMAND} ${INPUTS} --create ${OUTPUT_FLAG} ..\Release.Library\${OUTPUT_PREFIX}${OUTPUT} ${FLAGS}" id="iar.arm.toolchain.archive.v8.0.0.276452529" name="IAR Library Builder for ARM" superClass="iar.arm.toolchain.archive.v8.0.0"/>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
@@ -1182,14 +1690,19 @@
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Release.ARM.V7.M4"/>
 		<configuration configurationName="Release.ARM.V7.R5.FPU.MPU"/>
-		<configuration configurationName="Release.ARM.V7.R5.MPU"/>
 		<configuration configurationName="Release.ARM.V7.M7"/>
+		<configuration configurationName="Release.XPeng.E28.BootLoader"/>
 		<configuration configurationName="Release.ARM.V7.M4.FPU"/>
-		<configuration configurationName="Release.ARM.V7.M4.FPU.MPU"/>
-		<configuration configurationName="Release.ARM.V6.M0Plus"/>
 		<configuration configurationName="Release.ARM.V7.R5"/>
-		<configuration configurationName="Release.ARM.V7.R5.FPU"/>
+		<configuration configurationName="Release.ARM.V6.M0Plus.Application"/>
 		<configuration configurationName="Release.ARM.V7.M4.MPU"/>
+		<configuration configurationName="Release.Geely.HX11.BootLoader"/>
+		<configuration configurationName="Release.ARM.V7.R5.MPU"/>
+		<configuration configurationName="Release.ARM.V7.M4.FPU.MPU"/>
+		<configuration configurationName="Release.ARM.V6.M0Plus.BootLoader"/>
+		<configuration configurationName="Release.Geely.HX11.Application"/>
+		<configuration configurationName="Release.ARM.V6.M0Plus"/>
+		<configuration configurationName="Release.ARM.V7.R5.FPU"/>
 		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/Master.OS"/>
 		</configuration>

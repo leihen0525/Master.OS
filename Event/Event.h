@@ -8,6 +8,8 @@
 #ifndef EVENT_H_
 #define EVENT_H_
 
+//#include "Master.OS.Config.h"
+
 #include "Master.Stdint.h"
 #include "Event.Enum.h"
 #include "__Event.Enum.h"

@@ -51,8 +51,9 @@ int __Sys_Event_Flag_Group_Create(
 
 	if((Handle=Event_Node_Add_Node(Name,Event_Pend_Event_Flag_Group,Temp_DATA_Node))<Valid_Handle)
 	{
-
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(Temp_DATA_Node);
+#endif
 		return Handle;
 	}
 	return Handle;
@@ -148,7 +149,9 @@ int __Sys_Event_Flag_Group_Open(int Handle)
 
 	if((Err=Scheduling_Task_Event_List_Add_Node(Temp_TCB,Handle,Temp_DATA))!=Error_OK)
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(Temp_DATA);
+#endif
 		return Err;
 	}
 	return Error_OK;

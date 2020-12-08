@@ -8,9 +8,13 @@
 #ifndef SHELL_UART_H_
 #define SHELL_UART_H_
 
+//#include "Master.OS.Config.h"
+
 #include "Master.Stdint.h"
 
 #include "Machine/Machine.Struct.h"
+
+#ifdef Master_OS_Config_Shell
 
 int Shell_UART_Init(Machine_Desc_UART_Type *P_UART);
 
@@ -22,5 +26,6 @@ int Shell_UART_Tx_FIFO_Init(void);
 int Shell_UART_Tx_FIFO_In(uint8_t DATA);
 int Shell_UART_Tx_FIFO_Out(uint8_t *DATA);
 
+#endif
 
 #endif /* SHELL_UART_H_ */

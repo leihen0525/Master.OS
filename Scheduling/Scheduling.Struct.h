@@ -14,9 +14,15 @@
 
 typedef struct
 {
+	uint16_t Count;
+	uint16_t Count_Task_Idle;
+	uint16_t CPU_Load;
+
 	__Sys_Scheduling_Task_TCB_Type *Last_TCB;
 
 	__Sys_Scheduling_Task_TCB_Type *Current_TCB;
+
+
 
 }Scheduling_DATA_Type;
 

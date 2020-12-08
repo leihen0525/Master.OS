@@ -10,6 +10,7 @@
 
 #include "Shell.h"
 
+#ifdef Master_OS_Config_Shell
 
 int Shell_Init(Machine_Desc_UART_Type *P_UART)
 {
@@ -22,3 +23,5 @@ int Shell_Init(Machine_Desc_UART_Type *P_UART)
 
 	return Error_OK;
 }
+
+#endif

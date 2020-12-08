@@ -8,7 +8,7 @@
 #ifndef IRQ_H_
 #define IRQ_H_
 
-#include "Master.OS.Config.h"
+//#include "Master.OS.Config.h"
 #include "IRQ.Define.h"
 
 #include "Machine/Machine.Struct.h"

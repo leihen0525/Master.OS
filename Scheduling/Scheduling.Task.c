@@ -19,7 +19,9 @@ int Scheduling_Task_Create(
 		char *Name,
 		Task_Enter_Function Task_Enter,
 		void *Args,
+#ifdef Master_OS_Config_Scheduling_Exit_Task
 		Task_Exit_Function Task_Exit,
+#endif
 		uint8_t Priority,
 		uint32_t *Stack,
 		uint32_t Stack_Size_4Byte,
@@ -29,7 +31,9 @@ int Scheduling_Task_Create(
 
 	if(P_Task_TCB==Null
 	|| Task_Enter==Null
+#ifdef Master_OS_Config_Scheduling_Exit_Task
 	|| Task_Exit==Null
+#endif
 	|| Stack_Size_4Byte==0)
 	{
 		return Error_Invalid_Parameter;
@@ -180,7 +184,15 @@ int Scheduling_Task_Create(
 #ifdef __MPU__
 	Temp_Task_TCB->Stack_User.Count=0;
 #endif
-	if((Err=Scheduling_Task_Stack_Init(Task_Enter,Args,Task_Exit,&Temp_Task_TCB->Stack_System.SP,&Temp_Task_TCB->Stack_User.SP,Option))!=Error_OK)
+	if((Err=Scheduling_Task_Stack_Init(
+			Task_Enter,
+			Args,
+#ifdef Master_OS_Config_Scheduling_Exit_Task
+			Task_Exit,
+#endif
+			&Temp_Task_TCB->Stack_System.SP,
+			&Temp_Task_TCB->Stack_User.SP,
+			Option))!=Error_OK)
 	{
 		goto Task_Create_Exit_5;
 	}
@@ -231,21 +243,28 @@ Task_Create_Exit_5:
 
 	if((Temp_Task_TCB->Info.Option&Scheduling_Task_Option_System)!=0)
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(Temp_Task_TCB->Stack_User.SP_Head);
+#endif
 	}
 	else
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Usr_Memory_Free(Temp_Task_TCB->Stack_User.SP_Head);
+#endif
 	}
 
 Task_Create_Exit_4:
+#ifdef Master_OS_Config_Memory_Free
 	__Sys_Memory_Free(Temp_Task_TCB->Stack_System.SP_Head);
-
+#endif
 #else
 Task_Create_Exit_4:
 	if(Stack==Null)
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(Temp_Task_TCB->Stack.SP_Head);
+#endif
 	}
 
 #endif
@@ -253,10 +272,14 @@ Task_Create_Exit_4:
 Task_Create_Exit_3:
 	if(Temp_Task_TCB->Info.Name!=Null)
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(Temp_Task_TCB->Info.Name);
+#endif
 	}
 Task_Create_Exit_2:
+#ifdef Master_OS_Config_Memory_Free
 	__Sys_Memory_Free(Temp_Task_TCB);
+#endif
 Task_Create_Exit_1:
 	return Err;
 }
@@ -267,27 +290,36 @@ int Scheduling_Task_Release(__Sys_Scheduling_Task_TCB_Type *P_Task_TCB)
 		return Error_Invalid_Parameter;
 	}
 #ifdef __UsrSP_SysSP__
-
+#ifdef Master_OS_Config_Memory_Free
 	__Sys_Memory_Free(P_Task_TCB->Stack_System.SP_Head);
-
+#endif
 	if((P_Task_TCB->Info.Option&Scheduling_Task_Option_System)!=0)
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(P_Task_TCB->Stack_User.SP_Head);
+#endif
 	}
 	else
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Usr_Memory_Free(P_Task_TCB->Stack_User.SP_Head);
+#endif
 	}
 #else
+#ifdef Master_OS_Config_Memory_Free
 	__Sys_Memory_Free(P_Task_TCB->Stack.SP_Head);
+#endif
 #endif
 
 	if(P_Task_TCB->Info.Name!=Null)
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(P_Task_TCB->Info.Name);
+#endif
 	}
+#ifdef Master_OS_Config_Memory_Free
 	__Sys_Memory_Free(P_Task_TCB);
-
+#endif
 	return Error_OK;
 }
 int Scheduling_Task_Create_Idle(
@@ -337,7 +369,9 @@ int Scheduling_Task_Create_Idle(
 
 
 Task_Create_Exit_2:
+#ifdef Master_OS_Config_Memory_Free
 	__Sys_Memory_Free(Temp_Task_TCB);
+#endif
 Task_Create_Exit_1:
 	return Err;
 }
@@ -349,10 +383,13 @@ int Scheduling_Task_Release_Idle(__Sys_Scheduling_Task_TCB_Type *P_Task_TCB)
 	}
 	if(P_Task_TCB->Info.Name!=Null)
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(P_Task_TCB->Info.Name);
+#endif
 	}
+#ifdef Master_OS_Config_Memory_Free
 	__Sys_Memory_Free(P_Task_TCB);
-
+#endif
 	return Error_OK;
 }
 //-----------------------------------
@@ -477,8 +514,9 @@ int Scheduling_Task_Event_List_Delete_Node(
 
 			*DATA=Temp_Node->DATA;
 
+#ifdef Master_OS_Config_Memory_Free
 			__Sys_Memory_Free(Temp_Node);
-
+#endif
 			return Error_OK;
 		}
 

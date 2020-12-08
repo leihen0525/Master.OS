@@ -29,6 +29,8 @@ int Timer_Init(Machine_Desc_Timer_Type *P_Timer)
 	}
 	Timer_DATA.Timer=P_Timer;
 
+	Timer_DATA.Counter=0;
+
 	if(Timer_DATA.Timer->Init==Null
 	|| Timer_DATA.Timer->GET_Flag==Null
 	|| Timer_DATA.Timer->Enable==Null
@@ -89,6 +91,15 @@ int Timer_Get_Flag(void)
 	}
 	return Timer_DATA.Timer->GET_Flag();
 }
+int __Sys_Timer_GET_Counter(uint64_t *Counter_MS)
+{
+	if(Counter_MS==Null)
+	{
+		return Error_Invalid_Parameter;
+	}
+	*Counter_MS=Timer_DATA.Counter;
+	return Error_OK;
+}
 #ifdef Master_OS_Config_Timer_Enable
 int __Sys_Timer_Enable(void)
 {
@@ -113,6 +124,7 @@ void Timer_IRQ(void *Args,int IRQ_Index)
 {
 	if(Timer_Get_Flag()==Error_OK)
 	{
+		Timer_DATA.Counter++;
 
 		__Timer_SysTick_Entry();
 
@@ -164,7 +176,9 @@ int __Sys_Timer_Register(
 
 	if((Err=Timer_Add_Timer_Queue(Temp_Timer_Node,-1))!=Error_OK)
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(Temp_Timer_Node);
+#endif
 		return Err;
 	}
 
@@ -238,7 +252,9 @@ int __Sys_Timer_Start(
 
 	if((Err=Timer_Add_Timer_Queue(Temp_Node,Cycle_Time_MS))!=Error_OK)
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(Temp_Node);
+#endif
 		return Err;
 	}
 	return Error_OK;
@@ -269,7 +285,9 @@ int __Sys_Timer_Stop(int Handle)
 
 	if((Err=Timer_Add_Timer_Queue(Temp_Node,-1))!=Error_OK)
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(Temp_Node);
+#endif
 		return Err;
 	}
 	return Error_OK;
@@ -388,7 +406,9 @@ int __Sys_Timer_Reset(int Handle)//复位
 
 		if((Err=Timer_Add_Timer_Queue(Temp_Node,-1))!=Error_OK)
 		{
+#ifdef Master_OS_Config_Memory_Free
 			__Sys_Memory_Free(Temp_Node);
+#endif
 			return Err;
 		}
 
@@ -403,7 +423,9 @@ int __Sys_Timer_Reset(int Handle)//复位
 
 	if((Err=Timer_Add_Timer_Queue(Temp_Node,Temp_Node->Cycle_Time_MS))!=Error_OK)
 	{
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(Temp_Node);
+#endif
 		return Err;
 	}
 	return Error_OK;

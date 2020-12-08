@@ -15,6 +15,8 @@
 
 #include "IRQ/IRQ.h"
 
+#ifdef Master_OS_Config_Shell
+
 Shell_UART_DATA_Type Shell_UART_DATA;
 
 int Shell_UART_Init(Machine_Desc_UART_Type *P_UART)
@@ -192,3 +194,5 @@ int Shell_UART_Tx_FIFO_Out(uint8_t *DATA)
 		return Error_OK;
 	}
 }
+
+#endif

@@ -13,7 +13,7 @@
 #include "Init/Init.Module.h"
 
 
-//uint32_t Stack_Task[Stack_Task_Task_4Byte];
+
 
 
 __task void Task_Idle(void *Args)
@@ -24,7 +24,7 @@ __task void Task_Idle(void *Args)
 	{
 		while(1);
 	}
-	
+
 	while(1)
 	{
 

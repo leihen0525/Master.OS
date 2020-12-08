@@ -8,6 +8,8 @@
 #ifndef SCHEDULING_TASK_H_
 #define SCHEDULING_TASK_H_
 
+//#include "Master.OS.Config.h"
+
 #include "Master.Stdint.h"
 
 #include "Scheduling.Task.Define.h"
@@ -18,7 +20,9 @@ int Scheduling_Task_Create(
 		char *Name,
 		Task_Enter_Function Task_Enter,
 		void *Args,
+#ifdef Master_OS_Config_Scheduling_Exit_Task
 		Task_Exit_Function Task_Exit,
+#endif
 		uint8_t Priority,
 		uint32_t *Stack,
 		uint32_t Stack_Size_4Byte,

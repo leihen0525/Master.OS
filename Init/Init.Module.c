@@ -32,7 +32,9 @@ int Module_Init_Task(void)
 										Index->Name,
 										Index->Task_Enter,
 										Index->Args,
+
 										Scheduling_Exit_Task,
+
 										Index->Priority,
 										Index->Stack,
 										Index->Stack_Size_4Byte,

@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-#include "Master.OS.Config.h"
+//#include "Master.OS.Config.h"
 #include "Master.Stdint.h"
 #include "Scheduling.Task.Enum.h"
 #include "Scheduling.Task.Define.h"
@@ -29,15 +29,17 @@ int __Sys_Apply_Handle(void);
 int __Sys_BSP_UpData_Clock_Tree(
 		void **Clock_Source,
 		void **Clock_Tree);
-
+#ifdef Master_OS_Config_BSP_System_Reset
+int __Sys_BSP_System_Reset(void);
+#endif
 #ifdef Master_OS_Config_BSP_Wdog_Enable
 int __Sys_BSP_Wdog_Enable(void);
 #endif
 #ifdef Master_OS_Config_BSP_Wdog_Disable
 int __Sys_BSP_Wdog_Disable(void);
 #endif
-#ifdef Master_OS_Config_BSP_Wdog_Clear
-int __Sys_BSP_Wdog_Clear(void);
+#ifdef Master_OS_Config_BSP_Wdog_Refresh
+int __Sys_BSP_Wdog_Refresh(void);
 #endif
 
 //Memory
@@ -133,7 +135,9 @@ int __Sys_Scheduling_Create_Task(
 		char *Name,
 		Task_Enter_Function Task_Enter,
 		void *Args,
+
 		Task_Exit_Function Task_Exit,
+
 		uint8_t Priority,
 		uint32_t *Stack,
 		uint32_t Stack_Size_4Byte,
@@ -462,6 +466,7 @@ int __Sys_Semaphore_Group_Release(
 #endif
 
 //Timer
+int __Sys_Timer_GET_Counter(uint64_t *Counter_MS);
 #ifdef Master_OS_Config_Timer_Enable
 int __Sys_Timer_Enable(void);
 #endif

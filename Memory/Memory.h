@@ -9,7 +9,7 @@
 #define MEMORY_H_
 
 #include "Master.Stdint.h"
-#include "Master.OS.Config.h"
+//#include "Master.OS.Config.h"
 
 #include "Memory.Struct.h"
 
@@ -35,10 +35,13 @@ uint32_t __Usr_Memory_Size_Malloc(void);
 uint32_t __Usr_Memory_Size_Free(void);
 void *__Usr_Memory_Malloc_Align(uint32_t Size,uint32_t Align);
 void *__Usr_Memory_Malloc(uint32_t Size);
-
+#ifdef Master_OS_Config_Memory_Free
 void __Usr_Memory_Free(void *ap);
+#endif
 //------------------------------------------------
+#ifdef __Memory_TEST__
 int __Memory_Test_List(Memory_Node_List_Type *P_List_DATA);
+#endif
 int __Memory_Init(
 		Memory_DATA_Type *P_Memory_DATA,
 		uint8_t *HEAP,
@@ -47,7 +50,9 @@ int __Memory_Init(
 uint32_t __Memory_Size_Malloc(Memory_DATA_Type *P_Memory_DATA);
 uint32_t __Memory_Size_Free(Memory_DATA_Type *P_Memory_DATA);
 void *__Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t Align);
+#ifdef Master_OS_Config_Memory_Free
 void __Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap);
+#endif
 //-------------------------------------------------
 
 int __Memory_Calculate_Node_Verify(Memory_Node_Type *P_Node_DATA,uint32_t Size_Byte,Memory_Node_Type *P_Node_NEXT);

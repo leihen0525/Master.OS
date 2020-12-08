@@ -14,7 +14,9 @@
 int Scheduling_Task_Stack_Init(
 		Task_Enter_Function Task_Enter,
 		void *Args,
+#ifdef Master_OS_Config_Scheduling_Exit_Task
 		Task_Exit_Function Task_Exit,
+#endif
 #ifdef __UsrSP_SysSP__
 		uint32_t **Sys_SP,
 		uint32_t **Usr_SP,
@@ -26,7 +28,9 @@ int Scheduling_Task_Stack_Init(
 
 
 	if(Task_Enter==Null
+#ifdef Master_OS_Config_Scheduling_Exit_Task
 	|| Task_Exit==Null
+#endif
 #ifdef __UsrSP_SysSP__
 	|| Sys_SP==Null
 	|| Usr_SP==Null
@@ -68,7 +72,11 @@ int Scheduling_Task_Stack_Init(
 	P_Task_Stack_CPU_PSP->PSP_R2=0x22222222;
 	P_Task_Stack_CPU_PSP->PSP_R3=0x33333333;
 	P_Task_Stack_CPU_PSP->PSP_R12=0xCCCCCCCC;
+#ifdef Master_OS_Config_Scheduling_Exit_Task
 	P_Task_Stack_CPU_PSP->PSP_LR=(uint32_t)Task_Exit;
+#else
+	P_Task_Stack_CPU_PSP->PSP_LR=0xFFFFFFFF,//?????
+#endif
 	P_Task_Stack_CPU_PSP->PSP_PC=(uint32_t)Task_Enter;
 	P_Task_Stack_CPU_PSP->xPSR=0x01000000;
 
@@ -81,14 +89,14 @@ int Scheduling_Task_Stack_Init(
 	P_Task_Stack_CPU=(Scheduling_Task_Stack_CPU_Type *)*SP;
 
 
-	P_Task_Stack_CPU->MSP_R4=0x04;
-	P_Task_Stack_CPU->MSP_R5=0x05;
-	P_Task_Stack_CPU->MSP_R6=0x06;
-	P_Task_Stack_CPU->MSP_R7=0x07;
-	P_Task_Stack_CPU->MSP_R8=0x08;
-	P_Task_Stack_CPU->MSP_R9=0x09;
-	P_Task_Stack_CPU->MSP_R10=0x10;
-	P_Task_Stack_CPU->MSP_R11=0x11;
+	P_Task_Stack_CPU->MSP_R4=0x44444444;
+	P_Task_Stack_CPU->MSP_R5=0x55555555;
+	P_Task_Stack_CPU->MSP_R6=0x66666666;
+	P_Task_Stack_CPU->MSP_R7=0x77777777;
+	P_Task_Stack_CPU->MSP_R8=0x88888888;
+	P_Task_Stack_CPU->MSP_R9=0x99999999;
+	P_Task_Stack_CPU->MSP_R10=0xAAAAAAAA;
+	P_Task_Stack_CPU->MSP_R11=0xBBBBBBBB;
 
 	P_Task_Stack_CPU->MSP_LR=0xfffffffd;
 	//P_Task_Stack_CPU->MSP_LR1=0xfffffffd;
@@ -96,10 +104,10 @@ int Scheduling_Task_Stack_Init(
 	P_Task_Stack_CPU->PSP=(uint32_t)&P_Task_Stack_CPU->PSP_R0;
 
 	P_Task_Stack_CPU->PSP_R0=(uint32_t)Args;
-	P_Task_Stack_CPU->PSP_R1=0x01;
-	P_Task_Stack_CPU->PSP_R2=0x02;
-	P_Task_Stack_CPU->PSP_R3=0x03;
-	P_Task_Stack_CPU->PSP_R12=0x12;
+	P_Task_Stack_CPU->PSP_R1=0x11111111;
+	P_Task_Stack_CPU->PSP_R2=0x22222222;
+	P_Task_Stack_CPU->PSP_R3=0x33333333;
+	P_Task_Stack_CPU->PSP_R12=0xCCCCCCCC;
 	P_Task_Stack_CPU->PSP_LR=(uint32_t)Task_Exit;
 	P_Task_Stack_CPU->PSP_PC=(uint32_t)Task_Enter;
 	P_Task_Stack_CPU->xPSR=0x01000000;

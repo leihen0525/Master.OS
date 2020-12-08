@@ -14,7 +14,7 @@ typedef struct
 
 	int (*Enable)(void);
 	int (*Disable)(void);
-	int (*Clear)(void);
+	int (*Refresh)(void);
 
 }Machine_Desc_Wdog_Type;
 //-------------------------------------------------------------------------
@@ -70,6 +70,8 @@ typedef struct
 	void *Clock_Tree;
 
 	int (*UpData_Clock_Tree)(void);
+
+
 }Machine_Desc_CPU_Type;
 //-------------------------------------------------------------------------
 #ifdef __MPU__
@@ -119,6 +121,8 @@ typedef struct
 
 
 	int (*Init)(void);
+
+	int (*System_Reset)(void);
 
 	Machine_Desc_Wdog_Type Wdog;
 

@@ -14,6 +14,8 @@
 
 typedef struct
 {
+	int (*System_Reset)(void);
+
 	Machine_Desc_Wdog_Type *Wdog;
 	Machine_Desc_CPU_Type *CPU;
 

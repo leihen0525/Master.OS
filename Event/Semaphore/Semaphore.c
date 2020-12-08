@@ -51,8 +51,9 @@ int __Sys_Semaphore_Create(
 
 	if((Handle=Event_Node_Add_Node(Name,Event_Pend_Semaphore,Temp_DATA_Node))<Valid_Handle)
 	{
-
+#ifdef Master_OS_Config_Memory_Free
 		__Sys_Memory_Free(Temp_DATA_Node);
+#endif
 		return Handle;
 	}
 	return Handle;

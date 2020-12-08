@@ -8,7 +8,7 @@
 #ifndef SCHEDULING_H_
 #define SCHEDULING_H_
 
-#include "Master.OS.Config.h"
+//#include "Master.OS.Config.h"
 #include "Scheduling.Task.Enum.h"
 #include "Scheduling.Task.Define.h"
 
@@ -21,7 +21,9 @@ int __Sys_Scheduling_Create_Task(
 		char *Name,
 		Task_Enter_Function Task_Enter,
 		void *Args,
+
 		Task_Exit_Function Task_Exit,
+
 		uint8_t Priority,
 		uint32_t *Stack,
 		uint32_t Stack_Size_4Byte,

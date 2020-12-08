@@ -58,7 +58,7 @@ typedef struct
 	//定时器队列
 	Timer_Queue_Type Timer_Queue;
 
-
+	uint64_t Counter;
 
 
 }Timer_DATA_Type;

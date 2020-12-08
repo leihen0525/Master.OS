@@ -8,6 +8,8 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
+//#include "Master.OS.Config.h"
+
 #include "Master.Stdint.h"
 
 #include "Timer.Struct.h"
@@ -17,6 +19,7 @@ int Timer_Init(Machine_Desc_Timer_Type *P_Timer);
 
 int Timer_Get_Flag(void);
 
+int __Sys_Timer_GET_Counter(uint64_t *Counter_MS);
 #ifdef Master_OS_Config_Timer_Enable
 int __Sys_Timer_Enable(void);
 #endif

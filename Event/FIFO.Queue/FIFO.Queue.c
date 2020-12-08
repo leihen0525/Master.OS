@@ -82,11 +82,17 @@ int __Sys_FIFO_Queue_Create(
 	return Err;
 
 FIFO_Queue_Create_Exit4:
+#ifdef Master_OS_Config_Memory_Free
 	__Sys_Memory_Free(Temp_DATA_Node->FIFO_Queue.FIFO_Size);
+#endif
 FIFO_Queue_Create_Exit3:
+#ifdef Master_OS_Config_Memory_Free
 	__Sys_Memory_Free(Temp_DATA_Node->FIFO_Queue.FIFO_DATA);
+#endif
 FIFO_Queue_Create_Exit2:
+#ifdef Master_OS_Config_Memory_Free
 	__Sys_Memory_Free(Temp_DATA_Node);
+#endif
 FIFO_Queue_Create_Exit1:
 	return Err;
 

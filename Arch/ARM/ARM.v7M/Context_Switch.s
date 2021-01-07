@@ -16,9 +16,6 @@
 //2.不为空，则保存当前CPU寄存器信息到当前任务的TCB中
 //3.将下一个运行任务的TCB的内核和用户堆栈空间数据从TCB中取出，并初始化当前CPU寄存器
 
-#include "../Interrupt_Header.inc"
-
-
 
 #if (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'M')
 
@@ -54,6 +51,7 @@ Clear_Idle_Stack_Loop:
 
 	mov pc,r2
 
+//-----------------------------------------------------------------------
 
 	PUBLIC __Sys_Switch_To
 __Sys_Switch_To
@@ -77,35 +75,17 @@ __Sys_Switch_To
 	MRS R4,PSP
 	STR R4,[R2]
 #else
-/*
-	MRS R12, PSP
-	PUSH {R12}
 
-	PUSH {lr}
+	stmdb sp!,{r4-r12,lr}
 
-	PUSH {R4-R11}
+	MRS R4, PSP
+	PUSH {R4}
 
 
-
-	MRS R12, MSP
-	STR R12,[R0]
-
-__Sys_Switch_To_Step2
+	MRS R4, MSP
+	STR R4,[R0]
 
 
-	LDR R12, [R1]						// 把next task 的sp指针送到R12中.
-
-	MSR MSP, R12							//将新的SP更新到PSP中
-
-
-	POP {R4-R11}
-	POP {lr}
-
-	POP {R12}
-	MSR PSP, R12
-
-	bx lr
-*/
 #endif
 
 __Sys_Switch_To_Step2
@@ -123,6 +103,16 @@ __Sys_Switch_To_Step2
 
 
 #else
+
+	LDR R0, [R1]						// 把next task 的sp指针送到R12中.
+	MSR MSP, R0							//将新的SP更新到PSP中
+
+	POP {R4}
+	MSR PSP, R4
+
+	ldmia sp!,{r4-r12,pc}
+
+
 #endif
 
 

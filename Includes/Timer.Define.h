@@ -8,6 +8,6 @@
 #ifndef TIMER_DEFINE_H_
 #define TIMER_DEFINE_H_
 
-typedef void (*Timer_Enter_Function)(void *);
+typedef void (*Timer_Enter_Function)(void *Args);
 
 #endif /* TIMER_DEFINE_H_ */

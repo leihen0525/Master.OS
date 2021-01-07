@@ -100,7 +100,7 @@
 #define Master_OS_Config_FIFO_Queue_Open
 //#define Master_OS_Config_FIFO_Queue_Close
 #define Master_OS_Config_FIFO_Queue_Wait
-//#define Master_OS_Config_FIFO_Queue_Clear
+#define Master_OS_Config_FIFO_Queue_Clear
 #define Master_OS_Config_FIFO_Queue_Set
 
 

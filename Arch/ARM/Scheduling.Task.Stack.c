@@ -97,9 +97,9 @@ int Scheduling_Task_Stack_Init(
 	P_Task_Stack_CPU->MSP_R9=0x99999999;
 	P_Task_Stack_CPU->MSP_R10=0xAAAAAAAA;
 	P_Task_Stack_CPU->MSP_R11=0xBBBBBBBB;
-
+	P_Task_Stack_CPU->MSP_R12=0xCCCCCCCC;
 	P_Task_Stack_CPU->MSP_LR=0xfffffffd;
-	//P_Task_Stack_CPU->MSP_LR1=0xfffffffd;
+
 
 	P_Task_Stack_CPU->PSP=(uint32_t)&P_Task_Stack_CPU->PSP_R0;
 

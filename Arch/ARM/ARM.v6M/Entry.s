@@ -4,13 +4,9 @@
  *  Created on: 2020年12月2日
  *      Author: Master.HE
  */
-#include "../Interrupt_Header.inc"
+#if (__ARM_ARCH == 6) && (__ARM_ARCH_PROFILE == 'M')
 
 	MODULE Entry
-
-
-
-#if (__ARM_ARCH == 6) && (__ARM_ARCH_PROFILE == 'M')
 
 	SECTION CSTACK:DATA:NOROOT(3)
 
@@ -20,10 +16,9 @@
 	PUBLIC __iar_program_start
 	PUBLIC __Master_OS_vector_table
 
+	EXTERN __Interrupt_Entry
 	DATA
 
-//__iar_init$$done:					; The vector table is not needed
-									; until after copy initialization is done
 
 __Master_OS_vector_table
 	DCD sfe(CSTACK)
@@ -52,6 +47,7 @@ __Master_OS_vector_table
 	DCD __Interrupt_Entry
 	ENDR
 
+	EXTWEAK BSP_Core_Init
 
 	EXTERN  Start_Kernel
 
@@ -59,7 +55,6 @@ __Master_OS_vector_table
 	EXTWEAK __iar_init_core
 	EXTWEAK __iar_init_vfp
 	EXTWEAK __iar_data_init_done
-	EXTWEAK __iar_argc_argv
 
 	PUBLIC _call_main
 
@@ -74,91 +69,73 @@ __iar_program_start:
 
 	BL BSP_Core_Init
 
-	//FUNCALL __iar_program_start, __iar_init_core
+
 	BL      __iar_init_core
-	//FUNCALL __iar_program_start, __iar_init_vfp
+
 	BL      __iar_init_vfp
 
-	//FUNCALL __iar_program_start, __cmain
-	//BL      __cmain
 	bl      __iar_data_init3
 
 _call_main:
 	BL      __iar_data_init_done
 
-	MOVS    r0,#0             ;  No parameters
-
-	//FUNCALL __cmain, __iar_argc_argv
-	BL      __iar_argc_argv   ; Maybe setup command line
 
 	bl Start_Kernel
 
 	REQUIRE __Master_OS_vector_table
 
 
-	PUBWEAK BSP_Core_Init
-	SECTION .text:CODE:REORDER:NOROOT(1)
-BSP_Core_Init
-	bx lr
-
-
 	PUBWEAK NMI_Handler
-	SECTION .text:CODE:REORDER:NOROOT(1)
+	SECTION .text:CODE:REORDER:NOROOT(2)
 NMI_Handler:
 	B NMI_Handler
 
 	PUBWEAK HardFault_Handler
-	SECTION .text:CODE:REORDER:NOROOT(1)
+	SECTION .text:CODE:REORDER:NOROOT(2)
 HardFault_Handler:
 	B HardFault_Handler
 
 	PUBWEAK MemManage_Handler
-	SECTION .text:CODE:REORDER:NOROOT(1)
+	SECTION .text:CODE:REORDER:NOROOT(2)
 MemManage_Handler:
 	B MemManage_Handler
 
 	PUBWEAK BusFault_Handler
-	SECTION .text:CODE:REORDER:NOROOT(1)
+	SECTION .text:CODE:REORDER:NOROOT(2)
 BusFault_Handler:
 	B BusFault_Handler
 
 	PUBWEAK UsageFault_Handler
-	SECTION .text:CODE:REORDER:NOROOT(1)
+	SECTION .text:CODE:REORDER:NOROOT(2)
 UsageFault_Handler:
 	B UsageFault_Handler
 
 	PUBWEAK __SVC_Entry
-	SECTION .text:CODE:REORDER:NOROOT(1)
+	SECTION .text:CODE:REORDER:NOROOT(2)
 __SVC_Entry:
 	B __SVC_Entry
 
 	PUBWEAK DebugMon_Handler
-	SECTION .text:CODE:REORDER:NOROOT(1)
+	SECTION .text:CODE:REORDER:NOROOT(2)
 DebugMon_Handler:
 	B DebugMon_Handler
 
 	PUBWEAK __PendSV_Entry
-	SECTION .text:CODE:REORDER:NOROOT(1)
+	SECTION .text:CODE:REORDER:NOROOT(2)
 __PendSV_Entry:
 	B __PendSV_Entry
 
 
 	PUBWEAK __SysTick_Entry
-	SECTION .text:CODE:REORDER:NOROOT(1)
+	SECTION .text:CODE:REORDER:NOROOT(2)
 __SysTick_Entry:
 	B __SysTick_Entry
 
 
 	PUBWEAK __Invalid_Entry
-	SECTION .text:CODE:REORDER:NOROOT(1)
+	SECTION .text:CODE:REORDER:NOROOT(2)
 __Invalid_Entry:
 	B __Invalid_Entry
-
-
-	PUBWEAK __Interrupt_Entry
-	SECTION .text:CODE:REORDER:NOROOT(1)
-__Interrupt_Entry:
-	B __Interrupt_Entry
 
 
 #endif

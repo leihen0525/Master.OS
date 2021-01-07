@@ -18,7 +18,6 @@
 typedef struct
 {
 #if (__ARM_ARCH == 6)
-
 	uint32_t MSP_R12;
 
 	uint32_t MSP_R8;
@@ -32,7 +31,6 @@ typedef struct
 	uint32_t MSP_R7;
 
 	uint32_t MSP_LR;
-
 #endif
 #if (__ARM_ARCH == 7)
 	uint32_t MSP_R4;
@@ -64,6 +62,24 @@ typedef struct
 #else
 typedef struct
 {
+	uint32_t PSP;
+
+#if (__ARM_ARCH == 6)
+	uint32_t MSP_R12;
+
+	uint32_t MSP_R8;
+	uint32_t MSP_R9;
+	uint32_t MSP_R10;
+	uint32_t MSP_R11;
+
+	uint32_t MSP_R4;
+	uint32_t MSP_R5;
+	uint32_t MSP_R6;
+	uint32_t MSP_R7;
+
+	uint32_t MSP_LR;
+#endif
+#if (__ARM_ARCH == 7)
 	uint32_t MSP_R4;
 	uint32_t MSP_R5;
 	uint32_t MSP_R6;
@@ -72,13 +88,9 @@ typedef struct
 	uint32_t MSP_R9;
 	uint32_t MSP_R10;
 	uint32_t MSP_R11;
-
+	uint32_t MSP_R12;
 	uint32_t MSP_LR;
-
-
-
-	uint32_t PSP;
-	//uint32_t MSP_LR1;
+#endif
 
 	uint32_t PSP_R0;
 	uint32_t PSP_R1;

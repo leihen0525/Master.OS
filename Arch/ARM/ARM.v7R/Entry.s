@@ -6,10 +6,9 @@
  */
 #include "../Interrupt_Header.inc"
 
-	MODULE Entry
-
-
 #if (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'R')
+
+	MODULE Entry
 
 	//SECTION IRQ_STACK:DATA:NOROOT(3)
 	//SECTION FIQ_STACK:DATA:NOROOT(3)
@@ -49,7 +48,7 @@ __vector:
 	SECTION .text:CODE:NOROOT(2)
 
 
-
+	EXTWEAK BSP_Core_Init
 
 	EXTERN  Start_Kernel
 
@@ -180,10 +179,6 @@ SCTLR_IE         DEFINE   0x80000000
 
 	ARM
 
-	PUBWEAK BSP_Core_Init
-	SECTION .text:CODE:NOROOT(2)
-BSP_Core_Init
-	bx lr
 
 	PUBWEAK Undefined_Handler
 	SECTION .text:CODE:NOROOT(2)

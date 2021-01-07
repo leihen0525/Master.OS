@@ -4,7 +4,6 @@
  *  Created on: 2020年12月2日
  *      Author: Master.HE
  */
-#include "../Interrupt_Header.inc"
 
 	MODULE Interrupt
 
@@ -15,9 +14,6 @@
 
 	EXTERN __Sys_Call_Table
 	EXTERN __IRQ_Entry
-	//EXTERN __Scheduling_SysTick_Entry
-	//EXTERN __Scheduling_PendSV_Entry
-	//EXTERN __Timer_SysTick_Entry
 
 
 	THUMB
@@ -31,6 +27,22 @@ __SVC_Entry
 
 #ifdef __UsrSP_SysSP__
 
+#else
+	//下面这个意思是
+	//if(lr==#0xfffffffd)
+	//{
+	//	r12=psp
+	//	msp=r12
+	//}
+	mov r12,r7
+	ldr r7,=0xfffffffd
+	cmp lr,r7
+	mov r7,r12
+	BNE __SVC_Entry_Next1
+	mrs r12,psp
+	msr msp,r12
+__SVC_Entry_Next1:
+#endif
 	push {lr}
 
 	sub sp,sp,#0x10
@@ -52,98 +64,73 @@ __SVC_Entry
 
 	str r0,[r7]
 
+#ifdef __UsrSP_SysSP__
+
 	pop {pc}
 
 #else
-	Exception_Entry
+	//pop {lr}
+	stmdb sp!,{lr}
 
-
-	sub sp,sp,#0x10
-
-	str r7,[sp,#0xC]
-	str r6,[sp,#0x8]
-	str r5,[sp,#0x4]
-	str r4,[sp]
-
-	ldr r6,=__Sys_Call_Table
-	lsls r8,r8,#2
-	ldr r8,[r6,r8]
-	blx r8
-
-	add sp,sp,#0x10
-
-	MRS R7, PSP
-
-	str r0,[r7]
-
-
-	Exception_Slow_Exit
-
+	//下面这个意思是
+	//if(lr==#0xfffffffd)
+	//{
+	//	r12=0
+	//	msp=r12
+	//}
+	ldr r7,=0xfffffffd
+	cmp lr,r7
+	BNE __SVC_Entry_Next2
+	movs r7,#0
+	msr msp,r7
+__SVC_Entry_Next2:
 	bx lr
 #endif
 
-
-
-	//B __SVC_Entry
-/*
-	PUBLIC __PendSV_Entry
-__PendSV_Entry
-	Exception_Entry
-
-
-
-	ldr r0,=__Scheduling_PendSV_Entry
-	blx r0
-
-
-
-	Exception_Slow_Exit
-
-	bx lr
-	//B __PendSV_Entry
-*/
-
-/*
-	PUBLIC __SysTick_Entry
-__SysTick_Entry
-
-	Exception_Entry
-
-	ldr r0,=__Scheduling_SysTick_Entry
-	blx r0
-
-	ldr r0,=__Timer_SysTick_Entry
-	blx r0
-
-	Exception_Fast_Exit
-
-	bx lr
-*/
-
-
+//------------------------------------------
 
 	PUBLIC __Interrupt_Entry
 __Interrupt_Entry
 
 #ifdef __UsrSP_SysSP__
+
+#else
+	mov r12,r7
+	ldr r7,=0xfffffffd
+	cmp lr,r7
+	mov r7,r12
+	BNE __Interrupt_Entry_Next1
+	mrs r12,psp
+	msr msp,r12
+__Interrupt_Entry_Next1:
+#endif
 	push {lr}
 
 	ldr r1,=__IRQ_Entry
 	blx r1
 
+#ifdef __UsrSP_SysSP__
+
 	pop {pc}
+
 #else
-	Exception_Entry
+	//pop {lr}
+	stmdb sp!,{lr}
 
-
-	ldr r1,=__IRQ_Entry
-	blx r1
-
-
-	Exception_Fast_Exit
-#endif
+	//下面这个意思是
+	//if(lr==#0xfffffffd)
+	//{
+	//	r12=0
+	//	msp=r12
+	//}
+	ldr r7,=0xfffffffd
+	cmp lr,r7
+	BNE __Interrupt_Entry_Next2
+	movs r7,#0x00
+	msr msp,r7
+__Interrupt_Entry_Next2:
 	bx lr
-
+#endif
 
 #endif
 

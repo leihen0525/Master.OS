@@ -6,7 +6,7 @@
  */
 #include "../Interrupt_Header.inc"
 
-#if (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'R')
+#if ((__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'R'))
 
 	MODULE Entry
 

@@ -79,7 +79,7 @@ int Event_Node_Add_Node(
 	Temp_Node->DATA_Node=DATA_Node;
 
 
-	if((Err=__Sys_Apply_Handle())<Valid_Handle)
+	if((Err=__Sys_Handle_New())<Valid_Handle)
 	{
 		goto Event_Add_Node_Exit2;
 	}
@@ -176,6 +176,8 @@ int Event_Node_Delete_Node(
 #ifdef Master_OS_Config_Memory_Free
 			__Sys_Memory_Free(Temp_Node);
 #endif
+			__Sys_Handle_Free(Handle);
+
 			if(Try_Context_Switch==true)
 			{
 				__Sys_Scheduling_Try_Context_Switch();

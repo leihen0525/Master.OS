@@ -21,7 +21,7 @@
 
 
 
-#if (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'R')
+#if ((__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'R'))
 
 	MODULE Context_Switch
 

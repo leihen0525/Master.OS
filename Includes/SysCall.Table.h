@@ -14,7 +14,9 @@ typedef enum
 {
 	SysCall_Table_Index_Null			=0,
 
-	SysCall_Table_Index_Apply_Handle,
+	SysCall_Table_Index_Handle_New,
+
+	SysCall_Table_Index_Handle_Free,
 
 	SysCall_Table_Index_BSP_System_Reset,
 

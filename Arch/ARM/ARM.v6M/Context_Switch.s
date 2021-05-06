@@ -17,7 +17,7 @@
 //3.将下一个运行任务的TCB的内核和用户堆栈空间数据从TCB中取出，并初始化当前CPU寄存器
 
 
-#if (__ARM_ARCH == 6) && (__ARM_ARCH_PROFILE == 'M')
+#if ((__ARM_ARCH == 6) && (__ARM_ARCH_PROFILE == 'M'))
 
 	MODULE Context_Switch
 

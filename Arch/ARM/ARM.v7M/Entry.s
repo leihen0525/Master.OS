@@ -4,7 +4,7 @@
  *  Created on: 2019年9月17日
  *      Author: Master.HE
  */
-#if (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'M')
+#if ((__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'M'))
 
 	MODULE Entry
 

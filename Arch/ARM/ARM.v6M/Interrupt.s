@@ -7,7 +7,7 @@
 
 	MODULE Interrupt
 
-#if (__ARM_ARCH == 6) && (__ARM_ARCH_PROFILE == 'M')
+#if ((__ARM_ARCH == 6) && (__ARM_ARCH_PROFILE == 'M'))
 
 	SECTION .text:CODE:REORDER:NOROOT(2)
 

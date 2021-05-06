@@ -105,7 +105,7 @@ int __Sys_Scheduling_Create_Task(
 	{
 		goto Exit2;
 	}
-	if((Err=__Sys_Apply_Handle())<Valid_Handle)
+	if((Err=__Sys_Handle_New())<Valid_Handle)
 	{
 		goto Exit2;
 	}
@@ -176,6 +176,7 @@ int __Sys_Scheduling_Release_Task(int Handle)
 		Scheduling_DATA.Current_TCB->Info.Time_Slice=Task_Time_Slice_MS;
 
 
+		__Sys_Handle_Free(P_Task_TCB->Info.Handle);
 		Scheduling_Task_Release(P_Task_TCB);
 
 #ifdef __UsrSP_SysSP__

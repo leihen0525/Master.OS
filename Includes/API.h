@@ -26,7 +26,8 @@ extern "C" {
 
 
 
-int Apply_Handle(void);//申请一个未使用的句柄
+int Handle_New(void);//申请一个未使用的句柄
+int Handle_Free(int Handle);
 
 //BSP
 int BSP_System_Reset(void);

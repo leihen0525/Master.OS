@@ -170,7 +170,7 @@ int __Sys_IRQ_Register_Hook(
 		return Error_Invalid_Parameter;
 	}
 
-	int Handle=__Sys_Apply_Handle();
+	int Handle=__Sys_Handle_New();
 	if(Handle<Valid_Handle)
 	{
 		return Handle;
@@ -180,6 +180,7 @@ int __Sys_IRQ_Register_Hook(
 
 	if(Temp_Node==Null)
 	{
+		__Sys_Handle_Free(Handle);
 		return Error_Allocation_Memory_Failed;
 	}
 	Temp_Node->Handle=Handle;

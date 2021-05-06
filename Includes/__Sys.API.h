@@ -23,7 +23,8 @@ extern "C" {
 #include "Timer.Enum.h"
 #include "Event.Define.h"
 
-int __Sys_Apply_Handle(void);
+int __Sys_Handle_New(void);
+int __Sys_Handle_Free(int Handle);
 
 //BSP
 int __Sys_BSP_UpData_Clock_Tree(

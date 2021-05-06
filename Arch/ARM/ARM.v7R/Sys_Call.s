@@ -4,7 +4,7 @@
  *  Created on: 2019年4月8日
  *      Author: Master.HE
  */
-#if (__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'R')
+#if ((__ARM_ARCH == 7) && (__ARM_ARCH_PROFILE == 'R'))
 
 	MODULE Sys_Call
 

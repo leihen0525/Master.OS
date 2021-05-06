@@ -146,11 +146,6 @@ int __Sys_Timer_Register(
 		return Error_Invalid_Parameter;
 	}
 
-	Err=__Sys_Apply_Handle();
-	if(Err<Valid_Handle)
-	{
-		return Err;
-	}
 
 	Timer_Node_Type *Temp_Timer_Node;
 
@@ -161,7 +156,12 @@ int __Sys_Timer_Register(
 		return Error_Allocation_Memory_Failed;
 	}
 
-	Temp_Timer_Node->Handle=Err;
+	Error_Args(Temp_Timer_Node->Handle,__Sys_Handle_New())
+	{
+		Err=Temp_Timer_Node->Handle;
+		goto __Sys_Timer_Register_Exit;
+	}
+
 
 	Temp_Timer_Node->N_Time_Cycle=-1;
 	Temp_Timer_Node->Cycle_Time_MS=-1;
@@ -174,15 +174,22 @@ int __Sys_Timer_Register(
 	Temp_Timer_Node->Timer_Function.Args=Args;
 	Temp_Timer_Node->Timer_Function.Timer_Function=Timer_Function;
 
-	if((Err=Timer_Add_Timer_Queue(Temp_Timer_Node,-1))!=Error_OK)
+	Error_NoArgs(Err,Timer_Add_Timer_Queue(Temp_Timer_Node,-1))
 	{
-#ifdef Master_OS_Config_Memory_Free
-		__Sys_Memory_Free(Temp_Timer_Node);
-#endif
-		return Err;
+		goto __Sys_Timer_Register_Exit1;
 	}
 
 	return Temp_Timer_Node->Handle;
+
+__Sys_Timer_Register_Exit1:
+	__Sys_Handle_Free(Temp_Timer_Node->Handle);
+
+__Sys_Timer_Register_Exit:
+#ifdef Master_OS_Config_Memory_Free
+	__Sys_Memory_Free(Temp_Timer_Node);
+#endif
+
+	return Err;
 }
 #endif
 #ifdef Master_OS_Config_Timer_Delete
@@ -202,6 +209,7 @@ int __Sys_Timer_Delete(int Handle)
 			return Error_Unknown;
 		}
 		__Sys_Memory_Free(Delete_Node);
+		__Sys_Handle_Free(Handle);
 	}
 	return Err;
 

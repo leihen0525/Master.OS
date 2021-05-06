@@ -90,18 +90,21 @@ int Device_Find_Node_To_Handle(int Handle,Device_Node_Type **P_Node)
 
 int Device_Add_Node(const __Sys_Device_OPS_Type *P_OPS)
 {
-	int Handle=__Sys_Apply_Handle();
-	if(Handle<Valid_Handle)
-	{
-		return Handle;
-	}
 	if(P_OPS==Null)
 	{
 		return Error_Invalid_Parameter;
 	}
+
+	int Handle=__Sys_Handle_New();
+	if(Handle<Valid_Handle)
+	{
+		return Handle;
+	}
+
 	Device_Node_Type *Temp_Node=__Sys_Memory_Malloc(sizeof(Device_Node_Type));
 	if(Temp_Node==Null)
 	{
+		__Sys_Handle_Free(Handle);
 		return Error_Allocation_Memory_Failed;
 	}
 
@@ -124,6 +127,7 @@ int Device_Add_Node(const __Sys_Device_OPS_Type *P_OPS)
 }
 int Device_Del_Node(int Handle)
 {
+	//TODO ?
 	return -1;
 }
 int __Sys_Device_Register_Drivers(const __Sys_Device_OPS_Type *P_OPS)

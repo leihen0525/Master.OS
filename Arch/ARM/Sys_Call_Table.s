@@ -10,7 +10,8 @@
 
 	SECTION .text:CODE:NOROOT(2)
 
-	PUBWEAK __Sys_Apply_Handle
+	PUBWEAK __Sys_Handle_New
+	PUBWEAK __Sys_Handle_Free
 
 	PUBWEAK __Sys_BSP_System_Reset
 
@@ -136,7 +137,8 @@
 	PUBWEAK __Sys_Timer_Reset
 	PUBWEAK __Sys_Timer_Enabled
 
-__Sys_Apply_Handle
+__Sys_Handle_New
+__Sys_Handle_Free
 
 __Sys_BSP_System_Reset
 
@@ -273,7 +275,9 @@ __Sys_Timer_Enabled
 __Sys_Call_Table
 	DCD 0
 
-	DCD __Sys_Apply_Handle
+	DCD __Sys_Handle_New
+
+	DCD __Sys_Handle_Free
 
 	DCD __Sys_BSP_System_Reset
 

@@ -11,9 +11,13 @@
 #include "API.h"
 
 
-int Apply_Handle(void)
+int Handle_New(void)
 {
-	return SysCall(SysCall_Table_Index_Apply_Handle);
+	return SysCall(SysCall_Table_Index_Handle_New);
+}
+int Handle_Free(int Handle)
+{
+	return SysCall(SysCall_Table_Index_Handle_Free,Handle);
 }
 
 //BSP

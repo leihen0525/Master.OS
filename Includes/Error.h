@@ -10,6 +10,9 @@
 
 typedef enum
 {
+	Error_No_Bind						=-29,					//没有绑定
+	Error_No_Connect					=-28,					//没有连接
+
 	Error_No_Init						=-27,					//未初始化
 
 	Error_Not_Responding				=-26,					//未响应

@@ -88,7 +88,27 @@
 		}																							\
 	}
 
-//寻找一个节点（根据符号信号寻找）
+//删除第一个节点
+#define List_Del_Node_From_First(_P_Head,_P_End,_NEXT,_P_Del_Node)									\
+	{																								\
+		if(_P_Head==Null)																			\
+		{																							\
+			_P_Del_Node=Null;																		\
+		}																							\
+		else																						\
+		{																							\
+			_P_Del_Node=_P_Head;																	\
+			_P_Head=_P_Head->_NEXT;																	\
+			if(_P_Head==Null)																		\
+			{																						\
+				_P_End=Null;																		\
+			}																						\
+		}																							\
+	}
+
+
+
+//寻找一个节点（根据1个条件符号信号寻找）
 #define List_Find_Node_From_Symbol(_P_Head,_NEXT,_Symbol,_Symbol_Data,_P_Find_Node)					\
 	{																								\
 		_P_Find_Node=_P_Head;																		\
@@ -101,15 +121,18 @@
 			_P_Find_Node=_P_Find_Node->_NEXT;														\
 		}																							\
 	}
-
+//寻找一个节点（根据2个条件符号信号寻找）
 #define List_Find_Node_From_Symbol_2And(_P_Head,_NEXT,_Symbol_1,_Symbol_Data_1,_Symbol_2,_Symbol_Data_2,_P_Find_Node)	\
 	{																													\
 		_P_Find_Node=_P_Head;																							\
 		while(_P_Find_Node!=Null)																						\
 		{																												\
-			if(_P_Find_Node->_Symbol_1==_Symbol_Data_1 && _P_Find_Node->_Symbol_2==_Symbol_Data_2)						\
+			if(_P_Find_Node->_Symbol_1==_Symbol_Data_1)																	\
 			{																											\
-				break;																									\
+				if(_P_Find_Node->_Symbol_2==_Symbol_Data_2)																\
+				{																										\
+					break;																								\
+				}																										\
 			}																											\
 			_P_Find_Node=_P_Find_Node->_NEXT;																			\
 		}																												\

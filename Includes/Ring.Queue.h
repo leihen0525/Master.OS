@@ -11,6 +11,7 @@
 
 #include "Error.h"
 #include "Master.Stdint.h"
+#include "string.h"
 
 #define Ring_Queue_Struct_Declare(_Struct_Name,_Queue_Data_Type)							\
 	typedef struct																			\
@@ -18,6 +19,7 @@
 		unsigned int IN;																	\
 		unsigned int OUT;																	\
 		unsigned int Count;																\
+		unsigned int Queue_Length;															\
 		_Queue_Data_Type *DATA;																\
 	}Master_Ring_Queue_##_Struct_Name##_Type;
 
@@ -30,7 +32,8 @@
 		Err=Error_OK;																		\
 		_Variable_Name.IN=0;																\
 		_Variable_Name.OUT=0;																\
-		_Variable_Name.Count=_Queue_Length;													\
+		_Variable_Name.Count=0;																\
+		_Variable_Name.Queue_Length=_Queue_Length;											\
 		_Variable_Name.DATA=Memory_Malloc(sizeof(_Queue_Data_Type)*_Queue_Length);			\
 		if(_Variable_Name.DATA==Null)														\
 		{																					\
@@ -44,18 +47,29 @@
 		_Variable_Name.IN=0;																\
 		_Variable_Name.OUT=0;																\
 		_Variable_Name.Count=0;																\
+		_Variable_Name.Queue_Length=0;														\
+	}
+#define Ring_Queue_Clear(_Variable_Name)													\
+	{																						\
+		_Variable_Name.IN=0;																\
+		_Variable_Name.OUT=0;																\
+		_Variable_Name.Count=0;																\
 	}
 
 #define Ring_Queue_IN(Err,_Variable_Name,_Queue_Data_Type,_Queue_Data_IN,_Data_OverFlow)				\
 	{																									\
 		Err=Error_OK;																					\
 		memcpy(&_Variable_Name.DATA[_Variable_Name.IN],&_Queue_Data_IN,sizeof(_Queue_Data_Type));		\
-		_Variable_Name.IN=(_Variable_Name.IN+1)%_Variable_Name.Count;									\
+		_Variable_Name.IN=(_Variable_Name.IN+1)%_Variable_Name.Queue_Length;							\
 		if(_Variable_Name.IN==_Variable_Name.OUT)							\
 		{																								\
 			Err=Error_OverFlow;																			\
 			memcpy(&_Data_OverFlow,&_Variable_Name.DATA[_Variable_Name.OUT],sizeof(_Queue_Data_Type));	\
-			_Variable_Name.OUT=(_Variable_Name.OUT+1)%_Variable_Name.Count;								\
+			_Variable_Name.OUT=(_Variable_Name.OUT+1)%_Variable_Name.Queue_Length;						\
+		}																								\
+		else																							\
+		{																								\
+			_Variable_Name.Count++;																		\
 		}																								\
 	}
 
@@ -69,7 +83,8 @@
 		else																							\
 		{																								\
 			memcpy(&_Queue_Data_OUT,&_Variable_Name.DATA[_Variable_Name.OUT],sizeof(_Queue_Data_Type));	\
-			_Variable_Name.OUT=(_Variable_Name.OUT+1)%_Variable_Name.Count;								\
+			_Variable_Name.OUT=(_Variable_Name.OUT+1)%_Variable_Name.Queue_Length;						\
+			_Variable_Name.Count--;																		\
 			Err=Error_OK;																				\
 			if(_Variable_Name.IN==_Variable_Name.OUT)													\
 			{																							\
@@ -82,7 +97,7 @@
 		}																								\
 	}
 
-#define Ring_Queue_OUT_1(Err,_Variable_Name,_Queue_Data_Type,_P_Queue_Data_OUT)							\
+#define Ring_Queue_OUT_1(Err,_Variable_Name,_P_Queue_Data_OUT)											\
 	{																									\
 		if(_Variable_Name.IN==_Variable_Name.OUT)														\
 		{																								\
@@ -97,7 +112,8 @@
 
 #define Ring_Queue_OUT_2(_Variable_Name,_Next_Empty)													\
 	{																									\
-		_Variable_Name.OUT=(_Variable_Name.OUT+1)%_Variable_Name.Count;									\
+		_Variable_Name.OUT=(_Variable_Name.OUT+1)%_Variable_Name.Queue_Length;							\
+		_Variable_Name.Count--;																			\
 		if(_Variable_Name.IN==_Variable_Name.OUT)														\
 		{																								\
 			_Next_Empty=true;																			\

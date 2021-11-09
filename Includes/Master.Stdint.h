@@ -10,7 +10,8 @@
 
 #include <stdint.h>
 
-
+#ifndef __cplusplus
+#ifndef bool
 typedef enum
 {
 	false=0,
@@ -18,6 +19,10 @@ typedef enum
 
 	bool_End,
 }bool;
+#else
+#define bool_End 2
+#endif
+#endif
 
 typedef enum	//使能状态
 {

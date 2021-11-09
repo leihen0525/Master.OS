@@ -38,7 +38,7 @@
 
 //
 #define Stack_Add_Size_4Byte						(16)
-#define Stack_System_Default_Size_4Byte				(80)
+//#define Stack_System_Default_Size_4Byte				(80)
 #define Stack_Task_Task_4Byte						(128)
 
 

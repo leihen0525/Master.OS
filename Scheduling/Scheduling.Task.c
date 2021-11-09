@@ -83,10 +83,10 @@ int Scheduling_Task_Create(
 	uint32_t Stack_Size_Sys_4Byte;
 
 	Stack_Size_Sys_4Byte=Scheduling_Task_Stack_GET_Sys_Size_4Byte(Stack_Size_4Byte);
-
+	extern uint32_t Stack_System_Default_Size_4Byte;
 	if(Stack_Size_Sys_4Byte==0)
 	{
-		Stack_Size_Sys_4Byte=Stack_System_Default_Size_4Byte;
+		Stack_Size_Sys_4Byte=(uint32_t)&Stack_System_Default_Size_4Byte;
 	}
 	else
 	{

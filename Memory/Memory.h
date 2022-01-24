@@ -11,7 +11,7 @@
 #include "Master.Stdint.h"
 //#include "Master.OS.Config.h"
 
-#include "Memory.Struct.h"
+#include "Memory/Memory.Struct.h"
 
 int __Sys_Memory_Init(void);
 

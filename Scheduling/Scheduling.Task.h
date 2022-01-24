@@ -12,8 +12,8 @@
 
 #include "Master.Stdint.h"
 
-#include "Scheduling.Task.Define.h"
-#include "__Sys.Scheduling.Task.Struct.h"
+#include "Scheduling/Scheduling.Task.Define.h"
+#include "Scheduling/__Sys.Scheduling.Task.Struct.h"
 
 int Scheduling_Task_Create(
 		__Sys_Scheduling_Task_TCB_Type **P_Task_TCB,

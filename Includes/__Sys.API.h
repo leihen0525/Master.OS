@@ -14,14 +14,15 @@ extern "C" {
 
 //#include "Master.OS.Config.h"
 #include "Master.Stdint.h"
-#include "Scheduling.Task.Enum.h"
-#include "Scheduling.Task.Define.h"
-#include "__Sys.Scheduling.Task.Struct.h"
-#include "IRQ.Define.h"
-#include "Event.Enum.h"
-#include "Timer.Define.h"
-#include "Timer.Enum.h"
-#include "Event.Define.h"
+#include "Scheduling/Scheduling.Task.Enum.h"
+#include "Scheduling/Scheduling.Task.Define.h"
+#include "Scheduling/__Sys.Scheduling.Task.Struct.h"
+#include "IRQ/IRQ.Define.h"
+#include "Event/Event.Enum.h"
+#include "Timer/Timer.Define.h"
+#include "Timer/Timer.Enum.h"
+#include "Event/Event.Define.h"
+#include "Device/__Sys.Device.h"
 
 int __Sys_Handle_New(void);
 int __Sys_Handle_Free(int Handle);
@@ -83,25 +84,76 @@ int __Sys_IRQ_Register_Hook(int IRQ_Index,IRQ_Hook_Function Hook_Function,void *
 int __Sys_IRQ_Delete_Hook(int IRQ_Index,int Handle);
 #endif
 
-//Device
-#ifdef Master_OS_Config_Device_Open
-int __Sys_Device_Open(const char *Device_Name,int Mode);
+//Device-Legacy
+#ifdef Master_OS_Config_Device_Legacy_Open
+int __Sys_Device_Legacy_Open(const char *Device_Name,int Mode);
 #endif
-#ifdef Master_OS_Config_Device_Close
-int __Sys_Device_Close(int Handle);
+#ifdef Master_OS_Config_Device_Legacy_Close
+int __Sys_Device_Legacy_Close(int Handle);
 #endif
-#ifdef Master_OS_Config_Device_Read
-int __Sys_Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,long TimeOut);
+#ifdef Master_OS_Config_Device_Legacy_Read
+int __Sys_Device_Legacy_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,long TimeOut);
 #endif
-#ifdef Master_OS_Config_Device_Write
-int __Sys_Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,long TimeOut);
+#ifdef Master_OS_Config_Device_Legacy_Write
+int __Sys_Device_Legacy_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,long TimeOut);
 #endif
-#ifdef Master_OS_Config_Device_Control
-int __Sys_Device_Control(int Handle,int Cmd, unsigned long Args);
+#ifdef Master_OS_Config_Device_Legacy_Control
+int __Sys_Device_Legacy_Control(int Handle,int Cmd, unsigned long Args);
 #endif
-#ifdef Master_OS_Config_Device_Info
-int __Sys_Device_Info(int Handle,const char **P_Info);
+#ifdef Master_OS_Config_Device_Legacy_Info
+int __Sys_Device_Legacy_Info(int Handle,const char **P_Info);
 #endif
+
+//Device-Class-ETH
+#ifdef Master_OS_Config_Device_Class_ETH_Open
+int __Sys_Device_Class_ETH_Open(const char *Device_Name,int Flag);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Close
+int __Sys_Device_Class_ETH_Close(int Handle);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Get_Enabled
+int __Sys_Device_Class_ETH_Get_Enabled(int Handle,bool *P_Module);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Set_Enabled
+int __Sys_Device_Class_ETH_Set_Enabled(int Handle,bool Module);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Get_MAC_Address
+int __Sys_Device_Class_ETH_Get_MAC_Address(int Handle,uint8_t *P_Address);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Set_MAC_Address
+int __Sys_Device_Class_ETH_Set_MAC_Address(int Handle,uint8_t *P_Address);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Get_Interface
+int __Sys_Device_Class_ETH_Get_Interface(int Handle,Device_Class_ETH_Enum_Interface_xMII_Type *P_xMII,Device_Class_ETH_Enum_Interface_Speed_Type *P_Speed,bool *P_Full_Duplex);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Set_Interface
+int __Sys_Device_Class_ETH_Set_Interface(int Handle,Device_Class_ETH_Enum_Interface_xMII_Type xMII,Device_Class_ETH_Enum_Interface_Speed_Type Speed,bool Full_Duplex);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Set_MAC_Address_Filter
+int __Sys_Device_Class_ETH_Set_MAC_Address_Filter(int Handle,uint8_t *P_Address);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_ReSet_MAC_Address_Filter
+int __Sys_Device_Class_ETH_ReSet_MAC_Address_Filter(int Handle);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Receive
+int __Sys_Device_Class_ETH_Receive(int Handle,uint8_t *P_Buffer, uint32_t Size,uint32_t *P_Flag,int32_t TimeOut);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Send
+int __Sys_Device_Class_ETH_Send(int Handle,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Send_Slice
+int __Sys_Device_Class_ETH_Send_Slice(int Handle,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Get_MDIO
+int __Sys_Device_Class_ETH_Get_MDIO(int Handle,uint8_t Phy, uint8_t RegisterAddr, uint16_t *P_Value);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Set_MDIO
+int __Sys_Device_Class_ETH_Set_MDIO(int Handle,uint8_t Phy, uint8_t RegisterAddr, uint16_t Value);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Get_Info
+int __Sys_Device_Class_ETH_Get_Info(int Handle,const char **P_Info);
+#endif
+
 /*
 //Power
 uint32_t __Sys_Power_GET_Core_Frequency(void);
@@ -354,7 +406,8 @@ int __Sys_FIFO_Queue_Clear(int Handle);
 int __Sys_FIFO_Queue_Set(
 		int Handle,
 		void *Set_FIFO_DATA,
-		uint32_t Set_FIFO_Size);
+		uint32_t Set_FIFO_Size,
+		bool *Context_Switch);
 #endif
 
 //Event-Message_Queue
@@ -478,6 +531,12 @@ int __Sys_Timer_Disable(void);
 int __Sys_Timer_Register(
 		Timer_Enter_Function Timer_Function,
 		void *Args);
+#endif
+#ifdef Master_OS_Config_Timer_Register2
+int __Sys_Timer_Register2(
+		Timer_Enter_Function2 Timer_Function,
+		void *Args1,
+		void *Args2);
 #endif
 #ifdef Master_OS_Config_Timer_Delete
 int __Sys_Timer_Delete(int Handle);

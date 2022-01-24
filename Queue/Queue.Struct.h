@@ -8,7 +8,7 @@
 #ifndef QUEUE_STRUCT_H_
 #define QUEUE_STRUCT_H_
 
-#include "__Sys.Scheduling.Task.Struct.h"
+#include "Scheduling/__Sys.Scheduling.Task.Struct.h"
 
 typedef struct
 {

@@ -9,10 +9,10 @@
 #define SCHEDULING_H_
 
 //#include "Master.OS.Config.h"
-#include "Scheduling.Task.Enum.h"
-#include "Scheduling.Task.Define.h"
+#include "Scheduling/Scheduling.Task.Enum.h"
+#include "Scheduling/Scheduling.Task.Define.h"
 
-#include "__Sys.Scheduling.Task.Struct.h"
+#include "Scheduling/__Sys.Scheduling.Task.Struct.h"
 
 int Scheduling_Init(void);
 

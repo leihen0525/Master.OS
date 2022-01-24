@@ -10,7 +10,7 @@
 
 #include "Master.Stdint.h"
 
-#include "__Sys.Scheduling.Task.Struct.h"
+#include "Scheduling/__Sys.Scheduling.Task.Struct.h"
 
 typedef struct
 {

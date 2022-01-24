@@ -9,7 +9,7 @@
 #define SEMAPHORE_GROUP_STRUCT_H_
 
 #include "Master.Stdint.h"
-#include "Event.Enum.h"
+#include "Event/Event.Enum.h"
 
 typedef struct
 {

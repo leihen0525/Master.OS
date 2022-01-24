@@ -29,14 +29,31 @@
 #define Master_OS_Config_UGC_Memory_Free
 
 
-//Device
-#define Master_OS_Config_Device_Open
-#define Master_OS_Config_Device_Close
-#define Master_OS_Config_Device_Read
-#define Master_OS_Config_Device_Write
-#define Master_OS_Config_Device_Control
-#define Master_OS_Config_Device_Info
+//Device-Legacy
+#define Master_OS_Config_Device_Legacy_Open
+#define Master_OS_Config_Device_Legacy_Close
+#define Master_OS_Config_Device_Legacy_Read
+#define Master_OS_Config_Device_Legacy_Write
+#define Master_OS_Config_Device_Legacy_Control
+#define Master_OS_Config_Device_Legacy_Info
 
+//Device-Class-ETH
+#define Master_OS_Config_Device_Class_ETH_Open
+#define Master_OS_Config_Device_Class_ETH_Close
+#define Master_OS_Config_Device_Class_ETH_Get_Enabled
+#define Master_OS_Config_Device_Class_ETH_Set_Enabled
+#define Master_OS_Config_Device_Class_ETH_Get_MAC_Address
+#define Master_OS_Config_Device_Class_ETH_Set_MAC_Address
+#define Master_OS_Config_Device_Class_ETH_Get_Interface
+#define Master_OS_Config_Device_Class_ETH_Set_Interface
+#define Master_OS_Config_Device_Class_ETH_Set_MAC_Address_Filter
+#define Master_OS_Config_Device_Class_ETH_ReSet_MAC_Address_Filter
+#define Master_OS_Config_Device_Class_ETH_Receive
+#define Master_OS_Config_Device_Class_ETH_Send
+#define Master_OS_Config_Device_Class_ETH_Send_Slice
+#define Master_OS_Config_Device_Class_ETH_Get_MDIO
+#define Master_OS_Config_Device_Class_ETH_Set_MDIO
+#define Master_OS_Config_Device_Class_ETH_Get_Info
 
 //IRQ
 #define Master_OS_Config_IRQ_Enable
@@ -141,6 +158,7 @@
 #define Master_OS_Config_Timer_Enable
 #define Master_OS_Config_Timer_Disable
 #define Master_OS_Config_Timer_Register
+#define Master_OS_Config_Timer_Register2
 #define Master_OS_Config_Timer_Delete
 #define Master_OS_Config_Timer_Start
 #define Master_OS_Config_Timer_Stop

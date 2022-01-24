@@ -35,13 +35,30 @@
 
 
 
-	PUBWEAK __Sys_Device_Open
-	PUBWEAK __Sys_Device_Close
-	PUBWEAK __Sys_Device_Read
-	PUBWEAK __Sys_Device_Write
-	PUBWEAK __Sys_Device_Control
-	PUBWEAK __Sys_Device_Info
+	PUBWEAK __Sys_Device_Legacy_Open
+	PUBWEAK __Sys_Device_Legacy_Close
+	PUBWEAK __Sys_Device_Legacy_Read
+	PUBWEAK __Sys_Device_Legacy_Write
+	PUBWEAK __Sys_Device_Legacy_Control
+	PUBWEAK __Sys_Device_Legacy_Info
 
+
+	PUBWEAK __Sys_Device_Class_ETH_Open
+	PUBWEAK __Sys_Device_Class_ETH_Close
+	PUBWEAK __Sys_Device_Class_ETH_Get_Enabled
+	PUBWEAK __Sys_Device_Class_ETH_Set_Enabled
+	PUBWEAK __Sys_Device_Class_ETH_Get_MAC_Address
+	PUBWEAK __Sys_Device_Class_ETH_Set_MAC_Address
+	PUBWEAK __Sys_Device_Class_ETH_Get_Interface
+	PUBWEAK __Sys_Device_Class_ETH_Set_Interface
+	PUBWEAK __Sys_Device_Class_ETH_Set_MAC_Address_Filter
+	PUBWEAK __Sys_Device_Class_ETH_ReSet_MAC_Address_Filter
+	PUBWEAK __Sys_Device_Class_ETH_Receive
+	PUBWEAK __Sys_Device_Class_ETH_Send
+	PUBWEAK __Sys_Device_Class_ETH_Send_Slice
+	PUBWEAK __Sys_Device_Class_ETH_Get_MDIO
+	PUBWEAK __Sys_Device_Class_ETH_Set_MDIO
+	PUBWEAK __Sys_Device_Class_ETH_Get_Info
 
 
 	PUBWEAK __Sys_IRQ_Enable
@@ -129,6 +146,7 @@
 	PUBWEAK __Sys_Timer_Enable
 	PUBWEAK __Sys_Timer_Disable
 	PUBWEAK __Sys_Timer_Register
+	PUBWEAK __Sys_Timer_Register2
 	PUBWEAK __Sys_Timer_Delete
 	PUBWEAK __Sys_Timer_Start
 	PUBWEAK __Sys_Timer_Stop
@@ -162,14 +180,29 @@ __Memory_Free
 
 
 
-__Sys_Device_Open
-__Sys_Device_Close
-__Sys_Device_Read
-__Sys_Device_Write
-__Sys_Device_Control
-__Sys_Device_Info
+__Sys_Device_Legacy_Open
+__Sys_Device_Legacy_Close
+__Sys_Device_Legacy_Read
+__Sys_Device_Legacy_Write
+__Sys_Device_Legacy_Control
+__Sys_Device_Legacy_Info
 
-
+__Sys_Device_Class_ETH_Open
+__Sys_Device_Class_ETH_Close
+__Sys_Device_Class_ETH_Get_Enabled
+__Sys_Device_Class_ETH_Set_Enabled
+__Sys_Device_Class_ETH_Get_MAC_Address
+__Sys_Device_Class_ETH_Set_MAC_Address
+__Sys_Device_Class_ETH_Get_Interface
+__Sys_Device_Class_ETH_Set_Interface
+__Sys_Device_Class_ETH_Set_MAC_Address_Filter
+__Sys_Device_Class_ETH_ReSet_MAC_Address_Filter
+__Sys_Device_Class_ETH_Receive
+__Sys_Device_Class_ETH_Send
+__Sys_Device_Class_ETH_Send_Slice
+__Sys_Device_Class_ETH_Get_MDIO
+__Sys_Device_Class_ETH_Set_MDIO
+__Sys_Device_Class_ETH_Get_Info
 
 __Sys_IRQ_Enable
 __Sys_IRQ_Disable
@@ -256,6 +289,7 @@ __Sys_Timer_GET_Counter
 __Sys_Timer_Enable
 __Sys_Timer_Disable
 __Sys_Timer_Register
+__Sys_Timer_Register2
 __Sys_Timer_Delete
 __Sys_Timer_Start
 __Sys_Timer_Stop
@@ -315,18 +349,35 @@ __Sys_Call_Table
 
 
 
-	DCD __Sys_Device_Open
+	DCD __Sys_Device_Legacy_Open
 
-	DCD __Sys_Device_Close
+	DCD __Sys_Device_Legacy_Close
 
-	DCD __Sys_Device_Read
+	DCD __Sys_Device_Legacy_Read
 
-	DCD __Sys_Device_Write
+	DCD __Sys_Device_Legacy_Write
 
-	DCD __Sys_Device_Control
+	DCD __Sys_Device_Legacy_Control
 
-	DCD __Sys_Device_Info
+	DCD __Sys_Device_Legacy_Info
 
+
+	DCD __Sys_Device_Class_ETH_Open
+	DCD __Sys_Device_Class_ETH_Close
+	DCD __Sys_Device_Class_ETH_Get_Enabled
+	DCD __Sys_Device_Class_ETH_Set_Enabled
+	DCD __Sys_Device_Class_ETH_Get_MAC_Address
+	DCD __Sys_Device_Class_ETH_Set_MAC_Address
+	DCD __Sys_Device_Class_ETH_Get_Interface
+	DCD __Sys_Device_Class_ETH_Set_Interface
+	DCD __Sys_Device_Class_ETH_Set_MAC_Address_Filter
+	DCD __Sys_Device_Class_ETH_ReSet_MAC_Address_Filter
+	DCD __Sys_Device_Class_ETH_Receive
+	DCD __Sys_Device_Class_ETH_Send
+	DCD __Sys_Device_Class_ETH_Send_Slice
+	DCD __Sys_Device_Class_ETH_Get_MDIO
+	DCD __Sys_Device_Class_ETH_Set_MDIO
+	DCD __Sys_Device_Class_ETH_Get_Info
 
 
 	DCD __Sys_IRQ_Enable
@@ -463,6 +514,7 @@ __Sys_Call_Table
 	DCD __Sys_Timer_Enable
 	DCD __Sys_Timer_Disable
 	DCD __Sys_Timer_Register
+	DCD __Sys_Timer_Register2
 	DCD __Sys_Timer_Delete
 	DCD __Sys_Timer_Start
 	DCD __Sys_Timer_Stop

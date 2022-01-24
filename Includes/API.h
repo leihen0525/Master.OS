@@ -12,18 +12,20 @@
 extern "C" {
 #endif
 
+#include "Versions.h"
+
 #include "Error.h"
 //#include "Master.OS.Config.h"
 #include "Master.Stdint.h"
-#include "Scheduling.Task.Define.h"
-#include "IRQ.Define.h"
-#include "Timer.Define.h"
-#include "Timer.Enum.h"
-#include "Event.Enum.h"
-#include "Event.Define.h"
-#include "MPU.Define.h"
-#include "Memory.Struct.h"
-
+#include "Scheduling/Scheduling.Task.Define.h"
+#include "IRQ/IRQ.Define.h"
+#include "Timer/Timer.Define.h"
+#include "Timer/Timer.Enum.h"
+#include "Event/Event.Enum.h"
+#include "Event/Event.Define.h"
+#include "MPU/MPU.Define.h"
+#include "Memory/Memory.Struct.h"
+#include "Device/Device.h"
 
 
 int Handle_New(void);//申请一个未使用的句柄
@@ -62,20 +64,56 @@ void *UGC_Memory_Malloc(Memory_DATA_Type *P_Memory_DATA,uint32_t Size,uint32_t A
 
 void UGC_Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap);
 
-//Device
+//Device-Legacy
 
-int Device_Open(const char *Device_Name,int Mode);
+int Device_Legacy_Open(const char *Device_Name,int Mode);
 
-int Device_Close(int Handle);
+int Device_Legacy_Close(int Handle);
 
-int Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,long TimeOut);
+int Device_Legacy_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,long TimeOut);
 
-int Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,long TimeOut);
+int Device_Legacy_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,long TimeOut);
 
-int Device_Control(int Handle,int Cmd,...);
+int Device_Legacy_Control(int Handle,int Cmd,...);
 
-int Device_Info(int Handle,const char **P_Info);
+int Device_Legacy_Info(int Handle,const char **P_Info);
 
+
+//
+
+//Device-Class-ETH
+
+int Device_Class_ETH_Open(const char *Device_Name,int Flag);
+
+int Device_Class_ETH_Close(int Handle);
+
+int Device_Class_ETH_Get_Enabled(int Handle,bool *P_Module);
+
+int Device_Class_ETH_Set_Enabled(int Handle,bool Module);
+
+int Device_Class_ETH_Get_MAC_Address(int Handle,uint8_t *P_Address);
+
+int Device_Class_ETH_Set_MAC_Address(int Handle,uint8_t *P_Address);
+
+int Device_Class_ETH_Get_Interface(int Handle,Device_Class_ETH_Enum_Interface_xMII_Type *P_xMII,Device_Class_ETH_Enum_Interface_Speed_Type *P_Speed,bool *P_Full_Duplex);
+
+int Device_Class_ETH_Set_Interface(int Handle,Device_Class_ETH_Enum_Interface_xMII_Type xMII,Device_Class_ETH_Enum_Interface_Speed_Type Speed,bool Full_Duplex);
+
+int Device_Class_ETH_Set_MAC_Address_Filter(int Handle,uint8_t *P_Address);
+
+int Device_Class_ETH_ReSet_MAC_Address_Filter(int Handle);
+
+int Device_Class_ETH_Receive(int Handle,uint8_t *P_Buffer, uint32_t Size,uint32_t *P_Flag,int32_t TimeOut);
+
+int Device_Class_ETH_Send(int Handle,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut);
+
+int Device_Class_ETH_Send_Slice(int Handle,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut);
+
+int Device_Class_ETH_Get_MDIO(int Handle,uint8_t Phy, uint8_t RegisterAddr, uint16_t *P_Value);
+
+int Device_Class_ETH_Set_MDIO(int Handle,uint8_t Phy, uint8_t RegisterAddr, uint16_t Value);
+
+int Device_Class_ETH_Get_Info(int Handle,const char **P_Info);
 
 //IRQ
 
@@ -385,6 +423,11 @@ int Timer_Disable(void);
 int Timer_Register(
 		Timer_Enter_Function Timer_Function,
 		void *Args);
+
+int Timer_Register2(
+		Timer_Enter_Function2 Timer_Function,
+		void *Args1,
+		void *Args2);
 
 int Timer_Delete(int Handle);
 

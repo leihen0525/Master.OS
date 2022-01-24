@@ -264,8 +264,9 @@ int Scheduling_Create_Task_Idle(
 	P_Task_TCB->Info.TimeOut=-1;
 
 #ifdef __UsrSP_SysSP__
+	extern uint32_t Stack_System_Default_Size_4Byte;
 
-	uint32_t Stack_System_Size_4Byte=Stack_System_Default_Size_4Byte+8;
+	uint32_t Stack_System_Size_4Byte=((uint32_t)&Stack_System_Default_Size_4Byte)+8;
 	uint32_t Sys_Stack_Alignment_Byte=Stack_Alignment_Byte;
 #ifdef __MPU__
 	P_Task_TCB->Stack_System.Protection_Size=Stack_Default_Protection_Size;

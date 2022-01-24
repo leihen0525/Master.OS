@@ -11,7 +11,7 @@
 
 #include "__Sys.API.h"
 
-#include "Timer.Enum.h"
+#include "Timer/Timer.Enum.h"
 
 #include "API.h"
 
@@ -171,8 +171,70 @@ int __Sys_Timer_Register(
 
 	Temp_Timer_Node->TimeOut_MS=-1;
 
-	Temp_Timer_Node->Timer_Function.Args=Args;
+	Temp_Timer_Node->Timer_Function.Args1=Args;
+	Temp_Timer_Node->Timer_Function.Args2=Null;
 	Temp_Timer_Node->Timer_Function.Timer_Function=Timer_Function;
+	Temp_Timer_Node->Timer_Function.Timer_Function2=Null;
+
+	Error_NoArgs(Err,Timer_Add_Timer_Queue(Temp_Timer_Node,-1))
+	{
+		goto __Sys_Timer_Register_Exit1;
+	}
+
+	return Temp_Timer_Node->Handle;
+
+__Sys_Timer_Register_Exit1:
+	__Sys_Handle_Free(Temp_Timer_Node->Handle);
+
+__Sys_Timer_Register_Exit:
+#ifdef Master_OS_Config_Memory_Free
+	__Sys_Memory_Free(Temp_Timer_Node);
+#endif
+
+	return Err;
+}
+#endif
+#ifdef Master_OS_Config_Timer_Register
+int __Sys_Timer_Register2(
+		Timer_Enter_Function2 Timer_Function,
+		void *Args1,
+		void *Args2)
+{
+	int Err;
+	if(Timer_Function==Null)
+	{
+		return Error_Invalid_Parameter;
+	}
+
+
+	Timer_Node_Type *Temp_Timer_Node;
+
+	Temp_Timer_Node=(Timer_Node_Type *)__Sys_Memory_Malloc(sizeof(Timer_Node_Type));
+
+	if(Temp_Timer_Node==Null)
+	{
+		return Error_Allocation_Memory_Failed;
+	}
+
+	Error_Args(Temp_Timer_Node->Handle,__Sys_Handle_New())
+	{
+		Err=Temp_Timer_Node->Handle;
+		goto __Sys_Timer_Register_Exit;
+	}
+
+
+	Temp_Timer_Node->N_Time_Cycle=-1;
+	Temp_Timer_Node->Cycle_Time_MS=-1;
+
+	Temp_Timer_Node->Suspended_Time_MS=-1;
+	Temp_Timer_Node->Now_Countdown_N_Time_Cycle=-1;
+
+	Temp_Timer_Node->TimeOut_MS=-1;
+
+	Temp_Timer_Node->Timer_Function.Args1=Args1;
+	Temp_Timer_Node->Timer_Function.Args2=Args2;
+	Temp_Timer_Node->Timer_Function.Timer_Function=Null;
+	Temp_Timer_Node->Timer_Function.Timer_Function2=Timer_Function;
 
 	Error_NoArgs(Err,Timer_Add_Timer_Queue(Temp_Timer_Node,-1))
 	{
@@ -704,16 +766,30 @@ void __Timer_Task(void)
 	Timer_Function_Type Timer_Function;
 
 	FIFO_Queue_Open(Timer_DATA.FIFO_Queue);
+	Timer_Function.Args1=Null;
+	Timer_Function.Args2=Null;
 	Timer_Function.Timer_Function=Null;
+	Timer_Function.Timer_Function2=Null;
 	while(1)
 	{
 		if(FIFO_Queue_Wait(Timer_DATA.FIFO_Queue,&Timer_Function,sizeof(Timer_Function_Type),Null,-1)==Error_OK)
 		{
-			if(Timer_Function.Timer_Function!=Null)
+			if(Timer_Function.Timer_Function!=Null && Timer_Function.Timer_Function2==Null)
 			{
-				Timer_Function.Timer_Function(Timer_Function.Args);
-				Timer_Function.Timer_Function=Null;
+				Timer_Function.Timer_Function(Timer_Function.Args1);
 			}
+			else if(Timer_Function.Timer_Function==Null && Timer_Function.Timer_Function2!=Null)
+			{
+				Timer_Function.Timer_Function2(Timer_Function.Args1,Timer_Function.Args2);
+			}
+			else
+			{
+				;
+			}
+			Timer_Function.Args1=Null;
+			Timer_Function.Args2=Null;
+			Timer_Function.Timer_Function=Null;
+			Timer_Function.Timer_Function2=Null;
 		}
 		else
 		{
@@ -724,13 +800,16 @@ void __Timer_Task(void)
 
 void __Timer_SysTick_Entry(void)
 {
+	bool Context_Switch1=false;
+	Timer_Node_Type *Temp_Node=Null;
+
 	if(Timer_DATA.Enabled==Disable || Timer_DATA.Timer_Queue.Begin==Null)
 	{
-		return ;
+		goto __Timer_SysTick_Entry_Exit;
 	}
 	if(Timer_DATA.Timer_Queue.Begin->TimeOut_MS<0)
 	{
-		return ;
+		goto __Timer_SysTick_Entry_Exit;
 	}
 	else
 	{
@@ -739,12 +818,14 @@ void __Timer_SysTick_Entry(void)
 			Timer_DATA.Timer_Queue.Begin->TimeOut_MS--;
 		}
 	}
-	Timer_Node_Type *Temp_Node=Null;
+
+
+
 	while(Timer_DATA.Timer_Queue.Begin!=Null)
 	{
 		if(Timer_DATA.Timer_Queue.Begin->TimeOut_MS!=0)
 		{
-			return ;
+			goto __Timer_SysTick_Entry_Exit;
 		}
 		Temp_Node=Timer_DATA.Timer_Queue.Begin;
 
@@ -756,7 +837,14 @@ void __Timer_SysTick_Entry(void)
 		Temp_Node->NEXT=Null;
 
 		//TODO
-		__Sys_FIFO_Queue_Set(Timer_DATA.FIFO_Queue,&Temp_Node->Timer_Function,sizeof(Timer_Function_Type));
+		bool Context_Switch=false;
+		if(__Sys_FIFO_Queue_Set(Timer_DATA.FIFO_Queue,&Temp_Node->Timer_Function,sizeof(Timer_Function_Type),&Context_Switch)==Error_OK)
+		{
+			if(Context_Switch==true)
+			{
+				Context_Switch1=true;
+			}
+		}
 
 
 		Temp_Node->Suspended_Time_MS=-1;
@@ -785,6 +873,10 @@ void __Timer_SysTick_Entry(void)
 
 	}
 
-
+__Timer_SysTick_Entry_Exit:
+	if(Context_Switch1==true)
+	{
+		__Sys_Scheduling_Try_Context_Switch();
+	}
 }
 

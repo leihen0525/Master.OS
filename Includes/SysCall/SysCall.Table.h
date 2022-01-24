@@ -52,17 +52,51 @@ typedef enum
 
 
 
-	SysCall_Table_Index_Device_Open,
+	SysCall_Table_Index_Device_Legacy_Open,
 
-	SysCall_Table_Index_Device_Close,
+	SysCall_Table_Index_Device_Legacy_Close,
 
-	SysCall_Table_Index_Device_Read,
+	SysCall_Table_Index_Device_Legacy_Read,
 
-	SysCall_Table_Index_Device_Write,
+	SysCall_Table_Index_Device_Legacy_Write,
 
-	SysCall_Table_Index_Device_Control,
+	SysCall_Table_Index_Device_Legacy_Control,
 
-	SysCall_Table_Index_Device_Info,
+	SysCall_Table_Index_Device_Legacy_Info,
+
+
+
+	SysCall_Table_Index_Device_Class_ETH_Open,
+
+	SysCall_Table_Index_Device_Class_ETH_Close,
+
+	SysCall_Table_Index_Device_Class_ETH_Get_Enabled,
+
+	SysCall_Table_Index_Device_Class_ETH_Set_Enabled,
+
+	SysCall_Table_Index_Device_Class_ETH_Get_MAC_Address,
+
+	SysCall_Table_Index_Device_Class_ETH_Set_MAC_Address,
+
+	SysCall_Table_Index_Device_Class_ETH_Get_Interface,
+
+	SysCall_Table_Index_Device_Class_ETH_Set_Interface,
+
+	SysCall_Table_Index_Device_Class_ETH_Set_MAC_Address_Filter,
+
+	SysCall_Table_Index_Device_Class_ETH_ReSet_MAC_Address_Filter,
+
+	SysCall_Table_Index_Device_Class_ETH_Receive,
+
+	SysCall_Table_Index_Device_Class_ETH_Send,
+
+	SysCall_Table_Index_Device_Class_ETH_Send_Slice,
+
+	SysCall_Table_Index_Device_Class_ETH_Get_MDIO,
+
+	SysCall_Table_Index_Device_Class_ETH_Set_MDIO,
+
+	SysCall_Table_Index_Device_Class_ETH_Get_Info,
 
 
 
@@ -205,6 +239,8 @@ typedef enum
 	SysCall_Table_Index_Timer_Disable,
 
 	SysCall_Table_Index_Timer_Register,
+
+	SysCall_Table_Index_Timer_Register2,
 
 	SysCall_Table_Index_Timer_Delete,
 

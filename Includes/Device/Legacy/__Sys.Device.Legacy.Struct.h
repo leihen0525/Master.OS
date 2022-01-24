@@ -1,12 +1,12 @@
 /*
- * __Sys.Device.Struct.h
+ * __Sys.Device.Legacy.Struct.h
  *
- *  Created on: 2019年4月12日
+ *  Created on: 2022年1月6日
  *      Author: Master.HE
  */
 
-#ifndef __SYS_DEVICE_STRUCT_H_
-#define __SYS_DEVICE_STRUCT_H_
+#ifndef SYS_DEVICE_LEGACY_STRUCT_H_
+#define SYS_DEVICE_LEGACY_STRUCT_H_
 
 
 typedef struct
@@ -22,11 +22,10 @@ typedef struct
 	int (*Write)  (void *Device_Args,long OffSet_Pos, const void *Buffer, unsigned long Size,long TimeOut);
 	int (*Control)(void *Device_Args,int Cmd, unsigned long Args);
 
-}__Sys_Device_OPS_Type;
+}__Sys_Device_Legacy_OPS_Type;
 
 //-----------------------------------------------------------
 
 
 
-
-#endif /* __SYS_DEVICE_STRUCT_H_ */
+#endif /* SYS_DEVICE_LEGACY_STRUCT_H_ */

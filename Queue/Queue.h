@@ -8,10 +8,10 @@
 #ifndef QUEUE_H_
 #define QUEUE_H_
 
-#include "Scheduling.Task.Enum.h"
+#include "Scheduling/Scheduling.Task.Enum.h"
 #include "Queue.Struct.h"
 
-#include "Event.Enum.h"
+#include "Event/Event.Enum.h"
 
 int Queue_Init(void);
 

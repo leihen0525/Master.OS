@@ -1,24 +1,15 @@
 /*
  * __Sys.Device.h
  *
- *  Created on: 2019年4月12日
+ *  Created on: 2022年1月7日
  *      Author: Master.HE
  */
 
-#ifndef __SYS_DEVICE_H_
-#define __SYS_DEVICE_H_
+#ifndef SYS_DEVICE_H_
+#define SYS_DEVICE_H_
 
-#ifdef __cplusplus
- extern "C" {
-#endif
+#include "Legacy/__Sys.Device.Legacy.h"
 
-#include "__Sys.Device.Struct.h"
+#include "Class/__Sys.Device.Class.h"
 
-int __Sys_Device_Register_Drivers(const __Sys_Device_OPS_Type *P_OPS);
-
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* __SYS_DEVICE_H_ */
+#endif /* SYS_DEVICE_H_ */

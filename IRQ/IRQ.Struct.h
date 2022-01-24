@@ -10,7 +10,7 @@
 
 #include "Master.Stdint.h"
 
-#include "IRQ.Define.h"
+#include "IRQ/IRQ.Define.h"
 
 #include "Machine/Machine.Struct.h"
 

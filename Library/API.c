@@ -6,8 +6,8 @@
  */
 #include <stdarg.h>
 
-#include "SysCall.h"
-#include "SysCall.Table.h"
+#include "SysCall/SysCall.h"
+#include "SysCall/SysCall.Table.h"
 #include "API.h"
 
 
@@ -99,43 +99,124 @@ void UGC_Memory_Free(Memory_DATA_Type *P_Memory_DATA,void *ap)
 	SysCall(SysCall_Table_UGC_Memory_Free,P_Memory_DATA,ap);
 }
 
-//Device
+//Device_Legacy
 
-int Device_Open(const char *Device_Name,int Mode)
+int Device_Legacy_Open(const char *Device_Name,int Mode)
 {
-	return SysCall(SysCall_Table_Index_Device_Open,Device_Name,Mode);
+	return SysCall(SysCall_Table_Index_Device_Legacy_Open,Device_Name,Mode);
 }
 
-int Device_Close(int Handle)
+int Device_Legacy_Close(int Handle)
 {
-	return SysCall(SysCall_Table_Index_Device_Close,Handle);
+	return SysCall(SysCall_Table_Index_Device_Legacy_Close,Handle);
 }
 
-int Device_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,long TimeOut)
+int Device_Legacy_Read(int Handle,long OffSet_Pos, void *Buffer, unsigned long Size,long TimeOut)
 {
-	return SysCall(SysCall_Table_Index_Device_Read,Handle,OffSet_Pos,Buffer,Size,TimeOut);
+	return SysCall(SysCall_Table_Index_Device_Legacy_Read,Handle,OffSet_Pos,Buffer,Size,TimeOut);
 }
 
-int Device_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,long TimeOut)
+int Device_Legacy_Write(int Handle,long OffSet_Pos, const void *Buffer, unsigned long Size,long TimeOut)
 {
-	return SysCall(SysCall_Table_Index_Device_Write,Handle,OffSet_Pos,Buffer,Size,TimeOut);
+	return SysCall(SysCall_Table_Index_Device_Legacy_Write,Handle,OffSet_Pos,Buffer,Size,TimeOut);
 }
 
-int Device_Control(int Handle,int Cmd,...)
+int Device_Legacy_Control(int Handle,int Cmd,...)
 {
 	void *Arg;
 	va_list ap;
 	va_start (ap, Cmd);
 	Arg = va_arg (ap, void *);
 
-	return SysCall(SysCall_Table_Index_Device_Control,Handle,Cmd,Arg);
+	return SysCall(SysCall_Table_Index_Device_Legacy_Control,Handle,Cmd,Arg);
 }
 
-int Device_Info(int Handle,const char **P_Info)
+int Device_Legacy_Info(int Handle,const char **P_Info)
 {
-	return SysCall(SysCall_Table_Index_Device_Info,Handle,P_Info);
+	return SysCall(SysCall_Table_Index_Device_Legacy_Info,Handle,P_Info);
 }
 
+//Device-Class-ETH
+
+int Device_Class_ETH_Open(const char *Device_Name,int Flag)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Open,Device_Name,Flag);
+}
+
+int Device_Class_ETH_Close(int Handle)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Close,Handle);
+}
+
+int Device_Class_ETH_Get_Enabled(int Handle,bool *P_Module)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Get_Enabled,Handle,P_Module);
+}
+
+int Device_Class_ETH_Set_Enabled(int Handle,bool Module)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Set_Enabled,Handle,Module);
+}
+
+int Device_Class_ETH_Get_MAC_Address(int Handle,uint8_t *P_Address)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Get_MAC_Address,Handle,P_Address);
+}
+
+int Device_Class_ETH_Set_MAC_Address(int Handle,uint8_t *P_Address)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Set_MAC_Address,Handle,P_Address);
+}
+
+int Device_Class_ETH_Get_Interface(int Handle,Device_Class_ETH_Enum_Interface_xMII_Type *P_xMII,Device_Class_ETH_Enum_Interface_Speed_Type *P_Speed,bool *P_Full_Duplex)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Get_Interface,Handle,P_xMII,P_Speed,P_Full_Duplex);
+}
+
+int Device_Class_ETH_Set_Interface(int Handle,Device_Class_ETH_Enum_Interface_xMII_Type xMII,Device_Class_ETH_Enum_Interface_Speed_Type Speed,bool Full_Duplex)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Set_Interface,Handle,xMII,Speed,Full_Duplex);
+}
+
+int Device_Class_ETH_Set_MAC_Address_Filter(int Handle,uint8_t *P_Address)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Set_MAC_Address_Filter,Handle,P_Address);
+}
+
+int Device_Class_ETH_ReSet_MAC_Address_Filter(int Handle)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_ReSet_MAC_Address_Filter,Handle);
+}
+
+int Device_Class_ETH_Receive(int Handle,uint8_t *P_Buffer, uint32_t Size,uint32_t *P_Flag,int32_t TimeOut)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Receive,Handle,P_Buffer,Size,P_Flag,TimeOut);
+}
+
+int Device_Class_ETH_Send(int Handle,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Send,Handle,P_Buffer,Size,Flag,TimeOut);
+}
+
+int Device_Class_ETH_Send_Slice(int Handle,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Send_Slice,Handle,P_Buffer,Size,Flag,TimeOut);
+}
+
+int Device_Class_ETH_Get_MDIO(int Handle,uint8_t Phy, uint8_t RegisterAddr, uint16_t *P_Value)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Get_MDIO,Handle,Phy,RegisterAddr,P_Value);
+}
+
+int Device_Class_ETH_Set_MDIO(int Handle,uint8_t Phy, uint8_t RegisterAddr, uint16_t Value)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Set_MDIO,Handle,Phy,RegisterAddr,Value);
+}
+
+int Device_Class_ETH_Get_Info(int Handle,const char **P_Info)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Get_Info,Handle,P_Info);
+}
 
 //IRQ
 
@@ -567,7 +648,8 @@ int FIFO_Queue_Set(
 		void *Set_FIFO_DATA,
 		uint32_t Set_FIFO_Size)
 {
-	return SysCall(SysCall_Table_Index_FIFO_Queue_Set,Handle,Set_FIFO_DATA,Set_FIFO_Size);
+	bool Context_Switch=true;
+	return SysCall(SysCall_Table_Index_FIFO_Queue_Set,Handle,Set_FIFO_DATA,Set_FIFO_Size,&Context_Switch);
 }
 
 
@@ -751,6 +833,14 @@ int Timer_Register(
 		void *Args)
 {
 	return SysCall(SysCall_Table_Index_Timer_Register,Timer_Function,Args);
+}
+
+int Timer_Register2(
+		Timer_Enter_Function2 Timer_Function,
+		void *Args1,
+		void *Args2)
+{
+	return SysCall(SysCall_Table_Index_Timer_Register2,Timer_Function,Args1,Args2);
 }
 
 int Timer_Delete(int Handle)

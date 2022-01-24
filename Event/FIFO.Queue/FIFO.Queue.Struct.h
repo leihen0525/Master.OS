@@ -9,9 +9,9 @@
 #define FIFO_QUEUE_STRUCT_H_
 
 #include "Master.Stdint.h"
-#include "__Sys.Scheduling.Task.Struct.h"
+#include "Scheduling/__Sys.Scheduling.Task.Struct.h"
 //#include "Queue.Struct.h"
-#include "Event.Define.h"
+#include "Event/Event.Define.h"
 
 
 typedef struct

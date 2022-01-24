@@ -10,7 +10,7 @@
 
 //#include "Master.OS.Config.h"
 
-#include "__Sys.Scheduling.Task.Struct.h"
+#include "Scheduling/__Sys.Scheduling.Task.Struct.h"
 
 static bool Event_Flag_Group_Operation_And(
 		Task_Event_DATA_Event_Flag_Group_Type *Event_Flag_Group,

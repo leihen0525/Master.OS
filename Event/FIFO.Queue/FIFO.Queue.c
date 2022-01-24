@@ -11,7 +11,7 @@
 #include "Define.h"
 #include "Error.h"
 
-#include "Event.Enum.h"
+#include "Event/Event.Enum.h"
 #include "Event/__Event.Enum.h"
 #include "Event/Event.h"
 
@@ -448,17 +448,23 @@ int __Sys_FIFO_Queue_Clear(int Handle)
 int __Sys_FIFO_Queue_Set(
 		int Handle,
 		void *Set_FIFO_DATA,
-		uint32_t Set_FIFO_Size)
+		uint32_t Set_FIFO_Size,
+		bool *Context_Switch)
 {
 	if(Handle<Valid_Handle)
 	{
 		return Error_Invalid_Handle;
 	}
-	if(Set_FIFO_DATA==Null || Set_FIFO_Size==0)
+	if(Set_FIFO_DATA==Null
+	|| Set_FIFO_Size==0
+	|| Context_Switch==Null)
 	{
 		return Error_Invalid_Parameter;
 	}
-
+	if((*Context_Switch)>=bool_End)
+	{
+		return Error_Invalid_Parameter;
+	}
 	int Err;
 	Event_DATA_Node_Type *Temp_DATA_Node=Null;
 	Task_Queue_Type *Temp_Pend_Task_Queue=Null;
@@ -522,10 +528,11 @@ int __Sys_FIFO_Queue_Set(
 		Try_Context_Switch=true;
 	}
 
-	if(Try_Context_Switch==true)
+	if(Try_Context_Switch==true && (*Context_Switch)==true)
 	{
 		__Sys_Scheduling_Try_Context_Switch();
 	}
+	*Context_Switch=Try_Context_Switch;
 
 	return Error_OK;
 }

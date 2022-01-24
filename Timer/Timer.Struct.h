@@ -8,15 +8,17 @@
 #ifndef TIMER_STRUCT_H_
 #define TIMER_STRUCT_H_
 
-#include "Timer.Define.h"
+#include "Timer/Timer.Define.h"
 #include "Master.Stdint.h"
 
 #include "Machine/Machine.Struct.h"
 
 typedef struct
 {
-	void *Args;
+	void *Args1;
+	void *Args2;
 	Timer_Enter_Function Timer_Function;
+	Timer_Enter_Function2 Timer_Function2;
 }Timer_Function_Type;
 
 typedef struct Timer_Node

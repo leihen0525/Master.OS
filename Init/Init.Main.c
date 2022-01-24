@@ -12,7 +12,7 @@
 #include "Memory/Memory.h"
 #include "IRQ/IRQ.h"
 #include "Event/Event.h"
-#include "Device/Device.h"
+#include "Device/__Device.h"
 #include "Timer/Timer.h"
 #include "Queue/Queue.h"
 #include "Scheduling/Scheduling.h"

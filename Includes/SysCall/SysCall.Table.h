@@ -70,6 +70,10 @@ typedef enum
 
 	SysCall_Table_Index_Device_Class_ETH_Close,
 
+	SysCall_Table_Index_Device_Class_ETH_Init,
+
+	SysCall_Table_Index_Device_Class_ETH_DeInit,
+
 	SysCall_Table_Index_Device_Class_ETH_Get_Enabled,
 
 	SysCall_Table_Index_Device_Class_ETH_Set_Enabled,
@@ -90,11 +94,17 @@ typedef enum
 
 	SysCall_Table_Index_Device_Class_ETH_Send,
 
+	SysCall_Table_Index_Device_Class_ETH_Send_Sync,
+
 	SysCall_Table_Index_Device_Class_ETH_Send_Slice,
+
+	SysCall_Table_Index_Device_Class_ETH_Send_Slice_Sync,
 
 	SysCall_Table_Index_Device_Class_ETH_Get_MDIO,
 
 	SysCall_Table_Index_Device_Class_ETH_Set_MDIO,
+
+	SysCall_Table_Index_Device_Class_ETH_Get_Static_Cfg,
 
 	SysCall_Table_Index_Device_Class_ETH_Get_Info,
 

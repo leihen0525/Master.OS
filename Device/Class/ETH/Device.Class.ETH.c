@@ -13,7 +13,7 @@
 
 Device_Class_ETH_DATA_Type Device_Class_ETH_DATA;
 
-int Device_Class_ETH_Init(void)
+int __Device_Class_ETH_Init(void)
 {
 
 	Device_Class_ETH_DATA.ETH_Node_List.Count=0;
@@ -28,6 +28,15 @@ int __Sys_Device_Class_ETH_Register_Drivers(const __Sys_Device_Class_ETH_OPS_Typ
 	{
 		return Error_Invalid_Parameter;
 	}
+	if(P_OPS->P_Static_Cfg!=Null)
+	{
+		if(P_OPS->P_Static_Cfg->Queue.Count!=0 && P_OPS->P_Static_Cfg->Queue.P_Data==Null)
+		{
+			return Error_Config;
+		}
+	}
+
+
 	Device_Class_ETH_Node_Type *P_Node=Null;
 	if(P_OPS->Device_Name==Null)
 	{
@@ -36,7 +45,7 @@ int __Sys_Device_Class_ETH_Register_Drivers(const __Sys_Device_Class_ETH_OPS_Typ
 	else
 	{
 		//
-		List_Find_Node_From_CharName(Device_Class_ETH_DATA.ETH_Node_List.Head,NEXT,P_OPS->Device_Name,P_OPS->Device_Name,P_Node);
+		List_Find_Node_From_Strcmp(Device_Class_ETH_DATA.ETH_Node_List.Head,NEXT,P_OPS->Device_Name,P_OPS->Device_Name,P_Node);
 		if(P_Node!=Null)
 		{
 			return Error_Config;
@@ -72,7 +81,7 @@ int __Sys_Device_Class_ETH_Open(const char *Device_Name,int Flag)
 		return Error_Invalid_Parameter;
 	}
 	Device_Class_ETH_Node_Type *P_Node=Null;
-	List_Find_Node_From_CharName(Device_Class_ETH_DATA.ETH_Node_List.Head,NEXT,P_OPS->Device_Name,Device_Name,P_Node);
+	List_Find_Node_From_Strcmp(Device_Class_ETH_DATA.ETH_Node_List.Head,NEXT,P_OPS->Device_Name,Device_Name,P_Node);
 
 	if(P_Node==Null)
 	{
@@ -122,6 +131,62 @@ int __Sys_Device_Class_ETH_Close(int Handle)
 		return Error_Undefined;
 	}
 	return P_Node->P_OPS->Close(P_Node->P_OPS->Device_Args);
+}
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Init
+int __Sys_Device_Class_ETH_Init(int Handle,int Flag)
+{
+	if(Handle<Valid_Handle)
+	{
+		return Error_Invalid_Handle;
+	}
+
+	Device_Class_ETH_Node_Type *P_Node=Null;
+	List_Find_Node_From_Symbol(Device_Class_ETH_DATA.ETH_Node_List.Head,NEXT,Handle,Handle,P_Node);
+	if(P_Node==Null)
+	{
+		return Error_Invalid_Handle;
+	}
+
+	if(P_Node->P_OPS==Null)
+	{
+		return Error_Unknown;
+	}
+
+
+	if(P_Node->P_OPS->Init==Null)
+	{
+		return Error_Undefined;
+	}
+	return P_Node->P_OPS->Init(P_Node->P_OPS->Device_Args,Flag);
+}
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_DeInit
+int __Sys_Device_Class_ETH_DeInit(int Handle)
+{
+	if(Handle<Valid_Handle)
+	{
+		return Error_Invalid_Handle;
+	}
+
+	Device_Class_ETH_Node_Type *P_Node=Null;
+	List_Find_Node_From_Symbol(Device_Class_ETH_DATA.ETH_Node_List.Head,NEXT,Handle,Handle,P_Node);
+	if(P_Node==Null)
+	{
+		return Error_Invalid_Handle;
+	}
+
+	if(P_Node->P_OPS==Null)
+	{
+		return Error_Unknown;
+	}
+
+
+	if(P_Node->P_OPS->DeInit==Null)
+	{
+		return Error_Undefined;
+	}
+	return P_Node->P_OPS->DeInit(P_Node->P_OPS->Device_Args);
 }
 #endif
 #ifdef Master_OS_Config_Device_Class_ETH_Get_Enabled
@@ -364,7 +429,7 @@ int __Sys_Device_Class_ETH_ReSet_MAC_Address_Filter(int Handle)
 }
 #endif
 #ifdef Master_OS_Config_Device_Class_ETH_Receive
-int __Sys_Device_Class_ETH_Receive(int Handle,uint8_t *P_Buffer, uint32_t Size,uint32_t *P_Flag,int32_t TimeOut)
+int __Sys_Device_Class_ETH_Receive(int Handle,int Queue_Index,uint8_t *P_Buffer, uint32_t Size,uint32_t *P_Read_Size,uint32_t *P_Flag,uint32_t *P_Timestamp,int32_t TimeOut)
 {
 	if(Handle<Valid_Handle)
 	{
@@ -391,11 +456,11 @@ int __Sys_Device_Class_ETH_Receive(int Handle,uint8_t *P_Buffer, uint32_t Size,u
 	{
 		return Error_Undefined;
 	}
-	return P_Node->P_OPS->Receive(P_Node->P_OPS->Device_Args,P_Buffer,Size,P_Flag,TimeOut);
+	return P_Node->P_OPS->Receive(P_Node->P_OPS->Device_Args,Queue_Index,P_Buffer,Size,P_Read_Size,P_Flag,P_Timestamp,TimeOut);
 }
 #endif
 #ifdef Master_OS_Config_Device_Class_ETH_Send
-int __Sys_Device_Class_ETH_Send(int Handle,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut)
+int __Sys_Device_Class_ETH_Send(int Handle,int Queue_Index,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut)
 {
 	if(Handle<Valid_Handle)
 	{
@@ -422,11 +487,42 @@ int __Sys_Device_Class_ETH_Send(int Handle,const uint8_t *P_Buffer, uint32_t Siz
 	{
 		return Error_Undefined;
 	}
-	return P_Node->P_OPS->Send(P_Node->P_OPS->Device_Args,P_Buffer,Size,Flag,TimeOut);
+	return P_Node->P_OPS->Send(P_Node->P_OPS->Device_Args,Queue_Index,P_Buffer,Size,Flag,TimeOut);
+}
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Send_Sync
+int __Sys_Device_Class_ETH_Send_Sync(int Handle,int Queue_Index,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,uint32_t *P_Timestamp,int32_t TimeOut)
+{
+	if(Handle<Valid_Handle)
+	{
+		return Error_Invalid_Handle;
+	}
+	if(P_Buffer==Null
+	|| Size==0)
+	{
+		return Error_Invalid_Parameter;
+	}
+	Device_Class_ETH_Node_Type *P_Node=Null;
+	List_Find_Node_From_Symbol(Device_Class_ETH_DATA.ETH_Node_List.Head,NEXT,Handle,Handle,P_Node);
+	if(P_Node==Null)
+	{
+		return Error_Invalid_Handle;
+	}
+
+	if(P_Node->P_OPS==Null)
+	{
+		return Error_Unknown;
+	}
+
+	if(P_Node->P_OPS->Send_Sync==Null)
+	{
+		return Error_Undefined;
+	}
+	return P_Node->P_OPS->Send_Sync(P_Node->P_OPS->Device_Args,Queue_Index,P_Buffer,Size,Flag,P_Timestamp,TimeOut);
 }
 #endif
 #ifdef Master_OS_Config_Device_Class_ETH_Send_Slice
-int __Sys_Device_Class_ETH_Send_Slice(int Handle,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut)
+int __Sys_Device_Class_ETH_Send_Slice(int Handle,int Queue_Index,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut)
 {
 	if(Handle<Valid_Handle)
 	{
@@ -453,7 +549,38 @@ int __Sys_Device_Class_ETH_Send_Slice(int Handle,const Device_Class_ETH_Send_Sli
 	{
 		return Error_Undefined;
 	}
-	return P_Node->P_OPS->Send_Slice(P_Node->P_OPS->Device_Args,P_Buffer,Size,Flag,TimeOut);
+	return P_Node->P_OPS->Send_Slice(P_Node->P_OPS->Device_Args,Queue_Index,P_Buffer,Size,Flag,TimeOut);
+}
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Send_Slice_Sync
+int __Sys_Device_Class_ETH_Send_Slice_Sync(int Handle,int Queue_Index,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,uint32_t *P_Timestamp,int32_t TimeOut)
+{
+	if(Handle<Valid_Handle)
+	{
+		return Error_Invalid_Handle;
+	}
+	if(P_Buffer==Null
+	|| Size==0)
+	{
+		return Error_Invalid_Parameter;
+	}
+	Device_Class_ETH_Node_Type *P_Node=Null;
+	List_Find_Node_From_Symbol(Device_Class_ETH_DATA.ETH_Node_List.Head,NEXT,Handle,Handle,P_Node);
+	if(P_Node==Null)
+	{
+		return Error_Invalid_Handle;
+	}
+
+	if(P_Node->P_OPS==Null)
+	{
+		return Error_Unknown;
+	}
+
+	if(P_Node->P_OPS->Send_Slice_Sync==Null)
+	{
+		return Error_Undefined;
+	}
+	return P_Node->P_OPS->Send_Slice_Sync(P_Node->P_OPS->Device_Args,Queue_Index,P_Buffer,Size,Flag,P_Timestamp,TimeOut);
 }
 #endif
 #ifdef Master_OS_Config_Device_Class_ETH_Get_MDIO
@@ -511,6 +638,34 @@ int __Sys_Device_Class_ETH_Set_MDIO(int Handle,uint8_t Phy, uint8_t RegisterAddr
 		return Error_Undefined;
 	}
 	return P_Node->P_OPS->Set_MDIO(P_Node->P_OPS->Device_Args,Phy,RegisterAddr,Value);
+}
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Get_Static_Cfg
+int __Sys_Device_Class_ETH_Get_Static_Cfg(int Handle,const Device_Class_ETH_Static_Cfg_Type **P_Static_Cfg)
+{
+	if(Handle<Valid_Handle)
+	{
+		return Error_Invalid_Handle;
+	}
+
+	if(P_Static_Cfg==Null)
+	{
+		return Error_Invalid_Parameter;
+	}
+	Device_Class_ETH_Node_Type *P_Node=Null;
+	List_Find_Node_From_Symbol(Device_Class_ETH_DATA.ETH_Node_List.Head,NEXT,Handle,Handle,P_Node);
+	if(P_Node==Null)
+	{
+		return Error_Invalid_Handle;
+	}
+
+	if(P_Node->P_OPS==Null)
+	{
+		return Error_Unknown;
+	}
+	*P_Static_Cfg=P_Node->P_OPS->P_Static_Cfg;
+
+	return Error_OK;
 }
 #endif
 #ifdef Master_OS_Config_Device_Class_ETH_Get_Info

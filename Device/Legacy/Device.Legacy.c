@@ -40,7 +40,7 @@ int __Sys_Device_Legacy_Register_Drivers(const __Sys_Device_Legacy_OPS_Type *P_O
 	else
 	{
 		//
-		List_Find_Node_From_CharName(Device_Legacy_DATA.Node_List.Head,NEXT,P_OPS->Device_Name,P_OPS->Device_Name,P_Node);
+		List_Find_Node_From_Strcmp(Device_Legacy_DATA.Node_List.Head,NEXT,P_OPS->Device_Name,P_OPS->Device_Name,P_Node);
 		if(P_Node!=Null)
 		{
 			return Error_Config;
@@ -77,7 +77,7 @@ int __Sys_Device_Legacy_Open(const char *Device_Name,int Mode)
 		return Error_Invalid_Parameter;
 	}
 	Device_Legacy_Node_Type *P_Node=Null;
-	List_Find_Node_From_CharName(Device_Legacy_DATA.Node_List.Head,NEXT,P_OPS->Device_Name,Device_Name,P_Node);
+	List_Find_Node_From_Strcmp(Device_Legacy_DATA.Node_List.Head,NEXT,P_OPS->Device_Name,Device_Name,P_Node);
 
 	if(P_Node==Null)
 	{

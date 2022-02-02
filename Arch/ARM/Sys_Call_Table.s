@@ -45,6 +45,8 @@
 
 	PUBWEAK __Sys_Device_Class_ETH_Open
 	PUBWEAK __Sys_Device_Class_ETH_Close
+	PUBWEAK __Sys_Device_Class_ETH_Init
+	PUBWEAK __Sys_Device_Class_ETH_DeInit
 	PUBWEAK __Sys_Device_Class_ETH_Get_Enabled
 	PUBWEAK __Sys_Device_Class_ETH_Set_Enabled
 	PUBWEAK __Sys_Device_Class_ETH_Get_MAC_Address
@@ -55,9 +57,12 @@
 	PUBWEAK __Sys_Device_Class_ETH_ReSet_MAC_Address_Filter
 	PUBWEAK __Sys_Device_Class_ETH_Receive
 	PUBWEAK __Sys_Device_Class_ETH_Send
+	PUBWEAK __Sys_Device_Class_ETH_Send_Sync
 	PUBWEAK __Sys_Device_Class_ETH_Send_Slice
+	PUBWEAK __Sys_Device_Class_ETH_Send_Slice_Sync
 	PUBWEAK __Sys_Device_Class_ETH_Get_MDIO
 	PUBWEAK __Sys_Device_Class_ETH_Set_MDIO
+	PUBWEAK __Sys_Device_Class_ETH_Get_Static_Cfg
 	PUBWEAK __Sys_Device_Class_ETH_Get_Info
 
 
@@ -189,6 +194,8 @@ __Sys_Device_Legacy_Info
 
 __Sys_Device_Class_ETH_Open
 __Sys_Device_Class_ETH_Close
+__Sys_Device_Class_ETH_Init
+__Sys_Device_Class_ETH_DeInit
 __Sys_Device_Class_ETH_Get_Enabled
 __Sys_Device_Class_ETH_Set_Enabled
 __Sys_Device_Class_ETH_Get_MAC_Address
@@ -199,9 +206,12 @@ __Sys_Device_Class_ETH_Set_MAC_Address_Filter
 __Sys_Device_Class_ETH_ReSet_MAC_Address_Filter
 __Sys_Device_Class_ETH_Receive
 __Sys_Device_Class_ETH_Send
+__Sys_Device_Class_ETH_Send_Sync
 __Sys_Device_Class_ETH_Send_Slice
+__Sys_Device_Class_ETH_Send_Slice_Sync
 __Sys_Device_Class_ETH_Get_MDIO
 __Sys_Device_Class_ETH_Set_MDIO
+__Sys_Device_Class_ETH_Get_Static_Cfg
 __Sys_Device_Class_ETH_Get_Info
 
 __Sys_IRQ_Enable
@@ -364,6 +374,8 @@ __Sys_Call_Table
 
 	DCD __Sys_Device_Class_ETH_Open
 	DCD __Sys_Device_Class_ETH_Close
+	DCD __Sys_Device_Class_ETH_Init
+	DCD __Sys_Device_Class_ETH_DeInit
 	DCD __Sys_Device_Class_ETH_Get_Enabled
 	DCD __Sys_Device_Class_ETH_Set_Enabled
 	DCD __Sys_Device_Class_ETH_Get_MAC_Address
@@ -374,9 +386,12 @@ __Sys_Call_Table
 	DCD __Sys_Device_Class_ETH_ReSet_MAC_Address_Filter
 	DCD __Sys_Device_Class_ETH_Receive
 	DCD __Sys_Device_Class_ETH_Send
+	DCD __Sys_Device_Class_ETH_Send_Sync
 	DCD __Sys_Device_Class_ETH_Send_Slice
+	DCD __Sys_Device_Class_ETH_Send_Slice_Sync
 	DCD __Sys_Device_Class_ETH_Get_MDIO
 	DCD __Sys_Device_Class_ETH_Set_MDIO
+	DCD __Sys_Device_Class_ETH_Get_Static_Cfg
 	DCD __Sys_Device_Class_ETH_Get_Info
 
 

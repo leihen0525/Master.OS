@@ -11,12 +11,32 @@
 typedef enum
 {
 
-	Device_Class_ETH_Enum_Flag_CRC					=(1<<0),
-	Device_Class_ETH_Enum_Flag_IP_CheckSum			=(1<<1),
-	Device_Class_ETH_Enum_Flag_TCP_CheckSum			=(1<<2),
-	Device_Class_ETH_Enum_Flag_UDP_CheckSum			=(1<<3),
+	Device_Class_ETH_Enum_Send_Flag_Timestamp					=(1<<0),
+	Device_Class_ETH_Enum_Send_Flag_Insert_IP_Header_CheckSum	=(1<<1),
+	Device_Class_ETH_Enum_Send_Flag_Insert_Protocol_CheckSum	=(1<<2),
 
-}Device_Class_ETH_Enum_Flag_Type;
+
+}Device_Class_ETH_Enum_Send_Flag_Type;
+
+typedef enum
+{
+	Device_Class_ETH_Enum_Receive_Flag_Payload_Checksum_Mask	=0xFFFF,
+
+	Device_Class_ETH_Enum_Receive_Flag_CRC_Error				=(1<<16),
+	Device_Class_ETH_Enum_Receive_Flag_IP_Header_CheckSum_Error	=(1<<17),
+	Device_Class_ETH_Enum_Receive_Flag_Protocol_CheckSum_Error	=(1<<18),
+	Device_Class_ETH_Enum_Receive_Flag_VLAN_Tag					=(1<<19),
+
+	Device_Class_ETH_Enum_Receive_Flag_Broadcast				=(1<<20),
+	Device_Class_ETH_Enum_Receive_Flag_Multicast				=(1<<21),
+	Device_Class_ETH_Enum_Receive_Flag_Unicast					=(1<<22),
+	Device_Class_ETH_Enum_Receive_Flag_IPv4_Fragment			=(1<<23),
+
+	Device_Class_ETH_Enum_Receive_Flag_IPv6_Frame				=(1<<24),
+	Device_Class_ETH_Enum_Receive_Flag_Timestamp				=(1<<25),
+	Device_Class_ETH_Enum_Receive_Flag_Payload_Checksum_En		=(1<<26),
+
+}Device_Class_ETH_Enum_Receive_Flag_Type;
 
 typedef enum
 {

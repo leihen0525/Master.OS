@@ -148,6 +148,16 @@ int Device_Class_ETH_Close(int Handle)
 	return SysCall(SysCall_Table_Index_Device_Class_ETH_Close,Handle);
 }
 
+int Device_Class_ETH_Init(int Handle,int Flag)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Init,Handle,Flag);
+}
+
+int Device_Class_ETH_DeInit(int Handle)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_DeInit,Handle);
+}
+
 int Device_Class_ETH_Get_Enabled(int Handle,bool *P_Module)
 {
 	return SysCall(SysCall_Table_Index_Device_Class_ETH_Get_Enabled,Handle,P_Module);
@@ -188,21 +198,27 @@ int Device_Class_ETH_ReSet_MAC_Address_Filter(int Handle)
 	return SysCall(SysCall_Table_Index_Device_Class_ETH_ReSet_MAC_Address_Filter,Handle);
 }
 
-int Device_Class_ETH_Receive(int Handle,uint8_t *P_Buffer, uint32_t Size,uint32_t *P_Flag,int32_t TimeOut)
+int Device_Class_ETH_Receive(int Handle,int Queue_Index,uint8_t *P_Buffer, uint32_t Size,uint32_t *P_Read_Size,uint32_t *P_Flag,uint32_t *P_Timestamp,int32_t TimeOut)
 {
-	return SysCall(SysCall_Table_Index_Device_Class_ETH_Receive,Handle,P_Buffer,Size,P_Flag,TimeOut);
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Receive,Handle,Queue_Index,P_Buffer,Size,P_Read_Size,P_Flag,P_Timestamp,TimeOut);
 }
 
-int Device_Class_ETH_Send(int Handle,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut)
+int Device_Class_ETH_Send(int Handle,int Queue_Index,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut)
 {
-	return SysCall(SysCall_Table_Index_Device_Class_ETH_Send,Handle,P_Buffer,Size,Flag,TimeOut);
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Send,Handle,Queue_Index,P_Buffer,Size,Flag,TimeOut);
 }
-
-int Device_Class_ETH_Send_Slice(int Handle,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut)
+int Device_Class_ETH_Send_Sync(int Handle,int Queue_Index,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,uint32_t *P_Timestamp,int32_t TimeOut)
 {
-	return SysCall(SysCall_Table_Index_Device_Class_ETH_Send_Slice,Handle,P_Buffer,Size,Flag,TimeOut);
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Send_Sync,Handle,Queue_Index,P_Buffer,Size,Flag,P_Timestamp,TimeOut);
 }
-
+int Device_Class_ETH_Send_Slice(int Handle,int Queue_Index,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Send_Slice,Handle,Queue_Index,P_Buffer,Size,Flag,TimeOut);
+}
+int Device_Class_ETH_Send_Slice_Sync(int Handle,int Queue_Index,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,uint32_t *P_Timestamp,int32_t TimeOut)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Send_Slice_Sync,Handle,Queue_Index,P_Buffer,Size,Flag,P_Timestamp,TimeOut);
+}
 int Device_Class_ETH_Get_MDIO(int Handle,uint8_t Phy, uint8_t RegisterAddr, uint16_t *P_Value)
 {
 	return SysCall(SysCall_Table_Index_Device_Class_ETH_Get_MDIO,Handle,Phy,RegisterAddr,P_Value);
@@ -211,6 +227,10 @@ int Device_Class_ETH_Get_MDIO(int Handle,uint8_t Phy, uint8_t RegisterAddr, uint
 int Device_Class_ETH_Set_MDIO(int Handle,uint8_t Phy, uint8_t RegisterAddr, uint16_t Value)
 {
 	return SysCall(SysCall_Table_Index_Device_Class_ETH_Set_MDIO,Handle,Phy,RegisterAddr,Value);
+}
+int Device_Class_ETH_Get_Static_Cfg(int Handle,const Device_Class_ETH_Static_Cfg_Type **P_Static_Cfg)
+{
+	return SysCall(SysCall_Table_Index_Device_Class_ETH_Get_Static_Cfg,Handle,P_Static_Cfg);
 }
 
 int Device_Class_ETH_Get_Info(int Handle,const char **P_Info)

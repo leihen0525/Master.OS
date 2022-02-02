@@ -40,6 +40,8 @@
 //Device-Class-ETH
 #define Master_OS_Config_Device_Class_ETH_Open
 #define Master_OS_Config_Device_Class_ETH_Close
+#define Master_OS_Config_Device_Class_ETH_Init
+#define Master_OS_Config_Device_Class_ETH_DeInit
 #define Master_OS_Config_Device_Class_ETH_Get_Enabled
 #define Master_OS_Config_Device_Class_ETH_Set_Enabled
 #define Master_OS_Config_Device_Class_ETH_Get_MAC_Address
@@ -50,9 +52,12 @@
 #define Master_OS_Config_Device_Class_ETH_ReSet_MAC_Address_Filter
 #define Master_OS_Config_Device_Class_ETH_Receive
 #define Master_OS_Config_Device_Class_ETH_Send
+#define Master_OS_Config_Device_Class_ETH_Send_Sync
 #define Master_OS_Config_Device_Class_ETH_Send_Slice
+#define Master_OS_Config_Device_Class_ETH_Send_Slice_Sync
 #define Master_OS_Config_Device_Class_ETH_Get_MDIO
 #define Master_OS_Config_Device_Class_ETH_Set_MDIO
+#define Master_OS_Config_Device_Class_ETH_Get_Static_Cfg
 #define Master_OS_Config_Device_Class_ETH_Get_Info
 
 //IRQ

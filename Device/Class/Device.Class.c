@@ -16,7 +16,7 @@ int Device_Class_Init(void)
 {
 	int Err;
 
-	Error_NoArgs_Return(Err,Device_Class_ETH_Init());
+	Error_NoArgs_Return(Err,__Device_Class_ETH_Init());
 
 	return Error_OK;
 }

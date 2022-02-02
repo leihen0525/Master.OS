@@ -111,6 +111,12 @@ int __Sys_Device_Class_ETH_Open(const char *Device_Name,int Flag);
 #ifdef Master_OS_Config_Device_Class_ETH_Close
 int __Sys_Device_Class_ETH_Close(int Handle);
 #endif
+#ifdef Master_OS_Config_Device_Class_ETH_Init
+int __Sys_Device_Class_ETH_Init(int Handle,int Flag);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_DeInit
+int __Sys_Device_Class_ETH_DeInit(int Handle);
+#endif
 #ifdef Master_OS_Config_Device_Class_ETH_Get_Enabled
 int __Sys_Device_Class_ETH_Get_Enabled(int Handle,bool *P_Module);
 #endif
@@ -136,19 +142,28 @@ int __Sys_Device_Class_ETH_Set_MAC_Address_Filter(int Handle,uint8_t *P_Address)
 int __Sys_Device_Class_ETH_ReSet_MAC_Address_Filter(int Handle);
 #endif
 #ifdef Master_OS_Config_Device_Class_ETH_Receive
-int __Sys_Device_Class_ETH_Receive(int Handle,uint8_t *P_Buffer, uint32_t Size,uint32_t *P_Flag,int32_t TimeOut);
+int __Sys_Device_Class_ETH_Receive(int Handle,int Queue_Index,uint8_t *P_Buffer, uint32_t Size,uint32_t *P_Read_Size,uint32_t *P_Flag,uint32_t *P_Timestamp,int32_t TimeOut);
 #endif
 #ifdef Master_OS_Config_Device_Class_ETH_Send
-int __Sys_Device_Class_ETH_Send(int Handle,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut);
+int __Sys_Device_Class_ETH_Send(int Handle,int Queue_Index,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Send_Sync
+int __Sys_Device_Class_ETH_Send_Sync(int Handle,int Queue_Index,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,uint32_t *P_Timestamp,int32_t TimeOut);
 #endif
 #ifdef Master_OS_Config_Device_Class_ETH_Send_Slice
-int __Sys_Device_Class_ETH_Send_Slice(int Handle,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut);
+int __Sys_Device_Class_ETH_Send_Slice(int Handle,int Queue_Index,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Send_Slice_Sync
+int __Sys_Device_Class_ETH_Send_Slice_Sync(int Handle,int Queue_Index,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,uint32_t *P_Timestamp,int32_t TimeOut);
 #endif
 #ifdef Master_OS_Config_Device_Class_ETH_Get_MDIO
 int __Sys_Device_Class_ETH_Get_MDIO(int Handle,uint8_t Phy, uint8_t RegisterAddr, uint16_t *P_Value);
 #endif
 #ifdef Master_OS_Config_Device_Class_ETH_Set_MDIO
 int __Sys_Device_Class_ETH_Set_MDIO(int Handle,uint8_t Phy, uint8_t RegisterAddr, uint16_t Value);
+#endif
+#ifdef Master_OS_Config_Device_Class_ETH_Get_Static_Cfg
+int __Sys_Device_Class_ETH_Get_Static_Cfg(int Handle,const Device_Class_ETH_Static_Cfg_Type **P_Static_Cfg);
 #endif
 #ifdef Master_OS_Config_Device_Class_ETH_Get_Info
 int __Sys_Device_Class_ETH_Get_Info(int Handle,const char **P_Info);

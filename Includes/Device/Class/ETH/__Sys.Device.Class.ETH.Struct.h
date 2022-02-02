@@ -20,9 +20,13 @@ typedef struct
 
 	void *Device_Args;
 
+	const Device_Class_ETH_Static_Cfg_Type *P_Static_Cfg;
 
 	int (*Open)(void *Device_Args,int Flag);
 	int (*Close)(void *Device_Args);
+
+	int (*Init)(void *Device_Args,int Flag);
+	int (*DeInit)(void *Device_Args);
 
 	int (*Get_Enabled)(void *Device_Args,bool *P_Module);
 	int (*Set_Enabled)(void *Device_Args,bool Module);
@@ -36,11 +40,15 @@ typedef struct
 	int (*Set_MAC_Address_Filter)(void *Device_Args,uint8_t *P_Address);
 	int (*ReSet_MAC_Address_Filter)(void *Device_Args);
 
-	int (*Receive)(void *Device_Args,uint8_t *P_Buffer, uint32_t Size,uint32_t *P_Flag,int32_t TimeOut);
+	int (*Receive)(void *Device_Args,int Queue_Index,uint8_t *P_Buffer, uint32_t Size,uint32_t *P_Read_Size,uint32_t *P_Flag,uint32_t *P_Timestamp,int32_t TimeOut);
 
-	int (*Send)(void *Device_Args,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut);
+	int (*Send)(void *Device_Args,int Queue_Index,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut);
 
-	int (*Send_Slice)(void *Device_Args,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut);
+	int (*Send_Sync)(void *Device_Args,int Queue_Index,const uint8_t *P_Buffer, uint32_t Size,uint32_t Flag,uint32_t *P_Timestamp,int32_t TimeOut);
+
+	int (*Send_Slice)(void *Device_Args,int Queue_Index,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,int32_t TimeOut);
+
+	int (*Send_Slice_Sync)(void *Device_Args,int Queue_Index,const Device_Class_ETH_Send_Slice_Data_Type *P_Buffer, uint32_t Size,uint32_t Flag,uint32_t *P_Timestamp,int32_t TimeOut);
 
 	int (*Get_MDIO)(void *Device_Args,uint8_t Phy, uint8_t RegisterAddr, uint16_t *P_Value);
 	int (*Set_MDIO)(void *Device_Args,uint8_t Phy, uint8_t RegisterAddr, uint16_t Value);
